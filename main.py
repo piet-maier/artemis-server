@@ -5,6 +5,8 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
+from python_scripts.database_read import get_all_game_types
+
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
@@ -198,25 +200,6 @@ def insert_or_update_score(game_number, round_number, user_name, new_score):
                        (game_number, round_number, user_name, new_score))
 
 
-def get_all_game_types():
-    connection = sqlite3.connect('round_history.db')
-
-    cursor = connection.cursor()
-
-    cursor.execute(
-        "SELECT name "
-        "FROM game_types"
-    )
-
-    result = cursor.fetchall()
-
-    cursor.close()
-
-    connection.close()
-
-    return result
-
-
 def get_all_user_names():
     connection = sqlite3.connect('round_history.db')
 
@@ -268,7 +251,7 @@ def get_current_game_number():
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return app.send_static_file('templates/index.html')
 
 
 @app.route('/<path:file>')
@@ -288,7 +271,7 @@ def handle_login(user_name):
 
 @socketio.on('navigation')
 def handle_get_all_game_types():
-    return [game_type for (game_type,) in get_all_game_types()]
+    return get_all_game_types()
 
 
 @socketio.on('get_last_game')
@@ -307,7 +290,6 @@ def handle_add_new_user(user_name):
 def handle_request_last_game_of_type(game_type):
     game_number = get_or_create_game(game_type)[0]
     payload = build_payload(game_type, game_number)
-
     return payload
 
 
@@ -365,5 +347,4 @@ def handle_disconnect():
 
 
 if __name__ == '__main__':
-    create_new_user("Test")
     socketio.run(app, host='0.0.0.0', port=10000, allow_unsafe_werkzeug=True)
