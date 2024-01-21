@@ -2,6 +2,8 @@ import os
 
 from flask import Flask
 
+from . import db, socket
+
 
 def create_app() -> Flask:
     """
@@ -16,11 +18,11 @@ def create_app() -> Flask:
     except OSError:
         pass
 
-    from . import db
+    # db.py
 
     db.init_app(app)
 
-    from . import socket
+    # socket.py
 
     socket.socketio.init_app(app)
 
