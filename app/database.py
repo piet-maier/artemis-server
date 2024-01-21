@@ -5,7 +5,7 @@ import click
 from flask import current_app, g, Flask
 
 
-def get_db() -> sqlite3.Connection:
+def get_database() -> sqlite3.Connection:
     """
     This function returns a database connection.
     The connection is stored and reused if the function is called several times in the same request.
@@ -21,10 +21,9 @@ def get_db() -> sqlite3.Connection:
 
 
 def init_db() -> None:
-    # noinspection PyUnusedLocal
-    db = get_db()
+    from python_scripts.database_create import create_tables
 
-    # TODO: https://flask.palletsprojects.com/en/3.0.x/tutorial/database/
+    create_tables()
 
 
 @click.command("init-db")
