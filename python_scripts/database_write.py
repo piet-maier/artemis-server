@@ -7,8 +7,10 @@ def add_new_game_type(game_type: str):
     pass
 
 
-def add_new_game(game_type: str, game_name: str):
-    pass
+def add_new_game(grid_type: str, grid_name: int) -> None:
+    sql = "INSERT INTO game (fk_game_type, creation_timestamp) VALUES (?, ?)"
+
+    database_query(sql, (grid_type, grid_name))
 
 
 def add_player(player_name: str):
