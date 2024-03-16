@@ -65,7 +65,6 @@ def create_user_table():
 
 def create_round_table():
     create_table("round")
-    add_field("round", "fk_game_type", "TEXT", foreign_key_reference="game_type")
     add_field("round", "fk_game", "INTEGER", foreign_key_reference="game")
     add_field("round", "number", "INTEGER")
     add_field("round", "fk_first_user", "TEXT", foreign_key_reference="user")
