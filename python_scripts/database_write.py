@@ -17,10 +17,15 @@ def add_new_game(grid_type: str, grid_name: int) -> None:
 
 
 def add_player(player_name: str):
-    pass
+    sql = """
+    INSERT INTO user (name) 
+    VALUES (?)
+    """
+    payload = (player_name,)
+    database_query(sql, payload)
 
 
-def add_new_round(game_type: str, game_name: str):
+def add_new_round(game_name: str, first_user_name: str):
     pass
 
 
