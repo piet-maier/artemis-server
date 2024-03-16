@@ -4,19 +4,19 @@ from python_scripts.data_structure_utils import flatten_tuples, convert_list_to_
 
 
 def get_all_game_types() -> [str]:
-    sql = '''
+    sql = """
     SELECT name
     FROM game_type
-    '''
+    """
     game_types = database_query(sql)
     return flatten_tuples(game_types)
 
 
 def get_all_games() -> [str]:
-    sql = '''
+    sql = """
     SELECT fk_game_type, creation_timestamp
     FROM game
-    '''
+    """
     games = database_query(sql)
     return convert_list_to_dict(games)
 
@@ -26,40 +26,40 @@ def get_all_rounds_of_game(game_type: str) -> [(int, str, int)]:
 
 
 def get_all_player_names_of_game(game_identifier: int) -> [str]:
-    sql = '''
+    sql = """
     SELECT DISTINCT fk_user
     FROM score
     WHERE fk_game = ?
-    '''
+    """
     payload = (game_identifier,)
     game_types = database_query(sql, payload)
     return flatten_tuples(game_types)
 
 
 def get_all_player_names() -> [str]:
-    sql = '''
+    sql = """
     SELECT name
     FROM user
-    '''
+    """
     game_types = database_query(sql)
     return flatten_tuples(game_types)
 
 
 def get_all_scores_of_game(game_name):
     sql = """
-        SELECT fk_round, fk_user, score 
-        FROM score 
-        WHERE fk_game = ?
-        """
+    SELECT fk_round, fk_user, score 
+    FROM score 
+    WHERE fk_game = ?
+    """
     payload = (game_name,)
     return database_query(sql, payload)
 
 
 def score_exists(game_name: str, player_name: str, round_number: int):
     sql = """
-        SELECT *
-        FROM score
-        WHERE fk_game = ? AND fk_round = ? AND fk_user = ?
+    SELECT *
+    FROM score
+    WHERE fk_game = ? AND fk_round = ? AND fk_user = ?
     """
     payload = (game_name, round_number, player_name)
     return len(database_query(sql, payload)) > 0
@@ -78,6 +78,72 @@ def get_score_sum(game_name: int, user_name: str):
 def get_table_information(table_name):
     sql = f"PRAGMA table_info({table_name})"
     return database_query(sql)
+
+
+def get_highest_score(game_name: str):
+    sql = """
+    SELECT score, fk_user
+    FROM score
+             JOIN game on game.id = score.fk_game
+             JOIN game_type on game_type.id = game.fk_game_type
+    WHERE game_type.name = ?
+    ORDER BY score DESC
+    LIMIT 1
+    """
+    payload = (game_name,)
+    return database_query(sql, payload)
+
+
+def get_total_score(game_name: str):
+    sql = """
+    SELECT SUM(score)
+    FROM score
+             JOIN game on game.id = score.fk_game
+             JOIN game_type on game_type.id = game.fk_game_type
+    WHERE game_type.name = ?
+    """
+    payload = (game_name,)
+    return database_query(sql, payload)
+
+
+def get_total_rounds(game_name: str):
+    sql = """
+    SELECT COUNT(number)
+    FROM round
+             JOIN game on game.id = round.fk_game
+             JOIN game_type on game_type.id = game.fk_game_type
+    WHERE game_type.name = ?
+    """
+    payload = (game_name,)
+    return database_query(sql, payload)
+
+
+def get_total_score_per_game_and_user(game_name: str, user_name: str):
+    sql = """
+    SELECT SUM(score)
+    FROM score
+             JOIN user on user.id = score.fk_user
+             JOIN game on game.id = score.fk_game
+             JOIN game_type on game_type.id = game.fk_game_type
+    WHERE game_type.name = ?
+        AND user.name = ?
+    """
+    payload = (game_name, user_name)
+    return database_query(sql, payload)
+
+
+def get_total_rounds_per_game_and_user(game_name: str, user_name: str):
+    sql = """
+    SELECT COUNT(*)
+    FROM score
+             JOIN user on user.id = score.fk_user
+             JOIN game on game.id = score.fk_game
+             JOIN game_type on game_type.id = game.fk_game_type
+    WHERE game_type.name = ?
+        AND user.name = ?
+    """
+    payload = (game_name, user_name)
+    return database_query(sql, payload)
 
 
 def database_query(sql: str, payload: (any,) = ()) -> list:
