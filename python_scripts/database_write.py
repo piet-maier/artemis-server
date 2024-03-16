@@ -1,36 +1,56 @@
-from app.database import get_database
-from python_scripts.database_connect import get_database_cursor
+"""Util functions to write to a connected sqlite database"""
 from python_scripts.database_read import score_exists
+from python_scripts.database_utils import database_query_commit
 
 
 def add_new_game_type(game_type: str):
-    pass
-
-
-def add_new_game(grid_type: str, grid_name: int) -> None:
+    """add new game type to database"""
     sql = """
-    INSERT INTO game (fk_game_type, creation_timestamp) 
-    VALUES (?, ?)
+    INSERT INTO game_type (name)
+    VALUES (?)
     """
-    payload = (grid_type, grid_name)
-    database_query(sql, payload)
+    payload = (game_type,)
+    database_query_commit(sql, payload)
+
+
+def add_new_game(game_type: str, game_identifier: int):
+    """add new game to database"""
+    sql = """
+    INSERT INTO game (fk_game_type, creation_timestamp)
+    SELECT name, ?
+    FROM game_type
+    WHERE id = ?
+    """
+    payload = (game_identifier, game_type)
+    database_query_commit(sql, payload)
 
 
 def add_player(player_name: str):
+    """add new player to database"""
     sql = """
     INSERT INTO user (name) 
     VALUES (?)
     """
     payload = (player_name,)
-    database_query(sql, payload)
+    database_query_commit(sql, payload)
 
 
-def add_new_round(game_name: str, first_user_name: str):
-    pass
+def add_new_round(game_identifier: int, first_user_name: str):
+    """add new round to database"""
+    sql = """
+    INSERT INTO round (fk_game, number, fk_first_user)
+    SELECT COALESCE(MAX(round.number), 0) + 1, game.id, ?
+    FROM round
+        JOIN game ON game.id = round.fk_game
+    WHERE game.creation_timestamp = ?
+    """
+    payload = (game_identifier, first_user_name)
+    database_query_commit(sql, payload)
 
 
-def add_new_score(game_name: str, player_name: str, round_number: int, score: int):
-    if score_exists(game_name, player_name, round_number):
+def add_new_score(game_identifier: int, player_name: str, round_number: int, score: int):
+    """add new score to database"""
+    if score_exists(game_identifier, player_name, round_number):
         sql = """
         UPDATE score
         SET score = ?
@@ -38,18 +58,11 @@ def add_new_score(game_name: str, player_name: str, round_number: int, score: in
             AND fk_round = ? 
             AND fk_user = ?;
         """
-        payload = (score, game_name, round_number, player_name)
+        payload = (score, game_identifier, round_number, player_name)
     else:
         sql = """
         INSERT INTO score (fk_game, fk_round, score, fk_user)
         VALUES (?, ?, ?, ?)
         """
-        payload = (game_name, round_number, score, player_name)
-    database_query(sql, payload)
-
-
-def database_query(sql: str, payload: (any,) = ()):
-    database_connection = get_database()
-    cursor = get_database_cursor(database_connection)
-    cursor.execute(sql, payload)
-    database_connection.commit()
+        payload = (game_identifier, round_number, score, player_name)
+    database_query_commit(sql, payload)

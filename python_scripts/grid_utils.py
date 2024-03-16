@@ -1,9 +1,11 @@
+"""Util functions for grid data structure"""
 from python_scripts.database_read import get_all_scores_of_game, get_score_sum, \
     get_all_player_names
 
 
-def build_grid_payload(game_name: int):
-    scores = get_all_scores_of_game(game_name)
+def build_grid_payload(game_identifier: int):
+    """build grid payload for given game"""
+    scores = get_all_scores_of_game(game_identifier)
     users = get_all_player_names()
 
     payload = {
@@ -21,6 +23,6 @@ def build_grid_payload(game_name: int):
         payload["body"][round_number][user_name] = score
 
     for user_name in users:
-        payload["foot"][user_name] = get_score_sum(game_name, user_name)
+        payload["foot"][user_name] = get_score_sum(game_identifier, user_name)
 
     return payload

@@ -1,18 +1,21 @@
-from app.database import get_database
-from python_scripts.database_connect import get_database_cursor
+"""Util functions to delete in a connected sqlite database"""
+from python_scripts.database_utils import database_query_commit
 
 
-def delete_score(game_name: int, player_name: str, round_number: int):
+def delete_score(game_identifier: int, player_name: str, round_number: int):
+    """delete score from database"""
     sql = """
     DELETE FROM score
-    WHERE fk_game = ? AND fk_round = ? AND fk_user = ?
+    WHERE EXISTS (
+        SELECT 1
+        FROM score
+            JOIN game ON game.id = score.fk_game
+            JOIN round ON round.id = score.fk_round
+            JOIN user ON user.id = score.fk_user
+        WHERE game.id = ?
+            AND round.id = ?
+            AND user.id = ?
+    )
     """
-    payload = (game_name, round_number, player_name)
-    database_query(sql, payload)
-
-
-def database_query(sql: str, payload: (any,) = ()):
-    database_connection = get_database()
-    cursor = get_database_cursor(database_connection)
-    cursor.execute(sql, payload)
-    database_connection.commit()
+    payload = (game_identifier, round_number, player_name)
+    database_query_commit(sql, payload)

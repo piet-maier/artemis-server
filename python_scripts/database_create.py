@@ -1,45 +1,44 @@
-from app.database import get_database
-from python_scripts.database_connect import get_database_cursor
+"""Util functions to create tables and fields in a connected sqlite database"""
 from python_scripts.database_read import get_table_information
+from python_scripts.database_utils import database_query_commit
 
 
-def execute_sql(sql_statement):
-    connection = get_database()
-    cursor = get_database_cursor(connection)
-    cursor.execute(sql_statement)
-    connection.commit()
+def create_table(table_name: str):
+    """create table in database"""
+    sql = """
+    CREATE TABLE IF NOT EXISTS ? (id INTEGER PRIMARY KEY)
+    """
+    payload = (table_name,)
+    database_query_commit(sql, payload)
 
 
-def create_table(table_name):
-    execute_sql(f"""
-    CREATE TABLE IF NOT EXISTS {table_name}(
-    id INTEGER PRIMARY KEY);
-    """)
-
-
-def add_field(table_name, column_name, data_type, is_primary_key=False, foreign_key_reference=None):
+def add_field(table_name: str, column_name: str, data_type: str, is_primary_key: bool = False,
+              foreign_key_reference: str = None):
+    """create field in table in database"""
     columns = get_table_information(table_name)
 
     column_exists = any(column[1] == column_name for column in columns)
 
     if not column_exists:
-        sql_statement = f"""
-        ALTER TABLE {table_name}
-        ADD COLUMN {column_name} {data_type}
+        sql = """
+        ALTER TABLE ?
+        ADD COLUMN ? ?
         """
+        values = (table_name, column_name, data_type)
 
         if is_primary_key:
-            sql_statement += ' PRIMARY KEY'
+            sql += ' PRIMARY KEY'
 
         if foreign_key_reference:
-            sql_statement += f' REFERENCES {foreign_key_reference}'
+            sql += f' REFERENCES {foreign_key_reference}'
 
-        sql_statement += ';'
+        sql += ';'
 
-        execute_sql(sql_statement)
+        database_query_commit(sql, values)
 
 
 def create_tables():
+    """create tables in database"""
     create_game_type_table()
     create_game_table()
     create_user_table()
@@ -48,22 +47,26 @@ def create_tables():
 
 
 def create_game_type_table():
+    """create game type table in database"""
     create_table("game_type")
     add_field("game_type", "name", "TEXT")
 
 
 def create_game_table():
+    """create game table in database"""
     create_table("game")
     add_field("game", "fk_game_type", "TEXT", foreign_key_reference="game_type")
     add_field("game", "creation_timestamp", "INTEGER")
 
 
 def create_user_table():
+    """create user table in database"""
     create_table("user")
     add_field("user", "name", "TEXT")
 
 
 def create_round_table():
+    """create round table in database"""
     create_table("round")
     add_field("round", "fk_game", "INTEGER", foreign_key_reference="game")
     add_field("round", "number", "INTEGER")
@@ -71,6 +74,7 @@ def create_round_table():
 
 
 def create_score_table():
+    """create score table in database"""
     create_table("score")
     add_field("score", "fk_game", "INTEGER", foreign_key_reference="game")
     add_field("score", "fk_round", "INTEGER", foreign_key_reference="round")
