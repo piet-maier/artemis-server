@@ -48,15 +48,24 @@ def add_new_round(game_identifier: int, first_user_name: str):
     database_query_commit(sql, payload)
 
 
-def add_new_score(game_identifier: int, player_name: str, round_number: int, score: int):
+def add_new_score(
+    game_identifier: int, player_name: str, round_number: int, score: int
+):
     """add new score to database"""
     if score_exists(game_identifier, player_name, round_number):
         sql = """
+        WITH maped_values AS (
+            SELECT user.name AS user_name, round.number AS round_number, game.creation_timestamp AS game_identifier
+            FROM score
+                JOIN user ON user.id = score.fk_user
+                JOIN round ON round.id = score.fk_round
+                JOIN game ON game.id = score.fk_game
+        )
         UPDATE score
         SET score = ?
-        WHERE fk_game = ? 
-            AND fk_round = ? 
-            AND fk_user = ?;
+        WHERE fk_game = maped_values.game_identifier
+            AND fk_round = maped_values.round_number
+            AND fk_user = maped_values.user_name
         """
         payload = (score, game_identifier, round_number, player_name)
     else:
