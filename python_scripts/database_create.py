@@ -8,8 +8,7 @@ def create_table(table_name: str) -> None:
     sql = f"""
     CREATE TABLE IF NOT EXISTS {table_name}(id INTEGER PRIMARY KEY)
     """
-    payload = (table_name,)
-    database_query_commit(sql, payload)
+    database_query_commit(sql)
 
 
 def add_field(

@@ -113,11 +113,10 @@ def get_score_sum(game_identifier: int, user_name: str) -> int:
 
 def get_table_information(table_name: str) -> [str]:
     """retrieve database table information"""
-    sql = """
-    PRAGMA table_info(?)
+    sql = f"""
+    PRAGMA table_info({table_name})
     """
-    payload = (table_name,)
-    return database_query_retrieve_many(sql, payload)
+    return database_query_retrieve_many(sql)
 
 
 def get_highest_score(game_type: str) -> [str, int]:
