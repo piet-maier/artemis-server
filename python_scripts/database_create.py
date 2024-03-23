@@ -3,7 +3,7 @@ from python_scripts.database_read import get_table_information
 from python_scripts.database_utils import database_query_commit
 
 
-def create_table(table_name: str):
+def create_table(table_name: str) -> None:
     """create table in database"""
     sql = """
     CREATE TABLE IF NOT EXISTS ? (id INTEGER PRIMARY KEY)
@@ -12,8 +12,13 @@ def create_table(table_name: str):
     database_query_commit(sql, payload)
 
 
-def add_field(table_name: str, column_name: str, data_type: str, is_primary_key: bool = False,
-              foreign_key_reference: str = None):
+def add_field(
+    table_name: str,
+    column_name: str,
+    data_type: str,
+    is_primary_key: bool = False,
+    foreign_key_reference: str | None = None,
+) -> None:
     """create field in table in database"""
     columns = get_table_information(table_name)
 
@@ -27,17 +32,17 @@ def add_field(table_name: str, column_name: str, data_type: str, is_primary_key:
         values = (table_name, column_name, data_type)
 
         if is_primary_key:
-            sql += ' PRIMARY KEY'
+            sql += " PRIMARY KEY"
 
         if foreign_key_reference:
-            sql += f' REFERENCES {foreign_key_reference}'
+            sql += f" REFERENCES {foreign_key_reference}"
 
-        sql += ';'
+        sql += ";"
 
         database_query_commit(sql, values)
 
 
-def create_tables():
+def create_tables() -> None:
     """create tables in database"""
     create_game_type_table()
     create_game_table()
@@ -46,26 +51,26 @@ def create_tables():
     create_score_table()
 
 
-def create_game_type_table():
+def create_game_type_table() -> None:
     """create game type table in database"""
     create_table("game_type")
     add_field("game_type", "name", "TEXT")
 
 
-def create_game_table():
+def create_game_table() -> None:
     """create game table in database"""
     create_table("game")
     add_field("game", "fk_game_type", "TEXT", foreign_key_reference="game_type")
     add_field("game", "creation_timestamp", "INTEGER")
 
 
-def create_user_table():
+def create_user_table() -> None:
     """create user table in database"""
     create_table("user")
     add_field("user", "name", "TEXT")
 
 
-def create_round_table():
+def create_round_table() -> None:
     """create round table in database"""
     create_table("round")
     add_field("round", "fk_game", "INTEGER", foreign_key_reference="game")
@@ -73,7 +78,7 @@ def create_round_table():
     add_field("round", "fk_first_user", "TEXT", foreign_key_reference="user")
 
 
-def create_score_table():
+def create_score_table() -> None:
     """create score table in database"""
     create_table("score")
     add_field("score", "fk_game", "INTEGER", foreign_key_reference="game")
