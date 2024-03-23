@@ -6,7 +6,7 @@ SCORE_SUM_ROW_KEY = "SUM(score)"
 COUNT_ROWS_KEY = "SUM(*)"
 
 
-def get_all_game_types() -> [str]:
+def get_all_game_types() -> list[str]:
     """retrieve a list of all game types from database"""
     sql = """
     SELECT name
@@ -16,7 +16,7 @@ def get_all_game_types() -> [str]:
     return flatten_tuples(game_types)
 
 
-def get_all_games() -> [str]:
+def get_all_games() -> dict[str, list[int]]:
     """retrieve a list of all games from database"""
     sql = """
     SELECT game_type.name, creation_timestamp
@@ -27,7 +27,7 @@ def get_all_games() -> [str]:
     return convert_list_to_dict(games)
 
 
-def get_all_rounds_of_game(game_identifier: int) -> [(int, str)]:
+def get_all_rounds_of_game(game_identifier: int) -> list[tuple[int, str]]:
     """retrieve a list of all rounds of game from database"""
     sql = """
     SELECT number, user.name
@@ -38,10 +38,10 @@ def get_all_rounds_of_game(game_identifier: int) -> [(int, str)]:
     """
     payload = (game_identifier,)
     games = database_query_retrieve_many(sql, payload)
-    return convert_list_to_dict(games)
+    return games
 
 
-def get_all_player_names_of_game(game_identifier: int) -> [str]:
+def get_all_player_names_of_game(game_identifier: int) -> list[str]:
     """retrieve a list of all player names participating in a game from database"""
     sql = """
     SELECT DISTINCT user.name
@@ -55,7 +55,7 @@ def get_all_player_names_of_game(game_identifier: int) -> [str]:
     return flatten_tuples(player_names)
 
 
-def get_all_player_names() -> [str]:
+def get_all_player_names() -> list[str]:
     """retrieve a list of all player names from database"""
     sql = """
     SELECT name
@@ -65,7 +65,7 @@ def get_all_player_names() -> [str]:
     return flatten_tuples(game_types)
 
 
-def get_all_scores_of_game(game_name: int) -> [(int, str, int)]:
+def get_all_scores_of_game(game_name: int) -> list[tuple[int, str, int]]:
     """retrieve a list of all scores of a game from database"""
     sql = """
     SELECT round.number, user.name, score
@@ -111,7 +111,7 @@ def get_score_sum(game_identifier: int, user_name: str) -> int:
     return database_query_retrieve_one(sql, payload)[SCORE_SUM_ROW_KEY]
 
 
-def get_table_information(table_name: str) -> [str]:
+def get_table_information(table_name: str) -> list[str]:
     """retrieve database table information"""
     sql = f"""
     PRAGMA table_info({table_name})
@@ -119,7 +119,7 @@ def get_table_information(table_name: str) -> [str]:
     return database_query_retrieve_many(sql)
 
 
-def get_highest_score(game_type: str) -> [str, int]:
+def get_highest_score(game_type: str) -> list[str | int]:
     """retrieve the highest score archived in a given game type from database"""
     sql = """
     SELECT user.name, score
@@ -135,7 +135,7 @@ def get_highest_score(game_type: str) -> [str, int]:
     return database_query_retrieve_one(sql, payload)
 
 
-def get_lowest_score(game_type: str) -> [str, int]:
+def get_lowest_score(game_type: str) -> list[str | int]:
     """retrieve the lowest score archived in a given game type from database"""
     sql = """
     SELECT user.name, score
