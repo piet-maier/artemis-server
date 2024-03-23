@@ -1,11 +1,12 @@
 import os
+from typing import Mapping, Any
 
 from flask import Flask, Response
 
 from . import database, socket
 
 
-def create_app() -> Flask:
+def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     """
     Create and configure an instance of the Flask application.
     """
@@ -14,6 +15,11 @@ def create_app() -> Flask:
     app.config.from_mapping(
         DATABASE=os.path.join(app.instance_path, "round_history.db")
     )
+
+    if test_config is None:
+        app.config.from_pyfile("config.py", silent=True)
+    else:
+        app.config.from_mapping(test_config)
 
     try:
         os.makedirs(app.instance_path)
