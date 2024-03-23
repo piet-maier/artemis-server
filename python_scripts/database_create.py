@@ -5,8 +5,8 @@ from python_scripts.database_utils import database_query_commit
 
 def create_table(table_name: str) -> None:
     """create table in database"""
-    sql = """
-    CREATE TABLE IF NOT EXISTS ? (id INTEGER PRIMARY KEY)
+    sql = f"""
+    CREATE TABLE IF NOT EXISTS {table_name}(id INTEGER PRIMARY KEY)
     """
     payload = (table_name,)
     database_query_commit(sql, payload)
@@ -25,11 +25,10 @@ def add_field(
     column_exists = any(column[1] == column_name for column in columns)
 
     if not column_exists:
-        sql = """
-        ALTER TABLE ?
-        ADD COLUMN ? ?
+        sql = f"""
+        ALTER TABLE {table_name}
+        ADD COLUMN {column_name} {data_type}
         """
-        values = (table_name, column_name, data_type)
 
         if is_primary_key:
             sql += " PRIMARY KEY"
@@ -39,7 +38,7 @@ def add_field(
 
         sql += ";"
 
-        database_query_commit(sql, values)
+        database_query_commit(sql)
 
 
 def create_tables() -> None:
