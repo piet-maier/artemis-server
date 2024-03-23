@@ -11,6 +11,8 @@ flask-socketio = "*"
 black = "*"
 mypy = "*"
 types-flask-socketio = "*"
+pytest = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.12"
