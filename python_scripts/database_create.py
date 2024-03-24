@@ -1,6 +1,7 @@
 """Util functions to create tables and fields in a connected sqlite database"""
+
+from app.database import query_db
 from python_scripts.database_read import get_table_information
-from python_scripts.database_utils import database_query_commit
 
 
 def create_table(table_name: str) -> None:
@@ -8,7 +9,7 @@ def create_table(table_name: str) -> None:
     sql = f"""
     CREATE TABLE IF NOT EXISTS {table_name}(id INTEGER PRIMARY KEY)
     """
-    database_query_commit(sql)
+    query_db(sql)
 
 
 def add_field(
@@ -37,7 +38,7 @@ def add_field(
 
         sql += ";"
 
-        database_query_commit(sql)
+        query_db(sql)
 
 
 def create_tables() -> None:

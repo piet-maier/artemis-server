@@ -1,6 +1,7 @@
 """Util functions to read from a connected sqlite database"""
+
+from app.database import query_db
 from python_scripts.data_structure_utils import flatten_tuples, convert_list_to_dict
-from python_scripts.database_utils import database_query_retrieve_one, database_query_retrieve_many
 
 SCORE_SUM_ROW_KEY = "SUM(score)"
 COUNT_ROWS_KEY = "SUM(*)"
@@ -12,7 +13,7 @@ def get_all_game_types() -> list[str]:
     SELECT name
     FROM game_type
     """
-    game_types = database_query_retrieve_many(sql)
+    game_types = query_db(sql)
     return flatten_tuples(game_types)
 
 
@@ -23,7 +24,7 @@ def get_all_games() -> dict[str, list[int]]:
     FROM game
         JOIN game_type ON game_type.id = game.fk_game_type
     """
-    games = database_query_retrieve_many(sql)
+    games = query_db(sql)
     return convert_list_to_dict(games)
 
 
@@ -37,7 +38,7 @@ def get_all_rounds_of_game(game_identifier: int) -> list[tuple[int, str]]:
     WHERE game.creation_timestamp = ?
     """
     payload = (game_identifier,)
-    games = database_query_retrieve_many(sql, payload)
+    games = query_db(sql, payload)
     return games
 
 
@@ -51,7 +52,7 @@ def get_all_player_names_of_game(game_identifier: int) -> list[str]:
     WHERE game.creation_timestamp = ?
     """
     payload = (game_identifier,)
-    player_names = database_query_retrieve_many(sql, payload)
+    player_names = query_db(sql, payload)
     return flatten_tuples(player_names)
 
 
@@ -61,7 +62,7 @@ def get_all_player_names() -> list[str]:
     SELECT name
     FROM user
     """
-    game_types = database_query_retrieve_many(sql)
+    game_types = query_db(sql)
     return flatten_tuples(game_types)
 
 
@@ -76,7 +77,7 @@ def get_all_scores_of_game(game_name: int) -> list[tuple[int, str, int]]:
     WHERE game.creation_timestamp = ?
     """
     payload = (game_name,)
-    return database_query_retrieve_many(sql, payload)
+    return query_db(sql, payload)
 
 
 def score_exists(game_identifier: int, player_name: str, round_number: int) -> bool:
@@ -94,7 +95,7 @@ def score_exists(game_identifier: int, player_name: str, round_number: int) -> b
     )
     """
     payload = (game_identifier, round_number, player_name)
-    return database_query_retrieve_one(sql, payload)[0]
+    return query_db(sql, payload, True)[0]
 
 
 def get_score_sum(game_identifier: int, user_name: str) -> int:
@@ -108,7 +109,7 @@ def get_score_sum(game_identifier: int, user_name: str) -> int:
         AND user.name = ?
     """
     payload = (game_identifier, user_name)
-    return database_query_retrieve_one(sql, payload)[SCORE_SUM_ROW_KEY]
+    return query_db(sql, payload, True)[SCORE_SUM_ROW_KEY]
 
 
 def get_table_information(table_name: str) -> list[str]:
@@ -116,7 +117,7 @@ def get_table_information(table_name: str) -> list[str]:
     sql = f"""
     PRAGMA table_info({table_name})
     """
-    return database_query_retrieve_many(sql)
+    return query_db(sql)
 
 
 def get_highest_score(game_type: str) -> list[str | int]:
@@ -132,7 +133,7 @@ def get_highest_score(game_type: str) -> list[str | int]:
     LIMIT 1
     """
     payload = (game_type,)
-    return database_query_retrieve_one(sql, payload)
+    return query_db(sql, payload, True)
 
 
 def get_lowest_score(game_type: str) -> list[str | int]:
@@ -148,7 +149,7 @@ def get_lowest_score(game_type: str) -> list[str | int]:
     LIMIT 1
     """
     payload = (game_type,)
-    return database_query_retrieve_one(sql, payload)
+    return query_db(sql, payload, True)
 
 
 def get_total_score(game_type: str) -> int:
@@ -161,7 +162,7 @@ def get_total_score(game_type: str) -> int:
     WHERE game_type.name = ?
     """
     payload = (game_type,)
-    return database_query_retrieve_one(sql, payload)[SCORE_SUM_ROW_KEY]
+    return query_db(sql, payload, True)[SCORE_SUM_ROW_KEY]
 
 
 def get_total_rounds(game_type: str) -> int:
@@ -174,7 +175,7 @@ def get_total_rounds(game_type: str) -> int:
     WHERE game_type.name = ?
     """
     payload = (game_type,)
-    return database_query_retrieve_one(sql, payload)[COUNT_ROWS_KEY]
+    return query_db(sql, payload, True)[COUNT_ROWS_KEY]
 
 
 def get_total_score_per_game_and_user(game_type: str, user_name: str) -> int:
@@ -189,7 +190,7 @@ def get_total_score_per_game_and_user(game_type: str, user_name: str) -> int:
         AND user.name = ?
     """
     payload = (game_type, user_name)
-    return database_query_retrieve_one(sql, payload)[SCORE_SUM_ROW_KEY]
+    return query_db(sql, payload, True)[SCORE_SUM_ROW_KEY]
 
 
 def get_total_rounds_per_game_and_user(game_type: str, user_name: str) -> int:
@@ -204,4 +205,4 @@ def get_total_rounds_per_game_and_user(game_type: str, user_name: str) -> int:
         AND user.name = ?
     """
     payload = (game_type, user_name)
-    return database_query_retrieve_one(sql, payload)[COUNT_ROWS_KEY]
+    return query_db(sql, payload, True)[COUNT_ROWS_KEY]

@@ -1,6 +1,7 @@
 """Util functions to write to a connected sqlite database"""
+
+from app.database import query_db
 from python_scripts.database_read import score_exists
-from python_scripts.database_utils import database_query_commit
 
 
 def add_new_game_type(game_type: str):
@@ -10,7 +11,7 @@ def add_new_game_type(game_type: str):
     VALUES (?)
     """
     payload = (game_type,)
-    database_query_commit(sql, payload)
+    query_db(sql, payload)
 
 
 def add_new_game(game_type: str, game_identifier: int):
@@ -22,7 +23,7 @@ def add_new_game(game_type: str, game_identifier: int):
     WHERE id = ?
     """
     payload = (game_identifier, game_type)
-    database_query_commit(sql, payload)
+    query_db(sql, payload)
 
 
 def add_player(player_name: str):
@@ -32,7 +33,7 @@ def add_player(player_name: str):
     VALUES (?)
     """
     payload = (player_name,)
-    database_query_commit(sql, payload)
+    query_db(sql, payload)
 
 
 def add_new_round(game_identifier: int, first_user_name: str):
@@ -45,7 +46,7 @@ def add_new_round(game_identifier: int, first_user_name: str):
     WHERE game.creation_timestamp = ?
     """
     payload = (game_identifier, first_user_name)
-    database_query_commit(sql, payload)
+    query_db(sql, payload)
 
 
 def add_new_score(
@@ -74,4 +75,4 @@ def add_new_score(
         VALUES (?, ?, ?, ?)
         """
         payload = (game_identifier, round_number, score, player_name)
-    database_query_commit(sql, payload)
+    query_db(sql, payload)

@@ -1,5 +1,5 @@
 import sqlite3
-from typing import cast
+from typing import cast, Any
 
 import click
 from flask import current_app, g, Flask
@@ -49,3 +49,17 @@ def init_app(app: Flask) -> None:
     app.teardown_appcontext(close_db)  # type: ignore
 
     app.cli.add_command(init_db_command)
+
+
+def query_db(query: str, args: tuple[Any, ...] = (), one: bool = False) -> Any:
+    """
+    This function executes the given SQL statement, binding any arguments to placeholders in the query.
+    If the query fetches rows from the database, it can return either all or just a single result.
+    """
+    cur = get_database().execute(query, args)
+
+    rv = cur.fetchall()
+
+    cur.close()
+
+    return (rv[0] if rv else None) if one else rv
