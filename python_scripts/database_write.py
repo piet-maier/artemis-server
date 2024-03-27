@@ -18,9 +18,9 @@ def add_new_game(game_type: str, game_identifier: int):
     """add new game to database"""
     sql = """
     INSERT INTO game (fk_game_type, creation_timestamp)
-    SELECT name, ?
+    SELECT id, ?
     FROM game_type
-    WHERE id = ?
+    WHERE name = ?
     """
     payload = (game_identifier, game_type)
     database_query_commit(sql, payload)
