@@ -4,7 +4,10 @@ import tempfile
 import pytest
 
 from app import create_app
-from app.database import init_db
+from app.database import init_db, get_database
+
+with open(os.path.join(os.path.dirname(__file__), "data.sql"), "rb") as f:
+    _data_sql = f.read().decode("utf-8")
 
 
 @pytest.fixture
@@ -21,7 +24,7 @@ def app():
     with app.app_context():
         init_db()
 
-        # TODO: Add Test Data
+        get_database().executescript(_data_sql)
 
     yield app
 

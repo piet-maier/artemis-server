@@ -25,6 +25,7 @@ def create_grid(grid_type: str) -> int:
     return dt
 
 
+# noinspection PyUnusedLocal
 @socketio.on("grid:read")
 def handle_request_last_game_of_type(game_type, game_name):
     payload = build_grid_payload(game_name)
