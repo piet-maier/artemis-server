@@ -1,14 +1,26 @@
 """Util functions for grid data structure"""
-from python_scripts.database_read import get_all_scores_of_game, get_score_sum, \
-    get_all_player_names
+
+from typing import TypedDict
+
+from python_scripts.database_read import (
+    get_all_scores_of_game,
+    get_score_sum,
+    get_all_player_names,
+)
 
 
-def build_grid_payload(game_identifier: int):
+class Grid(TypedDict):
+    head: list[str]
+    body: list[dict[str, int]]
+    foot: dict[str, int]
+
+
+def build_grid_payload(game_identifier: int) -> Grid:
     """build grid payload for given game"""
     scores = get_all_scores_of_game(game_identifier)
     users = get_all_player_names()
 
-    payload = {
+    payload: Grid = {
         "head": users,
         "body": [],
         "foot": {},
