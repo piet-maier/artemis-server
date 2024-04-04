@@ -175,11 +175,11 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:507e811ecea72b18a404947aded4b3390e1db8f826b494d76550ef45bb3b1dcc",
-                "sha256:90a285dc0e42ad56b34e696398b8122ee4c681833fb35b8334a095d82c56da10"
+                "sha256:3aac3f5da756f93030740bc235d3e09449efcf65f2f55e3602e1d851b8f48795",
+                "sha256:e39b645a6ac92822588e7b39a692e7828724ceae0b0d702ef96701f90e70128d"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==3.0.1"
+            "version": "==3.0.2"
         },
         "wsproto": {
             "hashes": [
@@ -479,12 +479,12 @@
         },
         "types-flask-socketio": {
             "hashes": [
-                "sha256:aa784105d48046f7b6ee46b034de99bce4465fc95ab1b1cfb1f74f4947530118",
-                "sha256:b841ce9cab0386aedfd9ac3fe1742ac56b786d50bacbd3ec6fa85e2e92cc0015"
+                "sha256:bdc57b1be5011ed94472041e0e739e8e0452d8a1ce41d591a64e6b41e5918e59",
+                "sha256:d8a262f278770ffc89df25cc2dc3ce146e03a002d7bd9ba49cd45757fd14b3d0"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==5.3.0.20240311"
+            "version": "==5.3.0.20240331"
         },
         "typing-extensions": {
             "hashes": [
@@ -496,11 +496,11 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:507e811ecea72b18a404947aded4b3390e1db8f826b494d76550ef45bb3b1dcc",
-                "sha256:90a285dc0e42ad56b34e696398b8122ee4c681833fb35b8334a095d82c56da10"
+                "sha256:3aac3f5da756f93030740bc235d3e09449efcf65f2f55e3602e1d851b8f48795",
+                "sha256:e39b645a6ac92822588e7b39a692e7828724ceae0b0d702ef96701f90e70128d"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==3.0.1"
+            "version": "==3.0.2"
         }
     }
 }
