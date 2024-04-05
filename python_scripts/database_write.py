@@ -17,9 +17,9 @@ def add_new_game(game_type: str, game_identifier: int):
     """add new game to database"""
     sql = """
     INSERT INTO game (fk_game_type, creation_timestamp)
-    SELECT name, ?
+    SELECT id, ?
     FROM game_type
-    WHERE id = ?
+    WHERE name = ?
     """
     payload = (game_identifier, game_type)
     database_query_commit(sql, payload)
@@ -53,25 +53,42 @@ def add_new_score(
 ):
     """add new score to database"""
     if score_exists(game_identifier, player_name, round_number):
-        sql = """
-        WITH maped_values AS (
-            SELECT user.name AS user_name, round.number AS round_number, game.creation_timestamp AS game_identifier
-            FROM score
-                JOIN user ON user.id = score.fk_user
-                JOIN round ON round.id = score.fk_round
-                JOIN game ON game.id = score.fk_game
+        sql = f"""
+        WITH game_id AS (
+            SELECT id
+            FROM game
+            WHERE creation_timestamp = ?
+        ),
+        user_id AS (
+            SELECT id
+            FROM user
+            WHERE name = "{player_name}"
         )
         UPDATE score
         SET score = ?
-        WHERE fk_game = maped_values.game_identifier
-            AND fk_round = maped_values.round_number
-            AND fk_user = maped_values.user_name
+        WHERE fk_game = (SELECT id FROM game_id)
+            AND fk_user = (SELECT id FROM user_id)
+            AND fk_round = ?
         """
-        payload = (score, game_identifier, round_number, player_name)
+        payload = (game_identifier, score, round_number)
     else:
         sql = """
+        WITH game_id AS (
+            SELECT id
+            FROM game
+            WHERE game.creation_timestamp = ?
+        ),
+        user_id AS (
+            SELECT id
+            FROM user
+            WHERE user.name = ?
+        )
         INSERT INTO score (fk_game, fk_round, score, fk_user)
-        VALUES (?, ?, ?, ?)
+        SELECT 
+            (SELECT id FROM game_id),
+            ?,
+            ?,
+            (SELECT id FROM user_id)
         """
-        payload = (game_identifier, round_number, score, player_name)
+        payload = (game_identifier, player_name, round_number, score)
     database_query_commit(sql, payload)

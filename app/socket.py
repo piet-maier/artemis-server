@@ -18,15 +18,15 @@ def navigation():
 
 @socketio.on("grid:create")
 def create_grid(grid_type: str) -> int:
-    dt = int(datetime.now().timestamp() * 1000)
+    current_timestamp = int(datetime.now().timestamp() * 1000)
 
-    add_new_game(grid_type, dt)
+    add_new_game(grid_type, current_timestamp)
 
-    return dt
+    return current_timestamp
 
 
 @socketio.on("grid:read")
-def handle_request_last_game_of_type(game_type, game_name):
+def handle_request_last_game_of_type(game_name):
     payload = build_grid_payload(game_name)
     return payload
 
