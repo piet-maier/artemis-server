@@ -1,4 +1,3 @@
-from app.database import query_db
 from app.socket import navigation, create_grid
 
 
@@ -21,8 +20,8 @@ def test_grid_create(app):
 
         create_grid("Type 4")
 
-        result = query_db("SELECT fk_game_type, creation_timestamp FROM game")
+        dictionary = navigation()
 
-        assert len(result) == 7
+        assert len(dictionary) == 4
 
-        assert result[5]["fk_game_type"] == 4 and result[6]["fk_game_type"] == 4
+        assert len(dictionary["Type 4"]) == 2
