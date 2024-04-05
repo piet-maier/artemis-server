@@ -69,10 +69,9 @@ def get_all_player_names() -> list[str]:
 def get_all_scores_of_game(game_name: int) -> list[tuple[int, str, int]]:
     """retrieve a list of all scores of a game from database"""
     sql = """
-    SELECT round.number, user.name, score
+    SELECT score.fk_round, user.name, score
     FROM score
         JOIN user ON user.id = score.fk_user
-        JOIN round ON round.id = score.fk_round
         JOIN game ON game.id = score.fk_game
     WHERE game.creation_timestamp = ?
     """
@@ -87,10 +86,9 @@ def score_exists(game_identifier: int, player_name: str, round_number: int) -> b
         SELECT 1
         FROM score
             JOIN user ON user.id = score.fk_user
-            JOIN round ON round.id = score.fk_round
             JOIN game ON game.id = score.fk_game
         WHERE game.creation_timestamp = ?
-            AND round.number = ?
+            AND score.fk_round = ?
             AND user.name = ?
     )
     """

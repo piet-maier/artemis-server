@@ -18,11 +18,11 @@ def navigation():
 
 @socketio.on("grid:create")
 def create_grid(grid_type: str) -> int:
-    dt = int(datetime.now().timestamp() * 1000)
+    current_timestamp = int(datetime.now().timestamp() * 1000)
 
-    add_new_game(grid_type, dt)
+    add_new_game(grid_type, current_timestamp)
 
-    return dt
+    return current_timestamp
 
 
 # noinspection PyUnusedLocal
