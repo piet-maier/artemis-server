@@ -1,4 +1,6 @@
-from app.socket import navigation, create_grid, handle_request_last_game_of_type
+import pytest
+
+from app.socket import navigation, create_grid, handle_request_last_game_of_type, handle_submit
 
 
 def test_navigation(app):
@@ -14,7 +16,7 @@ def test_navigation(app):
         assert dictionary["Type 3"] == [126230400, 94694400]
 
 
-def test_grid_create(app):
+def test_create_grid(app):
     with app.app_context():
         create_grid("Type 4")
 
@@ -27,12 +29,56 @@ def test_grid_create(app):
         assert len(dictionary["Type 4"]) == 2
 
 
-def test_grid_read(app):
+def test_handle_request_last_game_of_type(app):
     with app.app_context():
+        payload = handle_request_last_game_of_type("Type 1", 0)
+
+        assert "head" in payload
+
+        assert payload["head"] == ["User 1", "User 2", "User 3", "User 4", "User 5"]
+
+        assert "body" in payload
+
+        assert len(payload["body"]) == 3
+
+        assert payload["body"][1] == {"User 1": 1}
+
+        assert payload["body"][2]["User 2"] == 2
+
+        assert "User 3" not in payload["body"][2]
+
+        assert "foot" in payload
+
+        assert payload["foot"]["User 1"] == -4
+
+        assert payload["foot"]["User 3"] is None
+
+
+test_cases_handle_submit = [
+    ("Type 1", 0, "User 1", 1, "2", 2),
+    ("Type 1", 0, "User 1", 2, "3", 3),
+    ("Type 1", 0, "User 1", 3, "4", 4),
+]
+
+
+@pytest.mark.parametrize("game_type_name, game_timestamp, user_name, round_number, score, expected_result",
+                         test_cases_handle_submit)
+def test_handle_submit(app, game_type_name, game_timestamp, user_name, round_number, score, expected_result):
+    with app.app_context():
+        handle_submit(game_type_name, game_timestamp, {"name": user_name, "number": round_number, "cell": score})
+
+        dictionary = handle_request_last_game_of_type(game_type_name, game_timestamp)
+
+        assert dictionary["body"][round_number][user_name] == expected_result
+
+
+def test_handle_submit_empty(app):
+    with app.app_context():
+
+        handle_request_last_game_of_type("Type 1", 0)
+
+        handle_submit("Type 1", 0, {"name": "User 1", "number": 1, "cell": ""})
+
         dictionary = handle_request_last_game_of_type("Type 1", 0)
 
-        assert len(dictionary) == 2
-
-        assert dictionary[0]["User 1"] == 1
-
-        assert dictionary[1]["User 2"] == 2
+        assert "User 1" not in dictionary["body"][1]

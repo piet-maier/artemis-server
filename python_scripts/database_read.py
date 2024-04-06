@@ -23,23 +23,23 @@ def get_all_games() -> dict[str, list[int]]:
     SELECT game_type.name, creation_timestamp
     FROM game
         JOIN game_type ON game_type.id = game.fk_game_type
+    ORDER BY creation_timestamp DESC
     """
     games = query_db(sql)
     return convert_list_to_dict(games)
 
 
-def get_all_rounds_of_game(game_identifier: int) -> list[tuple[int, str]]:
+def get_all_rounds_of_game(game_identifier: int) -> list[str]:
     """retrieve a list of all rounds of game from database"""
     sql = """
-    SELECT number, user.name
+    SELECT number
     FROM round
-        JOIN user ON user.id = round.fk_first_user
         JOIN game ON game.id = round.fk_game
     WHERE game.creation_timestamp = ?
     """
     payload = (game_identifier,)
     games = query_db(sql, payload)
-    return games
+    return flatten_tuples(games)
 
 
 def get_all_player_names_of_game(game_identifier: int) -> list[str]:

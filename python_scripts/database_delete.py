@@ -11,9 +11,10 @@ def delete_score(game_identifier: int, player_name: str, round_number: int):
         SELECT 1
         FROM score
             JOIN game ON game.id = score.fk_game
+            JOIN round ON score.fk_round = round.id
             JOIN user ON user.id = score.fk_user
         WHERE game.creation_timestamp = ?
-            AND score.fk_round = ?
+            AND round.number = ?
             AND user.name = ?
     )
     """

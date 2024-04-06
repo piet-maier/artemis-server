@@ -59,7 +59,7 @@ def create_game_type_table() -> None:
 def create_game_table() -> None:
     """create game table in database"""
     create_table("game")
-    add_field("game", "fk_game_type", "TEXT", foreign_key_reference="game_type")
+    add_field("game", "fk_game_type", "INTEGER", foreign_key_reference="game_type")
     add_field("game", "creation_timestamp", "INTEGER")
 
 
@@ -74,7 +74,7 @@ def create_round_table() -> None:
     create_table("round")
     add_field("round", "fk_game", "INTEGER", foreign_key_reference="game")
     add_field("round", "number", "INTEGER")
-    add_field("round", "fk_first_user", "TEXT", foreign_key_reference="user")
+    add_field("round", "fk_first_user", "INTEGER", foreign_key_reference="user")
 
 
 def create_score_table() -> None:
@@ -83,4 +83,4 @@ def create_score_table() -> None:
     add_field("score", "fk_game", "INTEGER", foreign_key_reference="game")
     add_field("score", "fk_round", "INTEGER", foreign_key_reference="round")
     add_field("score", "score", "INTEGER")
-    add_field("score", "fk_user", "TEXT", foreign_key_reference="user")
+    add_field("score", "fk_user", "INTEGER", foreign_key_reference="user")
