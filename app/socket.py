@@ -1,5 +1,6 @@
 import random
 from datetime import datetime
+from typing import TypedDict
 
 from flask_socketio import SocketIO
 
@@ -10,14 +11,20 @@ from python_scripts.database_read import (
     get_all_player_names,
 )
 from python_scripts.database_write import add_new_score, add_new_game
-from python_scripts.grid_utils import build_grid_payload
+from python_scripts.grid_utils import build_grid_payload, Grid
 
 # FIXME: Remove CORS In Production
 socketio = SocketIO(cors_allowed_origins="*")
 
 
+class Change(TypedDict):
+    name: str
+    number: int
+    cell: str
+
+
 @socketio.on("navigation")
-def navigation():
+def navigation() -> dict[str, list[int]]:
     return get_all_games()
 
 
@@ -32,13 +39,13 @@ def create_grid(grid_type: str) -> int:
 
 # noinspection PyUnusedLocal
 @socketio.on("grid:read")
-def handle_request_last_game_of_type(game_type, game_name):
+def handle_request_last_game_of_type(game_type: str, game_name: int) -> Grid:
     payload = build_grid_payload(game_name)
     return payload
 
 
 @socketio.on("grid:update")
-def handle_submit(game_type, game_timestamp, change):
+def handle_submit(game_type: str, game_timestamp: int, change: Change) -> None:
     if change["cell"]:
         add_new_score(game_timestamp, *change.values())
     else:
