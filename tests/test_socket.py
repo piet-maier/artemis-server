@@ -1,4 +1,4 @@
-from app.socket import navigation, create_grid, handle_request_last_game_of_type
+from app.socket import navigation, create_grid, handle_request_last_game_of_type, plot
 
 
 def test_navigation(app):
@@ -36,3 +36,14 @@ def test_grid_read(app):
         assert dictionary[0]["User 1"] == 1
 
         assert dictionary[1]["User 2"] == 2
+
+
+def test_plot(app):
+    with app.app_context():
+        dictionary = plot()
+
+        assert len(dictionary) == 2
+
+        assert "User 1" in dictionary and "User 2" in dictionary
+
+        # TODO

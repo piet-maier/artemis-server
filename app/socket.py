@@ -1,9 +1,14 @@
+import random
 from datetime import datetime
 
 from flask_socketio import SocketIO
 
 from python_scripts.database_delete import delete_score
-from python_scripts.database_read import get_all_games, get_score_sum
+from python_scripts.database_read import (
+    get_all_games,
+    get_score_sum,
+    get_all_player_names,
+)
 from python_scripts.database_write import add_new_score, add_new_game
 from python_scripts.grid_utils import build_grid_payload
 
@@ -48,3 +53,14 @@ def handle_submit(game_type, game_timestamp, change):
         ),
         include_self=True,
     )
+
+
+@socketio.on("plot")
+def plot() -> dict[str, int]:
+    result = {}
+
+    for name in get_all_player_names():
+        # TODO
+        result[name] = random.randrange(1000, 6000)
+
+    return result
