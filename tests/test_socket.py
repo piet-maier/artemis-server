@@ -1,3 +1,4 @@
+from app.socket import navigation, create_grid, handle_request_last_game_of_type, plot
 import pytest
 
 from app.socket import navigation, create_grid, handle_request_last_game_of_type, handle_submit
@@ -81,4 +82,19 @@ def test_handle_submit_empty(app):
 
         dictionary = handle_request_last_game_of_type("Type 1", 0)
 
-        assert "User 1" not in dictionary["body"][1]
+        assert len(dictionary) == 2
+
+        assert dictionary[0]["User 1"] == 1
+
+        assert dictionary[1]["User 2"] == 2
+
+
+def test_plot(app):
+    with app.app_context():
+        dictionary = plot()
+
+        assert len(dictionary) == 2
+
+        assert "User 1" in dictionary and "User 2" in dictionary
+
+        # TODO
