@@ -1,7 +1,13 @@
-from app.socket import navigation, create_grid, handle_request_last_game_of_type, plot
 import pytest
 
-from app.socket import navigation, create_grid, handle_request_last_game_of_type, handle_submit
+from app.socket import (
+    navigation,
+    create_grid,
+    handle_request_last_game_of_type,
+    handle_submit,
+)
+from app.socket import plot
+from python_scripts.database_read import get_all_player_names
 
 
 def test_navigation(app):
@@ -62,11 +68,19 @@ test_cases_handle_submit = [
 ]
 
 
-@pytest.mark.parametrize("game_type_name, game_timestamp, user_name, round_number, score, expected_result",
-                         test_cases_handle_submit)
-def test_handle_submit(app, game_type_name, game_timestamp, user_name, round_number, score, expected_result):
+@pytest.mark.parametrize(
+    "game_type_name, game_timestamp, user_name, round_number, score, expected_result",
+    test_cases_handle_submit,
+)
+def test_handle_submit(
+    app, game_type_name, game_timestamp, user_name, round_number, score, expected_result
+):
     with app.app_context():
-        handle_submit(game_type_name, game_timestamp, {"name": user_name, "number": round_number, "cell": score})
+        handle_submit(
+            game_type_name,
+            game_timestamp,
+            {"name": user_name, "number": round_number, "cell": score},
+        )
 
         dictionary = handle_request_last_game_of_type(game_type_name, game_timestamp)
 
@@ -75,26 +89,22 @@ def test_handle_submit(app, game_type_name, game_timestamp, user_name, round_num
 
 def test_handle_submit_empty(app):
     with app.app_context():
-
-        handle_request_last_game_of_type("Type 1", 0)
-
         handle_submit("Type 1", 0, {"name": "User 1", "number": 1, "cell": ""})
 
-        dictionary = handle_request_last_game_of_type("Type 1", 0)
+        body = handle_request_last_game_of_type("Type 1", 0)["body"]
 
-        assert len(dictionary) == 2
+        assert len(body) == 3
 
-        assert dictionary[0]["User 1"] == 1
-
-        assert dictionary[1]["User 2"] == 2
+        assert "User 1" not in body[1]
 
 
 def test_plot(app):
     with app.app_context():
         dictionary = plot()
 
-        assert len(dictionary) == 2
+        assert len(dictionary) == 5
 
-        assert "User 1" in dictionary and "User 2" in dictionary
+        for player in get_all_player_names():
+            assert player in dictionary
 
         # TODO
