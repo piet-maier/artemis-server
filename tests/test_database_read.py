@@ -10,7 +10,11 @@ def test_get_all_game_types(app):
 def test_get_all_games(app):
     with app.app_context():
         games = get_all_games()
-        assert games == {"Type 1": [0], "Type 2": [63072000, 31536000], "Type 3": [126230400, 94694400]}
+        assert games == {
+            "Type 1": [0],
+            "Type 2": [63072000, 31536000],
+            "Type 3": [126230400, 94694400],
+        }
 
 
 def test_get_all_rounds_of_game(app):
@@ -34,7 +38,12 @@ def test_get_all_player_names(app):
 def test_get_all_scores_of_game(app):
     with app.app_context():
         scores = get_all_scores_of_game(0)
-        assert scores == []  # TODO
+
+        assert len(scores) == 3
+
+        assert scores[0][0] == 1 and scores[0][1] == "User 1" and scores[0][2] == 1
+
+        assert scores[1][0] == 2 and scores[1][1] == "User 2" and scores[1][2] == 2
 
 
 def test_score_exists(app):
