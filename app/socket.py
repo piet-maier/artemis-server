@@ -35,6 +35,8 @@ def create_grid(grid_type: str) -> int:
 
     add_new_game(grid_type, current_timestamp)
 
+    socketio.emit("grid:create", (grid_type, current_timestamp), include_self=False)
+
     return current_timestamp
 
 
