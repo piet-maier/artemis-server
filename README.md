@@ -7,7 +7,7 @@ pip install --user pipenv
 ## Install Packages
 
 ```
-pipenv install
+pipenv install -d
 ```
 
 ## Run [Flask](https://flask.palletsprojects.com/en/3.0.x/)
