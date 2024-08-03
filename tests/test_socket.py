@@ -1,13 +1,7 @@
 import pytest
 
-from app.socket import (
-    navigation,
-    create_grid,
-    handle_request_last_game_of_type,
-    handle_submit,
-)
+from app.socket import navigation, handle_request_last_game_of_type, handle_submit
 from app.socket import plot
-from python_scripts.database_read import get_all_player_names
 
 
 def test_navigation(app):
@@ -21,19 +15,6 @@ def test_navigation(app):
         assert dictionary["Type 2"] == [63072000, 31536000]
 
         assert dictionary["Type 3"] == [126230400, 94694400]
-
-
-def test_create_grid(app):
-    with app.app_context():
-        create_grid("Type 4")
-
-        create_grid("Type 4")
-
-        dictionary = navigation()
-
-        assert len(dictionary) == 4
-
-        assert len(dictionary["Type 4"]) == 2
 
 
 def test_handle_request_last_game_of_type(app):
@@ -102,9 +83,4 @@ def test_plot(app):
     with app.app_context():
         dictionary = plot()
 
-        assert len(dictionary) == 5
-
-        for player in get_all_player_names():
-            assert player in dictionary
-
-        # TODO
+        assert dictionary == {"User 1": 1, "User 2": 1}

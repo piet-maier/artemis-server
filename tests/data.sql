@@ -1,8 +1,8 @@
-INSERT INTO game_type (name)
-VALUES ('Type 1'),
-       ('Type 2'),
-       ('Type 3'),
-       ('Type 4');
+INSERT INTO game_type (name, function)
+VALUES ('Type 1', 'MAX'),
+       ('Type 2', NULL),
+       ('Type 3', NULL),
+       ('Type 4', NULL);
 
 INSERT INTO game (fk_game_type, creation_timestamp)
 VALUES (1, 0),
