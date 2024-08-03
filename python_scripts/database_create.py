@@ -55,6 +55,10 @@ def create_game_type_table() -> None:
     create_table("game_type")
     add_field("game_type", "name", "TEXT")
 
+    query_db(
+        "ALTER TABLE game_type ADD COLUMN function TEXT CHECK (function IN ('MAX', 'MIN'))"
+    )
+
 
 def create_game_table() -> None:
     """create game table in database"""

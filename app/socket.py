@@ -1,5 +1,6 @@
+from collections import defaultdict
 from datetime import datetime
-from typing import TypedDict
+from typing import Literal, TypedDict
 
 from flask_socketio import SocketIO
 
@@ -8,8 +9,6 @@ from python_scripts.database_delete import delete_score
 from python_scripts.database_read import (
     get_all_games,
     get_score_sum,
-    get_all_player_names,
-    get_all_game_types,
 )
 from python_scripts.database_write import add_new_score, add_new_game
 from python_scripts.grid_utils import build_grid_payload, Grid
@@ -67,27 +66,25 @@ def handle_submit(game_type: str, game_timestamp: int, change: Change) -> None:
 
 @socketio.on("plot")
 def plot() -> dict[str, int]:
-    result = {}
+    result = defaultdict(int)
 
-    for name in get_all_player_names():
-        result[name] = 0
+    def query(func: Literal["MIN", "MAX"]) -> str:
+        return (
+            "SELECT user.name, COUNT(*) AS count "
+            "FROM score "
+            "JOIN user ON score.fk_user = user.id "
+            "JOIN game ON score.fk_game = game.id "
+            "JOIN game_type ON game.fk_game_type = game_type.id "
+            f"JOIN (SELECT fk_game, fk_round, {func} (score) AS val FROM score GROUP BY fk_game, fk_round) AS val "
+            "ON score.fk_game = val.fk_game AND score.fk_round = val.fk_round AND score.score = val.val "
+            "WHERE game_type.name = ? "
+            "GROUP BY user.id "
+            "ORDER BY count DESC"
+        )
 
-    # TODO: MIN/MAX Depending On Game Type
-    query = (
-        "SELECT user.name, COUNT(*) AS count "
-        "FROM score "
-        "JOIN user ON score.fk_user = user.id "
-        "JOIN game ON score.fk_game = game.id "
-        "JOIN game_type ON game.fk_game_type = game_type.id "
-        "JOIN (SELECT fk_game, fk_round, MIN(score) AS min FROM score GROUP BY fk_game, fk_round) AS min "
-        "ON score.fk_game = min.fk_game AND score.fk_round = min.fk_round AND score.score = min.min "
-        "WHERE game_type.name = ? "
-        "GROUP BY user.id "
-        "ORDER BY count DESC"
-    )
+    for game_type, function in query_db("SELECT name, function FROM game_type"):
+        if function:
+            for name, number in query_db(query(function), (game_type,)):
+                result[name] += number
 
-    for game_type in get_all_game_types():
-        for name, number in query_db(query, (game_type,)):
-            result[name] += number
-
-    return result
+    return {k: v for k, v in sorted(result.items(), key=lambda item: item[1], reverse=True)}
