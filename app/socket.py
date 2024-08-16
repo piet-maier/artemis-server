@@ -7,10 +7,11 @@ from flask_socketio import SocketIO
 from app.database import query_db
 from python_scripts.database_delete import delete_score
 from python_scripts.database_read import (
+    get_all_game_types,
     get_all_games,
     get_score_sum,
 )
-from python_scripts.database_write import add_new_score, add_new_game
+from python_scripts.database_write import add_new_game_type, add_new_score, add_new_game
 from python_scripts.grid_utils import build_grid_payload, Grid
 
 # FIXME: Remove CORS In Production
@@ -31,6 +32,9 @@ def navigation() -> dict[str, list[int]]:
 @socketio.on("grid:create")
 def create_grid(grid_type: str) -> int:
     current_timestamp = int(datetime.now().timestamp() * 1000)
+
+    if grid_type not in get_all_game_types():
+        add_new_game_type(grid_type)
 
     add_new_game(grid_type, current_timestamp)
 
