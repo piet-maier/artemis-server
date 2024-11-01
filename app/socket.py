@@ -91,4 +91,7 @@ def plot() -> dict[str, int]:
             for name, number in query_db(query(function), (game_type,)):
                 result[name] += number
 
-    return {k: v for k, v in sorted(result.items(), key=lambda item: item[1], reverse=True)}
+    return {
+        k: v
+        for k, v in sorted(result.items(), key=lambda item: (-item[1], item[0]))[:10]
+    }
