@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-zinc-800;
+  }
+
+  body {
+    @apply bg-zinc-950 text-zinc-50 scheme-dark;
+  }
+}
+
+.container {
+  @apply mx-auto px-4 sm:px-8;
+}
