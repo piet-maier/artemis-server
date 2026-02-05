@@ -37,7 +37,7 @@ interface ClientToServerEvents {
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   import.meta.env.PROD
     ? undefined
-    : "ws://" + window.location.hostname + ":3000",
+    : "ws://" + window.location.hostname + ":5000",
   {
     autoConnect: false,
   },
