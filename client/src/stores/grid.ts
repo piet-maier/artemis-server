@@ -1,4 +1,5 @@
-import { type Change, type Data, socket } from "@/socket";
+import { socket } from "@/socket";
+import type { Change, Data } from "@/type";
 import { isEmpty } from "lodash";
 import { defineStore } from "pinia";
 import { reactive, ref } from "vue";

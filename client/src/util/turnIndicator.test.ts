@@ -1,11 +1,6 @@
+import type { Data } from "@/type";
 import { magic } from "@/util/turnIndicator";
 import { expect, test } from "vitest";
-
-interface Data {
-  head: string[];
-  body: Record<string, number>[];
-  foot: Record<string, number>;
-}
 
 test("empty", () => {
   const table: Data = {
