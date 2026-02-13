@@ -2,8 +2,8 @@
 import CheckBox from "@/components/CheckBox.vue";
 import { useScrollToEnd } from "@/composables/useScrollToEnd";
 import { useWindowEvent } from "@/composables/useWindowEvent";
-import type { Data } from "@/socket";
 import { useGridStore } from "@/stores/grid";
+import type { Data } from "@/type";
 import { magic } from "@/util/turnIndicator";
 import { ChevronDown } from "lucide-vue-next";
 import { computed, ref, watch } from "vue";
