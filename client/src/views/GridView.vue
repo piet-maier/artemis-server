@@ -17,17 +17,23 @@ const display = computed(() => location.query["display"]);
 
 const { data, readGrid, changeData } = useGridStore();
 
-const emoji = (index, score, name) => {
-  switch (true) {
-    case score === 69:
+const emoji = (index: number, score: number, name: string) => {
+  switch (score) {
+    case 4:
+      return "4️⃣";
+    case 7:
+      return "🍀";
+    case 67:
+      return "⁶🤷‍♂️⁷";
+    case 69:
       return "😏";
-    case score === 420:
+    case 420:
       return "🔥";
-    case score === 666:
+    case 666:
       return "😈";
-    case score === 1337:
+    case 1337:
       return "🤓";
-    case score === 10000:
+    case 10000:
       return "🎲";
   }
   switch (index) {
@@ -79,10 +85,10 @@ const emoji = (index, score, name) => {
 const computedData = computed(() =>
   data.head
     .filter((name) => data.foot[name] !== null)
-    .sort((a, b) => data.foot[b] - data.foot[a])
+    .sort((a, b) => data.foot[b]! - data.foot[a]!)
     .map((name, index) => ({
       x: data.foot[name],
-      y: name + emoji(index, data.foot[name], name),
+      y: name + emoji(index, data.foot[name]!, name),
     })),
 );
 
@@ -138,7 +144,7 @@ onUnmounted(() => {
           {{ location.params.type }}
         </h2>
         <p class="text-lg text-zinc-400">
-          {{ format(new Date(+location.params.grid), "PPpp") }}
+          {{ format(new Date(+location.params.grid!), "PPpp") }}
         </p>
       </div>
 
