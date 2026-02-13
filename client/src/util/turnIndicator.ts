@@ -1,8 +1,4 @@
-interface Data {
-  head: string[];
-  body: Record<string, number>[];
-  foot: Record<string, number>;
-}
+import type { Data } from "@/type";
 
 export function magic({ body, foot }: Data, ordering: string[]): number {
   const premiumFoot = ordering.filter((name) => foot[name] !== null);
