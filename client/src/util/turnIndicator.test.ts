@@ -1,0 +1,90 @@
+import { magic } from "@/util/turnIndicator";
+import { expect, test } from "vitest";
+
+interface Data {
+  head: string[];
+  body: Record<string, number>[];
+  foot: Record<string, number>;
+}
+
+test("empty", () => {
+  const table: Data = {
+    head: [],
+    body: [],
+    foot: {},
+  };
+
+  const ordering: string[] = [];
+
+  expect(magic(table, ordering)).toBe(-1);
+});
+
+test("happypath", () => {
+  const table: Data = {
+    head: ["niklas", "piet", "henri", "tobias"],
+    body: [{ niklas: 1, piet: 2, henri: 3, tobias: 4 }, {}],
+    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+  };
+
+  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+
+  expect(magic(table, ordering)).toBe(1);
+});
+
+test("henri weg", () => {
+  const table: Data = {
+    head: ["niklas", "piet", "henri", "tobias"],
+    body: [
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { niklas: 1, piet: 2, tobias: 4 },
+      { niklas: 1, piet: 2, tobias: 4 },
+      {},
+    ],
+    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+  };
+
+  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+
+  expect(magic(table, ordering)).toBe(1);
+});
+
+test("henri kacken", () => {
+  const table: Data = {
+    head: ["niklas", "piet", "henri", "tobias"],
+    body: [
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { niklas: 1, piet: 2, tobias: 4 },
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      {},
+    ],
+    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+  };
+
+  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+
+  expect(magic(table, ordering)).toBe(1);
+});
+
+test("mehrmaliger wrap-around", () => {
+  const table: Data = {
+    head: ["niklas", "rike", "henri"],
+    body: [
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      { niklas: 1, rike: 2, henri: 3 },
+      {},
+    ],
+    foot: { niklas: 1, rike: 2, henri: 3 },
+  };
+
+  const ordering: string[] = ["niklas", "rike", "henri"];
+
+  expect(magic(table, ordering)).toBe(2);
+});

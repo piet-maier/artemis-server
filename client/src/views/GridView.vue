@@ -37,10 +37,6 @@ const emoji = (index: number, score: number, name: string) => {
       return "🎲";
   }
   switch (index) {
-    case data.head.length - 1:
-      return "🐛";
-    case data.head.length - 2:
-      return "🐟";
     case 0: {
       switch (name) {
         case "Fax":
@@ -67,6 +63,10 @@ const emoji = (index: number, score: number, name: string) => {
           return "👑";
       }
     }
+    case activePlayers.value.length - 1:
+      return "📉";
+    case activePlayers.value.length - 2:
+      return "🐟";
     case 1:
       return "🧙‍♀️";
     case 2:
@@ -90,6 +90,10 @@ const computedData = computed(() =>
       x: data.foot[name],
       y: name + emoji(index, data.foot[name]!, name),
     })),
+);
+
+const activePlayers = computed(() =>
+  data.head.filter((name) => data.foot[name] !== null),
 );
 
 watch(

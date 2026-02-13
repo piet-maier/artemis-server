@@ -4,6 +4,7 @@ import { useScrollToEnd } from "@/composables/useScrollToEnd";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import type { Data } from "@/socket";
 import { useGridStore } from "@/stores/grid";
+import { magic } from "@/util/turnIndicator";
 import { ChevronDown } from "lucide-vue-next";
 import { computed, ref, watch } from "vue";
 
@@ -15,7 +16,7 @@ const menu = ref<HTMLDivElement | null>(null);
 
 const open = ref(false);
 
-const gridStore = useGridStore();
+const { data } = useGridStore();
 
 const visibility = ref(
   localStorage.getItem("visibility")
@@ -36,11 +37,6 @@ const ordering = ref<string[]>(
 const computedHead = computed(() =>
   ordering.value.filter((name) => visibility.value.includes(name)),
 );
-
-const visibleRound = computed(() => {
-  if (computedHead.value.length === 0) return 0;
-  return gridStore.round % computedHead.value.length;
-});
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
   if (!menu.value?.contains(mouseEvent.target as HTMLElement)) {
@@ -67,6 +63,8 @@ function onDrop(drag: string, drop: string) {
 }
 
 const { containerRef, endRef } = useScrollToEnd();
+
+const turnIndicator = computed(() => magic(data, ordering.value));
 </script>
 
 <template>
@@ -116,7 +114,7 @@ const { containerRef, endRef } = useScrollToEnd();
               :key="name"
               :class="[
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap',
-                name === computedHead[visibleRound]
+                name === computedHead[turnIndicator]
                   ? 'bg-green-800 text-zinc-50'
                   : 'bg-zinc-950 text-zinc-400',
               ]"
