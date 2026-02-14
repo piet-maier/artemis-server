@@ -1,3 +1,4 @@
+import pluginVitest from "@vitest/eslint-plugin";
 import {
   defineConfigWithVueTs,
   vueTsConfigs,
@@ -14,5 +15,9 @@ export default defineConfigWithVueTs(
   globalIgnores(["**/dist/**", "**/dist-ssr/**", "**/coverage/**"]),
   ...pluginVue.configs["flat/essential"],
   vueTsConfigs.recommended,
+  {
+    ...pluginVitest.configs.recommended,
+    files: ["src/**/__tests__/*"],
+  },
   skipFormatting,
 );
