@@ -9,6 +9,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "env.d.ts, tsconfig.*.json",
-    "package.json": "bun.lock"
+    "package.json": "bun.lock",
+    "vite.config.ts": "vitest.config.ts"
   }
 }
