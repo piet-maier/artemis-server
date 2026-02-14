@@ -1,4 +1,4 @@
-name: Lint & Format
+name: Lint, Format, Test
 
 on:
   pull_request:
@@ -27,3 +27,5 @@ jobs:
         run: npm run lint
       - name: Run Prettier
         run: npm run format
+      - name: Run Vitest
+        run: npm run test:unit
