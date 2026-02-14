@@ -64,7 +64,9 @@ function onDrop(drag: string, drop: string) {
 
 const { containerRef, endRef } = useScrollToEnd();
 
-const turnIndicator = computed(() => magic(data, ordering.value));
+const turnIndicator = computed(() =>
+  magic(data, ordering.value, visibility.value),
+);
 </script>
 
 <template>
