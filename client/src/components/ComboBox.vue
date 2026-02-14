@@ -75,7 +75,7 @@ useWindowEvent("click", ({ target }) => {
     >
       <ul
         v-if="open && computedList.length > 0"
-        class="absolute top-full z-10 mt-2 max-h-[330px] w-full overflow-y-auto rounded-md border bg-zinc-950 p-1"
+        class="absolute top-full z-10 mt-2 max-h-82.5 w-full overflow-y-auto rounded-md border bg-zinc-950 p-1"
       >
         <li
           v-for="item in computedList"
