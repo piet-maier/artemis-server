@@ -1,9 +1,12 @@
-import { type Change, type Data, socket } from "@/socket";
+import { socket } from "@/socket";
+import type { Change, Data } from "@/type";
 import { isEmpty } from "lodash";
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 export const useGridStore = defineStore("grid", () => {
+  const round = ref(0);
+
   const data: Data = reactive({
     head: [],
     body: [],
@@ -29,6 +32,7 @@ export const useGridStore = defineStore("grid", () => {
 
     if (!isEmpty(data.body[data.body.length - 1])) {
       data.body.push({});
+      round.value++;
     } else {
       while (data.body.length > 1 && isEmpty(data.body[data.body.length - 2])) {
         data.body.pop();
@@ -38,5 +42,5 @@ export const useGridStore = defineStore("grid", () => {
     data.foot[name] = foot;
   }
 
-  return { data, readGrid, changeData };
+  return { data, round, readGrid, changeData };
 });

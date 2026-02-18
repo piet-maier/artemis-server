@@ -1,16 +1,5 @@
+import type { Change, Data } from "@/type";
 import { io, type Socket } from "socket.io-client";
-
-export interface Data {
-  head: string[];
-  body: Record<string, number>[];
-  foot: Record<string, number>;
-}
-
-export interface Change {
-  name: string;
-  number: number;
-  cell: string;
-}
 
 interface ServerToClientEvents {
   "grid:create": (type: string, grid: number) => void;
