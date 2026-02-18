@@ -4,7 +4,7 @@ import { useScrollToEnd } from "@/composables/useScrollToEnd";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import { useGridStore } from "@/stores/grid";
 import type { Data } from "@/type";
-import { magic } from "@/util/turnIndicator";
+import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "lucide-vue-next";
 import { computed, ref, watch } from "vue";
 
@@ -64,8 +64,8 @@ function onDrop(drag: string, drop: string) {
 
 const { containerRef, endRef } = useScrollToEnd();
 
-const turnIndicator = computed(() =>
-  magic(data, ordering.value, visibility.value),
+const turnIndicatorIndex = computed(() =>
+  turnIndicator(data, ordering.value, visibility.value),
 );
 </script>
 
@@ -116,7 +116,7 @@ const turnIndicator = computed(() =>
               :key="name"
               :class="[
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap',
-                name === computedHead[turnIndicator]
+                name === computedHead[turnIndicatorIndex]
                   ? 'bg-green-800 text-zinc-50'
                   : 'bg-zinc-950 text-zinc-400',
               ]"

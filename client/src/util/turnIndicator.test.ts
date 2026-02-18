@@ -1,5 +1,5 @@
 import type { Data } from "@/type";
-import { magic } from "@/util/turnIndicator";
+import { turnIndicator } from "@/util/turnIndicator";
 import { expect, test } from "vitest";
 
 test("empty", () => {
@@ -11,7 +11,7 @@ test("empty", () => {
 
   const ordering: string[] = [];
 
-  expect(magic(table, ordering, [])).toBe(0);
+  expect(turnIndicator(table, ordering, [])).toBe(-1);
 });
 
 test("happypath", () => {
@@ -23,7 +23,9 @@ test("happypath", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri", "tobias"])).toBe(1);
+  expect(
+    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
+  ).toBe(1);
 });
 
 test("happy wrap-around", () => {
@@ -41,7 +43,9 @@ test("happy wrap-around", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri", "tobias"])).toBe(0);
+  expect(
+    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
+  ).toBe(0);
 });
 
 test("henri weg", () => {
@@ -59,7 +63,7 @@ test("henri weg", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "tobias"])).toBe(1);
+  expect(turnIndicator(table, ordering, ["niklas", "piet", "tobias"])).toBe(1);
 });
 
 test("henri kacken", () => {
@@ -77,7 +81,9 @@ test("henri kacken", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri", "tobias"])).toBe(1);
+  expect(
+    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
+  ).toBe(1);
 });
 
 test("mehrmaliger wrap-around", () => {
@@ -99,7 +105,7 @@ test("mehrmaliger wrap-around", () => {
 
   const ordering: string[] = ["niklas", "rike", "henri"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri", "tobias"])).toBe(2);
+  expect(turnIndicator(table, ordering, ["niklas", "rike", "henri"])).toBe(2);
 });
 
 test("last player gone", () => {
@@ -116,7 +122,7 @@ test("last player gone", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri"])).toBe(0);
+  expect(turnIndicator(table, ordering, ["niklas", "piet", "henri"])).toBe(0);
 });
 
 test("last two players gone", () => {
@@ -133,7 +139,7 @@ test("last two players gone", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet"])).toBe(0);
+  expect(turnIndicator(table, ordering, ["niklas", "piet"])).toBe(0);
 });
 
 test("piet kackt und kommt zurück", () => {
@@ -149,7 +155,9 @@ test("piet kackt und kommt zurück", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri", "tobias"])).toBe(3);
+  expect(
+    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
+  ).toBe(3);
 });
 
 test("piet kackt und kommt nicht zurück", () => {
@@ -165,7 +173,7 @@ test("piet kackt und kommt nicht zurück", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "henri", "tobias"])).toBe(2);
+  expect(turnIndicator(table, ordering, ["niklas", "henri", "tobias"])).toBe(2);
 });
 
 test("piet kackt und kommt zurück 2 Electric Boogaloo", () => {
@@ -182,5 +190,7 @@ test("piet kackt und kommt zurück 2 Electric Boogaloo", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(magic(table, ordering, ["niklas", "piet", "henri", "tobias"])).toBe(0);
+  expect(
+    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
+  ).toBe(0);
 });
