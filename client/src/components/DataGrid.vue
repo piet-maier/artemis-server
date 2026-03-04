@@ -64,9 +64,13 @@ function onDrop(drag: string, drop: string) {
 
 const { containerRef, endRef } = useScrollToEnd();
 
-const turnIndicatorIndex = computed(() =>
-  turnIndicator(data, ordering.value, visibility.value),
-);
+const turnIndicatorIndex = computed(() => {
+  try {
+    return turnIndicator(data, ordering.value, visibility.value);
+  } catch {
+    return -1;
+  }
+});
 </script>
 
 <template>
@@ -116,6 +120,7 @@ const turnIndicatorIndex = computed(() =>
               :key="name"
               :class="[
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap',
+                turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
                   ? 'bg-green-800 text-zinc-50'
                   : 'bg-zinc-950 text-zinc-400',

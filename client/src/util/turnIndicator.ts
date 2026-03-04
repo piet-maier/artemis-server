@@ -11,10 +11,15 @@ export function turnIndicator(
   ordering: string[],
   visibility: string[],
 ): number {
+  if (ordering.length === 0 || visibility.length === 0)
+    throw new Error("Ordering or Visibility Empty!");
+  const computedHead = ordering.filter((name) => visibility.includes(name));
+  if (body.length === 1) return 0;
+  if (body.length === 2) return computedHead.length > 1 ? 1 : 0;
   // Ordered Array of all playing players
   const premiumFoot = ordering.filter((name) => foot[name] !== null);
   let playerIndex = -1;
-  for (const row of body.slice(0, -1)) {
+  for (const row of body.slice(0, -2)) {
     if (isEmpty(row)) continue;
     while (true) {
       playerIndex = (playerIndex + 1) % premiumFoot.length;
@@ -23,14 +28,13 @@ export function turnIndicator(
     }
   }
 
-  const previousPlayer = ordering.indexOf(premiumFoot[playerIndex]!);
-  const computedHead = ordering.filter((name) => visibility.includes(name));
-  // here we can't loop just over premiumFoot because a new player could join in the next round
-  for (let i = 1; i <= ordering.length; i++) {
-    const nextPlayer = (previousPlayer + i) % ordering.length;
-    if (visibility.includes(ordering[nextPlayer]!)) {
-      return computedHead.indexOf(ordering[nextPlayer]!);
-    }
-  }
-  return -1;
+  const lastRound = body[body.length - 3];
+  const activePlayers = ordering.filter((name) =>
+    Object.keys(lastRound!).includes(name),
+  );
+  const lastPlayer = activePlayers.indexOf(premiumFoot[playerIndex]!);
+  const nextPlayer = activePlayers[(lastPlayer + 2) % activePlayers.length];
+  const nextPlayerResult = computedHead.indexOf(nextPlayer!);
+  if (nextPlayerResult === -1) throw new Error("Returning non visible Player.");
+  return nextPlayerResult;
 }

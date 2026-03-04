@@ -5,13 +5,15 @@ import { expect, test } from "vitest";
 test("empty", () => {
   const table: Data = {
     head: [],
-    body: [],
+    body: [{}],
     foot: {},
   };
 
   const ordering: string[] = [];
 
-  expect(turnIndicator(table, ordering, [])).toBe(-1);
+  expect(() => turnIndicator(table, ordering, [])).toThrowError(
+    "Ordering or Visibility Empty!",
+  );
 });
 
 test("happypath", () => {
@@ -26,6 +28,24 @@ test("happypath", () => {
   expect(
     turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
   ).toBe(1);
+});
+
+test("longer happypath", () => {
+  const table: Data = {
+    head: ["niklas", "piet", "henri", "tobias"],
+    body: [
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      {},
+    ],
+    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+  };
+
+  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+
+  expect(
+    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
+  ).toBe(2);
 });
 
 test("happy wrap-around", () => {
@@ -48,6 +68,18 @@ test("happy wrap-around", () => {
   ).toBe(0);
 });
 
+test("lonly test😭", () => {
+  const table: Data = {
+    head: ["niklas"],
+    body: [{ niklas: 1 }, {}],
+    foot: { niklas: 1 },
+  };
+
+  const ordering: string[] = ["niklas"];
+
+  expect(turnIndicator(table, ordering, ["niklas"])).toBe(0);
+});
+
 test("henri weg", () => {
   const table: Data = {
     head: ["niklas", "piet", "henri", "tobias"],
@@ -66,7 +98,7 @@ test("henri weg", () => {
   expect(turnIndicator(table, ordering, ["niklas", "piet", "tobias"])).toBe(1);
 });
 
-test("henri kacken", () => {
+test("henri kacken💩", () => {
   const table: Data = {
     head: ["niklas", "piet", "henri", "tobias"],
     body: [
@@ -122,7 +154,9 @@ test("last player gone", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(turnIndicator(table, ordering, ["niklas", "piet", "henri"])).toBe(0);
+  expect(() =>
+    turnIndicator(table, ordering, ["niklas", "piet", "henri"]),
+  ).toThrowError("Returning non visible Player.");
 });
 
 test("last two players gone", () => {
@@ -139,7 +173,9 @@ test("last two players gone", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(turnIndicator(table, ordering, ["niklas", "piet"])).toBe(0);
+  expect(() => turnIndicator(table, ordering, ["niklas", "piet"])).toThrowError(
+    "Returning non visible Player.",
+  );
 });
 
 test("piet kackt und kommt zurück", () => {
@@ -157,7 +193,7 @@ test("piet kackt und kommt zurück", () => {
 
   expect(
     turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(3);
+  ).toBe(2);
 });
 
 test("piet kackt und kommt nicht zurück", () => {
@@ -173,7 +209,7 @@ test("piet kackt und kommt nicht zurück", () => {
 
   const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
 
-  expect(turnIndicator(table, ordering, ["niklas", "henri", "tobias"])).toBe(2);
+  expect(turnIndicator(table, ordering, ["niklas", "henri", "tobias"])).toBe(1);
 });
 
 test("piet kackt und kommt zurück 2 Electric Boogaloo", () => {
