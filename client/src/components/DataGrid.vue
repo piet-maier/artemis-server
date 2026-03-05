@@ -123,7 +123,7 @@ const turnIndicatorIndex = computed(() => {
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
                   ? 'rounded-md border border-green-700 bg-green-950 text-zinc-50 ring-zinc-300 ring-offset-64 ring-offset-zinc-950 transition-colors duration-300 ease-in-out'
-                  : 'bg-zinc-950 text-zinc-400',
+                  : 'bg-zinc-950 text-zinc-400 transition-colors',
               ]"
               draggable="true"
               @dragstart="onDrag($event.dataTransfer!, name)"
