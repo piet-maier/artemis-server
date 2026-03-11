@@ -20,7 +20,7 @@
     "lucide-vue-next": "^0.577.0",
     "pinia": "^3.0.4",
     "socket.io-client": "^4.8.3",
-    "vue": "^3.5.29",
+    "vue": "^3.5.30",
     "vue-router": "^5.0.3"
   },
   "devDependencies": {
@@ -31,11 +31,11 @@
     "@types/lodash": "^4.17.24",
     "@types/node": "^24.12.0",
     "@vitejs/plugin-vue": "^6.0.4",
-    "@vitest/eslint-plugin": "^1.6.9",
+    "@vitest/eslint-plugin": "^1.6.10",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.9.0",
-    "eslint": "^10.0.2",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.8.0",
     "jiti": "^2.6.1",
