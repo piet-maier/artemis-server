@@ -2,6 +2,16 @@ import { ref, watch } from "vue";
 
 const PREFIX = "theme-";
 
+/**
+ * This composable adds the value of the returned `ref` object as a class with the prefix "theme-" to the HTML element.
+ *
+ * @example
+ * const theme = useTheme();
+ *
+ * theme.value = "dark";
+ *
+ * document.documentElement.className; // -> "theme-dark"
+ */
 export function useTheme(initialValue = "") {
   const themeValue = ref(initialValue);
 
