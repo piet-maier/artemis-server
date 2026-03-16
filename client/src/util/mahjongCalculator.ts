@@ -62,27 +62,6 @@ export class PlayerResult {
   }
 }
 
-export class GameResult {
-  prevailingWind: Wind;
-  playerResults: [PlayerResult, PlayerResult, PlayerResult, PlayerResult];
-
-  constructor(
-    prevailingWind: Wind,
-    playerResults: [PlayerResult, PlayerResult, PlayerResult, PlayerResult],
-  ) {
-    this.prevailingWind = prevailingWind;
-    this.playerResults = playerResults;
-  }
-}
-
-export function mahjongScore(
-  gameResult: GameResult,
-): [number, number, number, number] {
-  return gameResult.playerResults.map((playerResult) =>
-    playerScore(gameResult.prevailingWind, playerResult),
-  ) as [number, number, number, number];
-}
-
 export function playerScore(
   prevailingWind: Wind,
   playerResult: PlayerResult,
