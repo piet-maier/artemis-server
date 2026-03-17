@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-const packageVersion = __PACKAGE_VERSION__;
+const commit = __COMMIT__;
 </script>
 
 <template>
   <footer
-    class="container py-4 text-center text-sm leading-loose text-foreground-muted tabular-nums sm:py-8"
+    class="container py-4 text-center text-sm leading-loose text-foreground-muted sm:py-8"
   >
-    {{ packageVersion }}
+    {{ commit }}
   </footer>
 </template>
