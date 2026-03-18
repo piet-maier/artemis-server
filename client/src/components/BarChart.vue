@@ -55,7 +55,7 @@ onMounted(() => {
 <template>
   <svg
     ref="target"
-    class="h-auto max-w-full fill-zinc-50 text-zinc-400"
+    class="text-foreground-default-muted h-auto max-w-full fill-background-primary"
     height="400"
     viewBox="0 0 640 400"
     width="640"

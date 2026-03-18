@@ -24,7 +24,7 @@ const emoji = (index: number, score: number, name: string) => {
     case 7:
       return "🍀";
     case 67:
-      return "⁶🤷‍♂️⁷";
+      return " ⁶🤷‍♂️⁷";
     case 69:
       return "😏";
     case 420:
@@ -147,7 +147,7 @@ onUnmounted(() => {
         <h2 class="text-4xl font-bold tracking-tight">
           {{ location.params.type }}
         </h2>
-        <p class="text-lg text-zinc-400">
+        <p class="text-lg text-foreground-default-muted">
           {{ format(new Date(+location.params.grid!), "PPpp") }}
         </p>
       </div>

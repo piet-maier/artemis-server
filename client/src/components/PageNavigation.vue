@@ -24,7 +24,7 @@ const { navigation } = storeToRefs(useConnectionStore());
     >
       <div
         v-if="modelValue"
-        class="fixed top-0 z-20 h-full w-full bg-zinc-950/80 backdrop-blur-xs"
+        class="fixed top-0 z-20 h-full w-full bg-background-default/80 backdrop-blur-xs"
         @click="$emit('update:modelValue', false)"
       />
     </Transition>
@@ -37,12 +37,12 @@ const { navigation } = storeToRefs(useConnectionStore());
     >
       <div
         v-if="modelValue"
-        class="fixed top-0 z-20 flex h-full w-full max-w-xs flex-col gap-y-2 border-r bg-zinc-950 px-6 py-2"
+        class="fixed top-0 z-20 flex h-full w-full max-w-xs flex-col gap-y-2 border-r bg-background-default px-6 py-2"
       >
         <div class="flex justify-between">
           <RouterLink
             :to="{ name: 'home' }"
-            class="rounded-md p-2 font-bold ring-zinc-300 focus:ring-2 focus-visible:outline-hidden"
+            class="focus-ring rounded-md p-2 font-bold"
             @click="$emit('update:modelValue', false)"
           >
             Artemis
@@ -63,7 +63,7 @@ const { navigation } = storeToRefs(useConnectionStore());
                 v-for="item in list"
                 :key="item"
                 :to="{ name: 'grid', params: { type, grid: item } }"
-                class="-mr-3 -ml-2 rounded-md p-2 text-zinc-400 ring-zinc-300 ring-inset focus:ring-2 focus-visible:outline-hidden"
+                class="-ml-2 rounded-md p-2 text-foreground-default-muted ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
                 @click="$emit('update:modelValue', false)"
               >
                 {{ format(new Date(item), "PPpp") }}

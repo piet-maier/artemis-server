@@ -12,7 +12,7 @@ const open = ref(false);
   <div class="border-b">
     <h3>
       <button
-        class="flex w-full items-center justify-between rounded-md py-4 font-medium hover:underline focus-visible:outline-hidden"
+        class="flex w-full items-center justify-between rounded-md py-4 font-medium underline-offset-2 hover:underline focus-visible:outline-hidden"
         type="button"
         @click="open = !open"
       >
@@ -21,7 +21,7 @@ const open = ref(false);
         <ChevronDown
           :class="[
             { 'rotate-180': open },
-            'h-4 w-4 transition-transform duration-300',
+            'h-4 w-4 transition-transform duration-300 ease-in-out',
           ]"
         />
       </button>

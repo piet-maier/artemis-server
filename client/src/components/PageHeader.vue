@@ -9,7 +9,7 @@ const open = ref(false);
 
 <template>
   <header
-    class="sticky top-0 z-20 border-b bg-zinc-950/95 backdrop-blur-sm supports-backdrop-filter:bg-zinc-950/60"
+    class="sticky top-0 z-20 border-b bg-background-default/95 backdrop-blur-sm supports-backdrop-filter:bg-background-default/60"
   >
     <div class="container flex h-14 items-center">
       <IconButton :icon="Menu" @click="open = true" />

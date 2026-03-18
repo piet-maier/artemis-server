@@ -49,7 +49,7 @@ useWindowEvent("click", ({ target }) => {
         ref="text"
         :placeholder="string"
         :value="modelValue"
-        class="h-full w-full border-none bg-transparent py-2 pl-3 text-sm placeholder:text-zinc-400 focus:border-zinc-800 focus:ring-0 focus-visible:outline-hidden"
+        class="placeholder:text-foreground-default-muted h-full w-full border-none bg-transparent py-2 pl-3 text-sm focus:border-border-default focus:ring-0 focus-visible:outline-hidden"
         type="text"
         @focus="open = true"
         @input="
@@ -75,12 +75,12 @@ useWindowEvent("click", ({ target }) => {
     >
       <ul
         v-if="open && computedList.length > 0"
-        class="absolute top-full z-10 mt-2 max-h-82.5 w-full overflow-y-auto rounded-md border bg-zinc-950 p-1"
+        class="absolute top-full z-10 mt-2 max-h-82.5 w-full overflow-y-auto rounded-md border bg-background-default p-1"
       >
         <li
           v-for="item in computedList"
           :key="item"
-          class="flex cursor-pointer items-center gap-x-2 rounded-xs px-2 py-1.5 text-sm transition-colors hover:bg-zinc-800"
+          class="flex cursor-pointer items-center gap-x-2 rounded-xs px-2 py-1.5 text-sm transition-colors hover:bg-background-default-hover"
           @click="$emit('update:modelValue', item)"
         >
           <Check :class="[{ invisible: item !== modelValue }, 'h-4 w-4']" />

@@ -6,7 +6,7 @@ defineProps<{ icon: Component }>();
 
 <template>
   <button
-    class="flex h-10 w-10 items-center justify-center rounded-md ring-zinc-300 transition-colors hover:bg-zinc-800 focus:ring-2 focus-visible:outline-hidden"
+    class="focus-ring flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-background-default-hover"
     type="button"
   >
     <component :is="icon" />

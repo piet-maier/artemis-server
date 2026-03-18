@@ -22,7 +22,7 @@ defineEmits<{ submit: [] }>();
     <button
       v-if="submit"
       :disabled="disabled"
-      class="h-10 w-full rounded-md bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-900 ring-zinc-300 ring-offset-2 ring-offset-zinc-950 transition hover:bg-zinc-50/90 focus:ring-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+      class="focus-ring h-10 w-full rounded-md bg-background-primary px-4 py-2 text-sm font-medium text-foreground-primary transition hover:bg-background-primary-hover disabled:pointer-events-none disabled:opacity-60"
       type="button"
       @click="$emit('submit')"
     >

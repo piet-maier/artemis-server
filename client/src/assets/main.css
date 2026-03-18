@@ -2,18 +2,59 @@
 
 @theme {
   --font-sans: Inter, sans-serif;
+
+  --color-background-default: var(--background-color-default);
+  --color-background-default-hover: var(--background-color-default-hover);
+  --color-background-primary: var(--background-color-primary);
+  --color-background-primary-hover: var(--background-color-primary-hover);
+  --color-background-secondary: var(--background-color-secondary);
+  --color-background-detail: var(--background-color-detail);
+  --color-border-default: var(--border-color-default);
+  --color-border-detail: var(--border-color-detail);
+  --color-focus-default: var(--focus-color-default);
+  --color-foreground-default: var(--foreground-color-default);
+  --color-foreground-default-muted: var(--foreground-color-default-muted);
+  --color-foreground-primary: var(--foreground-color-primary);
 }
 
 @layer base {
   * {
-    @apply border-zinc-800;
+    @apply border-border-default;
   }
 
   body {
-    @apply bg-zinc-950 text-zinc-50 scheme-dark;
+    @apply bg-background-default text-foreground-default scheme-dark;
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply ring-focus-default ring-offset-2 ring-offset-background-default focus:ring-2 focus-visible:outline-hidden;
   }
 }
 
 .container {
   @apply mx-auto px-4 sm:px-8;
+}
+
+/* Ppsss it's a suprise tool that will help us later */
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+.rainbow {
+  @apply bg-linear-to-r from-red-500 via-green-500 to-red-500;
+  background-size: 200%;
+  animation: rainbow 3s linear infinite;
+}
+
+.rainbow-text {
+  @apply bg-linear-to-r from-red-500 via-green-500 to-red-500 bg-clip-text text-transparent;
+  background-size: 200%;
+  animation: rainbow 3s linear infinite;
 }
