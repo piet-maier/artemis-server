@@ -123,7 +123,7 @@ const turnIndicatorIndex = computed(() => {
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
                   ? 'rounded-md border border-border-detail bg-background-detail text-foreground-default'
-                  : 'text-foreground-default-muted bg-background-default',
+                  : 'bg-background-default text-foreground-default-muted',
               ]"
               draggable="true"
               @dragstart="onDrag($event.dataTransfer!, name)"
