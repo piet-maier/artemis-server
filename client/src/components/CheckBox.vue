@@ -24,14 +24,14 @@ function update() {
   >
     <button
       :class="[
-        { 'bg-background-primary': bool },
-        'focus-ring rounded-xs border border-background-primary',
+        { 'bg-background-accent': bool },
+        'border-background-accent rounded-xs border focus-ring',
       ]"
       type="button"
       @click="update"
     >
       <Check
-        :class="[{ invisible: !bool }, 'h-4 w-4 text-foreground-primary']"
+        :class="[{ invisible: !bool }, 'text-foreground-accent h-4 w-4']"
       />
     </button>
     {{ string }}

@@ -78,7 +78,7 @@ const turnIndicatorIndex = computed(() => {
     <div class="mb-4 flex justify-end">
       <div ref="menu" class="relative">
         <button
-          class="focus-ring flex h-10 items-center justify-center gap-x-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-background-default-hover"
+          class="flex h-10 items-center justify-center gap-x-2 rounded-md border px-4 py-2 text-sm font-medium focus-ring transition-colors hover:bg-background-default-hover"
           type="button"
           @click="open = !open"
         >
@@ -122,8 +122,8 @@ const turnIndicatorIndex = computed(() => {
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
-                  ? 'rounded-md border border-border-detail bg-background-detail text-foreground-default'
-                  : 'bg-background-default text-foreground-default-muted',
+                  ? 'border-border-attention rounded-md border bg-background-attention text-foreground-default'
+                  : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"
               @dragstart="onDrag($event.dataTransfer!, name)"
@@ -172,7 +172,7 @@ const turnIndicatorIndex = computed(() => {
             <th
               v-for="name in computedHead"
               :key="name"
-              class="sticky bottom-0 h-12 border-t bg-background-secondary px-4 py-0 font-medium tabular-nums"
+              class="sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums"
             >
               {{ foot[name] }}
             </th>

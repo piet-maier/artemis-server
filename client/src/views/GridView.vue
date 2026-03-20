@@ -147,7 +147,7 @@ onUnmounted(() => {
         <h2 class="text-4xl font-bold tracking-tight">
           {{ location.params.type }}
         </h2>
-        <p class="text-lg text-foreground-default-muted">
+        <p class="text-foreground-muted text-lg">
           {{ format(new Date(+location.params.grid!), "PPpp") }}
         </p>
       </div>

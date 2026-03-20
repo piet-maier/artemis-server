@@ -6,16 +6,16 @@
 
   --color-background-default: var(--background-color-default);
   --color-background-default-hover: var(--background-color-default-hover);
-  --color-background-primary: var(--background-color-primary);
-  --color-background-primary-hover: var(--background-color-primary-hover);
-  --color-background-secondary: var(--background-color-secondary);
-  --color-background-detail: var(--background-color-detail);
+  --color-background-accent: var(--background-color-accent);
+  --color-background-accent-hover: var(--background-color-accent-hover);
+  --color-background-neutral: var(--background-color-neutral);
+  --color-background-attention: var(--background-color-attention);
   --color-border-default: var(--border-color-default);
-  --color-border-detail: var(--border-color-detail);
+  --color-border-attention: var(--border-color-attention);
   --color-focus-default: var(--focus-color-default);
   --color-foreground-default: var(--foreground-color-default);
-  --color-foreground-default-muted: var(--foreground-color-default-muted);
-  --color-foreground-primary: var(--foreground-color-primary);
+  --color-foreground-muted: var(--foreground-color-muted);
+  --color-foreground-accent: var(--foreground-color-accent);
 }
 
 @layer base {
