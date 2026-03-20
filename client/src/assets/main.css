@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./variables.css";
 
 @theme {
   --font-sans: Inter, sans-serif;
@@ -27,10 +28,8 @@
   }
 }
 
-@layer utilities {
-  .focus-ring {
-    @apply ring-focus-default ring-offset-2 ring-offset-background-default focus:ring-2 focus-visible:outline-hidden;
-  }
+@utility focus-ring {
+  @apply ring-focus-default ring-offset-2 ring-offset-background-default focus:ring-2 focus-visible:outline-hidden;
 }
 
 .container {

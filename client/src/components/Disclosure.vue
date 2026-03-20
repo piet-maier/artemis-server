@@ -21,7 +21,7 @@ const open = ref(false);
         <ChevronDown
           :class="[
             { 'rotate-180': open },
-            'h-4 w-4 transition-transform duration-300 ease-in-out',
+            'h-4 w-4 transition-transform duration-300',
           ]"
         />
       </button>

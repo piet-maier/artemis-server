@@ -42,7 +42,7 @@ const { navigation } = storeToRefs(useConnectionStore());
         <div class="flex justify-between">
           <RouterLink
             :to="{ name: 'home' }"
-            class="focus-ring rounded-md p-2 font-bold"
+            class="rounded-md p-2 font-bold focus-ring"
             @click="$emit('update:modelValue', false)"
           >
             Artemis
@@ -63,7 +63,7 @@ const { navigation } = storeToRefs(useConnectionStore());
                 v-for="item in list"
                 :key="item"
                 :to="{ name: 'grid', params: { type, grid: item } }"
-                class="-ml-2 rounded-md p-2 text-foreground-default-muted ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
+                class="-mr-3 -ml-2 rounded-md p-2 text-foreground-default-muted ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
                 @click="$emit('update:modelValue', false)"
               >
                 {{ format(new Date(item), "PPpp") }}
