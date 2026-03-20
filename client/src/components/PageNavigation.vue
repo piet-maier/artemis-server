@@ -63,7 +63,7 @@ const { navigation } = storeToRefs(useConnectionStore());
                 v-for="item in list"
                 :key="item"
                 :to="{ name: 'grid', params: { type, grid: item } }"
-                class="text-foreground-muted -mr-3 -ml-2 rounded-md p-2 ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
+                class="-mr-3 -ml-2 rounded-md p-2 text-foreground-muted ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
                 @click="$emit('update:modelValue', false)"
               >
                 {{ format(new Date(item), "PPpp") }}

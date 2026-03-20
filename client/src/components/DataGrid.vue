@@ -122,7 +122,7 @@ const turnIndicatorIndex = computed(() => {
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
-                  ? 'border-border-attention rounded-md border bg-background-attention text-foreground-default'
+                  ? 'rounded-md border border-border-attention bg-background-attention text-foreground-default'
                   : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"

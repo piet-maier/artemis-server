@@ -4,7 +4,7 @@ const packageVersion = __PACKAGE_VERSION__;
 
 <template>
   <footer
-    class="text-foreground-muted container py-4 text-center text-sm leading-loose tabular-nums sm:py-8"
+    class="container py-4 text-center text-sm leading-loose text-foreground-muted tabular-nums sm:py-8"
   >
     {{ packageVersion }}
   </footer>

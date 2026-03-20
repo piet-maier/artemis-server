@@ -24,7 +24,7 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
       {{ string }}
       <button
         ref="menu"
-        class="focus-ring mt-2 flex h-10 w-full items-center gap-x-2 rounded-md border px-3 py-2 font-normal"
+        class="mt-2 flex h-10 w-full items-center gap-x-2 rounded-md border px-3 py-2 font-normal focus-ring"
         type="button"
         @click="open = !open"
       >

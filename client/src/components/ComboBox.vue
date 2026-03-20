@@ -49,7 +49,7 @@ useWindowEvent("click", ({ target }) => {
         ref="text"
         :placeholder="string"
         :value="modelValue"
-        class="placeholder:text-foreground-muted h-full w-full border-none bg-transparent py-2 pl-3 text-sm focus:border-border-default focus:ring-0 focus-visible:outline-hidden"
+        class="h-full w-full border-none bg-transparent py-2 pl-3 text-sm placeholder:text-foreground-muted focus:border-border-default focus:ring-0 focus-visible:outline-hidden"
         type="text"
         @focus="open = true"
         @input="
