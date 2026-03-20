@@ -15,7 +15,7 @@ const { open } = storeToRefs(useConnectionStore());
   >
     <div
       v-if="!open"
-      class="fixed top-0 z-30 flex h-full w-full flex-col items-center justify-center gap-y-2 bg-zinc-950/80 backdrop-blur-xs"
+      class="fixed top-0 z-30 flex h-full w-full flex-col items-center justify-center gap-y-2 bg-background-default/80 backdrop-blur-xs"
     >
       <RefreshCw class="animate-spin" />
 

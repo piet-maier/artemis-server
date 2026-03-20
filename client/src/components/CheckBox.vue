@@ -24,13 +24,15 @@ function update() {
   >
     <button
       :class="[
-        { 'bg-zinc-50': bool },
-        'rounded-xs border border-zinc-50 ring-zinc-300 ring-offset-2 ring-offset-zinc-950 focus:ring-2 focus-visible:outline-hidden',
+        { 'bg-background-accent': bool },
+        'rounded-xs border border-background-accent focus-ring',
       ]"
       type="button"
       @click="update"
     >
-      <Check :class="[{ invisible: !bool }, 'h-4 w-4 text-zinc-900']" />
+      <Check
+        :class="[{ invisible: !bool }, 'h-4 w-4 text-foreground-accent']"
+      />
     </button>
     {{ string }}
   </label>

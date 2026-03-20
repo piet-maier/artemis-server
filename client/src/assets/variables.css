@@ -1,0 +1,14 @@
+:root {
+  --background-color-default: var(--color-zinc-950);
+  --background-color-default-hover: var(--color-zinc-800);
+  --background-color-accent: var(--color-zinc-50);
+  --background-color-accent-hover: var(--color-zinc-200);
+  --background-color-neutral: var(--color-zinc-900);
+  --background-color-attention: var(--color-green-950);
+  --border-color-default: var(--color-zinc-800);
+  --border-color-attention: var(--color-green-700);
+  --focus-color-default: var(--color-zinc-300);
+  --foreground-color-default: var(--color-zinc-50);
+  --foreground-color-muted: var(--color-zinc-400);
+  --foreground-color-accent: var(--color-zinc-950);
+}

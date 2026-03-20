@@ -78,7 +78,7 @@ const turnIndicatorIndex = computed(() => {
     <div class="mb-4 flex justify-end">
       <div ref="menu" class="relative">
         <button
-          class="flex h-10 items-center justify-center gap-x-2 rounded-md border px-4 py-2 text-sm font-medium ring-zinc-300 ring-offset-2 ring-offset-zinc-950 transition-colors hover:bg-zinc-800 focus:ring-2 focus-visible:outline-hidden"
+          class="flex h-10 items-center justify-center gap-x-2 rounded-md border px-4 py-2 text-sm font-medium focus-ring transition-colors hover:bg-background-default-hover"
           type="button"
           @click="open = !open"
         >
@@ -94,14 +94,14 @@ const turnIndicatorIndex = computed(() => {
         >
           <fieldset
             v-if="open"
-            class="absolute top-full right-0 z-10 mt-2 w-56 rounded-md border bg-zinc-950 p-1"
+            class="absolute top-full right-0 z-10 mt-2 w-56 rounded-md border bg-background-default p-1"
           >
             <CheckBox
               v-for="name in head"
               :key="name"
               v-model="visibility"
               :string="name"
-              class="rounded-xs p-2 transition-colors hover:bg-zinc-800"
+              class="rounded-xs p-2 transition-colors hover:bg-background-default-hover"
             />
           </fieldset>
         </Transition>
@@ -119,11 +119,11 @@ const turnIndicatorIndex = computed(() => {
               v-for="name in computedHead"
               :key="name"
               :class="[
-                'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap',
+                'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
-                  ? 'rounded-md border border-green-700 bg-green-950 text-zinc-50 ring-zinc-300 ring-offset-64 ring-offset-zinc-950 transition-colors duration-300 ease-in-out'
-                  : 'bg-zinc-950 text-zinc-400 transition-colors',
+                  ? 'rounded-md border border-border-attention bg-background-attention text-foreground-default'
+                  : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"
               @dragstart="onDrag($event.dataTransfer!, name)"
@@ -141,7 +141,7 @@ const turnIndicatorIndex = computed(() => {
           <tr
             v-for="(record, number) in body"
             :key="number"
-            class="transition-colors hover:bg-zinc-800/50"
+            class="transition-colors hover:bg-background-default-hover"
           >
             <td
               v-for="name in computedHead"
@@ -172,7 +172,7 @@ const turnIndicatorIndex = computed(() => {
             <th
               v-for="name in computedHead"
               :key="name"
-              class="sticky bottom-0 h-12 border-t bg-zinc-900 px-4 py-0 font-medium tabular-nums"
+              class="sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums"
             >
               {{ foot[name] }}
             </th>

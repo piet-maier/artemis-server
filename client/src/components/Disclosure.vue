@@ -12,7 +12,7 @@ const open = ref(false);
   <div class="border-b">
     <h3>
       <button
-        class="flex w-full items-center justify-between rounded-md py-4 font-medium hover:underline focus-visible:outline-hidden"
+        class="flex w-full items-center justify-between rounded-md py-4 font-medium underline-offset-2 hover:underline focus-visible:outline-hidden"
         type="button"
         @click="open = !open"
       >
