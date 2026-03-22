@@ -85,10 +85,10 @@ const emoji = (index: number, score: number, name: string) => {
 const computedData = computed(() =>
   data.head
     .filter((name) => data.foot[name] !== null)
-    .sort((a, b) => data.foot[b]! - data.foot[a]!)
+    .sort((a, b) => data.foot[b] - data.foot[a])
     .map((name, index) => ({
       x: data.foot[name],
-      y: name + emoji(index, data.foot[name]!, name),
+      y: name + emoji(index, data.foot[name], name),
     })),
 );
 
@@ -148,7 +148,7 @@ onUnmounted(() => {
           {{ location.params.type }}
         </h2>
         <p class="text-lg text-foreground-muted">
-          {{ format(new Date(+location.params.grid!), "PPpp") }}
+          {{ format(new Date(+location.params.grid), "PPpp") }}
         </p>
       </div>
 

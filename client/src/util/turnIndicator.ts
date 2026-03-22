@@ -24,17 +24,17 @@ export function turnIndicator(
     while (true) {
       playerIndex = (playerIndex + 1) % premiumFoot.length;
       // if that player took part in the round, we're done and can continue with the next round
-      if (premiumFoot[playerIndex]! in row) break;
+      if (premiumFoot[playerIndex] in row) break;
     }
   }
 
   const lastRound = body[body.length - 3];
   const activePlayers = ordering.filter((name) =>
-    Object.keys(lastRound!).includes(name),
+    Object.keys(lastRound).includes(name),
   );
-  const lastPlayer = activePlayers.indexOf(premiumFoot[playerIndex]!);
+  const lastPlayer = activePlayers.indexOf(premiumFoot[playerIndex]);
   const nextPlayer = activePlayers[(lastPlayer + 2) % activePlayers.length];
-  const nextPlayerResult = computedHead.indexOf(nextPlayer!);
+  const nextPlayerResult = computedHead.indexOf(nextPlayer);
   if (nextPlayerResult === -1) throw new Error("Returning non visible Player.");
   return nextPlayerResult;
 }
