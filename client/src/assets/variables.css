@@ -10,5 +10,43 @@
   --focus-color-default: var(--color-zinc-300);
   --foreground-color-default: var(--color-zinc-50);
   --foreground-color-muted: var(--color-zinc-400);
+  --foreground-color-neutral: var(--color-zinc-50);
   --foreground-color-accent: var(--color-zinc-950);
+}
+
+.theme-tokyo {
+  --background-color-default: var(--color-slate-950);
+  --background-color-default-hover: var(--color-pink-900);
+  --background-color-accent: var(--color-sky-200);
+  --background-color-accent-hover: var(--color-pink-400);
+  --background-color-neutral: var(--color-pink-900);
+  --background-color-attention: var(--color-violet-950);
+  --border-color-default: var(--color-sky-600);
+  --border-color-attention: var(--color-violet-600);
+  --focus-color-default: var(--color-pink-500);
+  --foreground-color-default: var(--color-sky-50);
+  --foreground-color-muted: var(--color-sky-400);
+  --foreground-color-neutral: var(--color-sky-600);
+  --foreground-color-accent: var(--color-pink-950);
+}
+
+.theme-kawaii {
+  --background-color-default: var(--color-pink-50);
+  --background-color-default-hover: var(--color-violet-200);
+  --background-color-accent: var(--color-violet-300);
+  --background-color-accent-hover: var(--color-pink-300);
+  --background-color-neutral: var(--color-indigo-100);
+  --background-color-attention: var(--color-indigo-100);
+  --border-color-default: var(--color-pink-200);
+  --border-color-attention: var(--color-indigo-400);
+  --focus-color-default: var(--color-pink-300);
+  --foreground-color-default: var(--color-slate-500);
+  --foreground-color-muted: var(--color-rose-300);
+  --foreground-color-neutral: var(--color-pink-200);
+  --foreground-color-accent: var(--color-mauve-50);
+  /*
+  Kirschblüten Hintergrund
+  Cursor
+  Text
+  */
 }
