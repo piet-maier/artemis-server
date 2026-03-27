@@ -83,4 +83,52 @@
   --foreground-color-accent: var(--color-blue-900);
 }
 
+.theme-corruption {
+  --background-color-default: var(--color-zinc-900);
+  --background-color-default-hover: var(--color-violet-300);
+  --background-color-accent: var(--color-violet-300);
+  --background-color-accent-hover: var(--color-pink-300);
+  --background-color-neutral: var(--color-indigo-300);
+  --background-color-attention: var(--color-indigo-300);
+  --border-color-default: var(--color-pink-200);
+  --border-color-attention: var(--color-indigo-200);
+  --focus-color-default: var(--color-pink-300);
+  --foreground-color-default: var(--color-slate-100);
+  --foreground-color-muted: var(--color-rose-300);
+  --foreground-color-neutral: var(--color-pink-200);
+  --foreground-color-accent: var(--color-mauve-50);
+}
+
+.theme-demonic {
+  --background-color-default: var(--color-neutral-950);
+  --background-color-default-hover: var(--color-red-950);
+  --background-color-accent: var(--color-violet-900);
+  --background-color-accent-hover: var(--color-red-900);
+  --background-color-neutral: var(--color-violet-950);
+  --background-color-attention: var(--color-red-950);
+  --border-color-default: var(--color-red-900);
+  --border-color-attention: var(--color-red-700);
+  --focus-color-default: var(--color-red-800);
+  --foreground-color-default: var(--color-neutral-50);
+  --foreground-color-muted: var(--color-neutral-400);
+  --foreground-color-neutral: var(--color-violet-900);
+  --foreground-color-accent: var(--color-neutral-50);
+}
+
+.theme-tobias {
+  --background-color-default: var(--color-zinc-950);
+  --background-color-default-hover: var(--color-rose-950);
+  --background-color-accent: var(--color-zinc-200);
+  --background-color-accent-hover: var(--color-rose-950);
+  --background-color-neutral: oklch(20% 0.09 12.094);
+  --background-color-attention: oklch(19% 0.075 12.094);
+  --border-color-default: var(--color-zinc-800);
+  --border-color-attention: var(--color-zinc-800);
+  --focus-color-default: var(--color-rose-900);
+  --foreground-color-default: var(--color-zinc-300);
+  --foreground-color-muted: var(--color-zinc-400);
+  --foreground-color-neutral: var(--color-rose-950);
+  --foreground-color-accent: var(--color-zinc-950);
+}
+
 /*.theme-windows98 */
