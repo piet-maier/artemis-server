@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useConnectionStore } from "@/stores/connection";
-import { RefreshCw } from "lucide-vue-next";
+import { RefreshCw } from "@lucide/vue";
 import { storeToRefs } from "pinia";
 
 const { open } = storeToRefs(useConnectionStore());

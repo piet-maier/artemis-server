@@ -4,8 +4,8 @@ import DataGrid from "@/components/DataGrid.vue";
 import IconButton from "@/components/IconButton.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
+import { ChartBarIcon, TableIcon } from "@lucide/vue";
 import { format } from "date-fns";
-import { ChartBarIcon, TableIcon } from "lucide-vue-next";
 import { computed, onUnmounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -85,10 +85,10 @@ const emoji = (index: number, score: number, name: string) => {
 const computedData = computed(() =>
   data.head
     .filter((name) => data.foot[name] !== null)
-    .sort((a, b) => data.foot[b]! - data.foot[a]!)
+    .sort((a, b) => data.foot[b] - data.foot[a])
     .map((name, index) => ({
       x: data.foot[name],
-      y: name + emoji(index, data.foot[name]!, name),
+      y: name + emoji(index, data.foot[name], name),
     })),
 );
 
@@ -133,13 +133,13 @@ onUnmounted(() => {
 <template>
   <main class="container py-4 sm:py-8">
     <IconButton
+      :icon="display === 'grid' ? ChartBarIcon : TableIcon"
+      class="ml-auto"
       @click="
         router.replace({
           query: { display: display === 'grid' ? 'chart' : 'grid' },
         })
       "
-      :icon="display === 'grid' ? ChartBarIcon : TableIcon"
-      class="ml-auto"
     />
 
     <div v-if="display === 'grid'">
@@ -148,7 +148,7 @@ onUnmounted(() => {
           {{ location.params.type }}
         </h2>
         <p class="text-lg text-foreground-muted">
-          {{ format(new Date(+location.params.grid!), "PPpp") }}
+          {{ format(new Date(+location.params.grid), "PPpp") }}
         </p>
       </div>
 

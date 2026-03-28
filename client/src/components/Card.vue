@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
 withDefaults(
-  defineProps<{ header?: string; submit?: string; disabled?: boolean }>(),
+  defineProps<{ header: string; submit: string; disabled?: boolean }>(),
   { disabled: false },
 );
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useWindowEvent } from "@/composables/useWindowEvent";
-import { Check, ChevronDown } from "lucide-vue-next";
+import { Check, ChevronDown } from "@lucide/vue";
 import { computed, ref } from "vue";
 
 const prop = defineProps<{

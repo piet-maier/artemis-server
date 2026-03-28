@@ -40,7 +40,7 @@ socket.emit("plot", (data) => {
       />
     </Card>
 
-    <Card class="w-full lg:col-span-4">
+    <Card header="" submit="" class="w-full lg:col-span-4">
       <BarChart
         :data="Object.entries(plot).map(([y, x]) => ({ x, y }))"
         class="h-auto w-full"
