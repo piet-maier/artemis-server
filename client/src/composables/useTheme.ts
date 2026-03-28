@@ -1,4 +1,5 @@
-import { ref, watch } from "vue";
+import { useStorage } from "@/composables/useStorage";
+import { watch, type Ref } from "vue";
 
 const PREFIX = "theme-";
 
@@ -13,7 +14,7 @@ const PREFIX = "theme-";
  * document.documentElement.className; // -> "theme-dark"
  */
 export function useTheme(initialValue = "") {
-  const themeValue = ref(initialValue);
+  const themeValue = useStorage("theme", initialValue) as Ref<string>;
 
   watch(
     themeValue,
