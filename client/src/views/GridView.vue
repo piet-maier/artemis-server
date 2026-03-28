@@ -133,13 +133,13 @@ onUnmounted(() => {
 <template>
   <main class="container py-4 sm:py-8">
     <IconButton
+      :icon="display === 'grid' ? ChartBarIcon : TableIcon"
+      class="ml-auto"
       @click="
         router.replace({
           query: { display: display === 'grid' ? 'chart' : 'grid' },
         })
       "
-      :icon="display === 'grid' ? ChartBarIcon : TableIcon"
-      class="ml-auto"
     />
 
     <div v-if="display === 'grid'">
