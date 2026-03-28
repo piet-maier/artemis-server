@@ -2,8 +2,8 @@
 import Disclosure from "@/components/Disclosure.vue";
 import IconButton from "@/components/IconButton.vue";
 import { useConnectionStore } from "@/stores/connection";
+import { X } from "@lucide/vue";
 import { format } from "date-fns";
-import { X } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { RouterLink } from "vue-router";
 

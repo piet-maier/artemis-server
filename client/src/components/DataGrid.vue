@@ -5,7 +5,7 @@ import { useWindowEvent } from "@/composables/useWindowEvent";
 import { useGridStore } from "@/stores/grid";
 import type { Data } from "@/type";
 import { turnIndicator } from "@/util/turnIndicator";
-import { ChevronDown } from "lucide-vue-next";
+import { ChevronDown } from "@lucide/vue";
 import { computed, ref, watch } from "vue";
 
 const prop = defineProps<Data>();

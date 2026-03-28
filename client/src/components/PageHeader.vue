@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import IconButton from "@/components/IconButton.vue";
 import PageNavigation from "@/components/PageNavigation.vue";
-import { Menu } from "lucide-vue-next";
+import { Menu } from "@lucide/vue";
 import { ref } from "vue";
 
 const open = ref(false);

@@ -4,8 +4,8 @@ import DataGrid from "@/components/DataGrid.vue";
 import IconButton from "@/components/IconButton.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
+import { ChartBarIcon, TableIcon } from "@lucide/vue";
 import { format } from "date-fns";
-import { ChartBarIcon, TableIcon } from "lucide-vue-next";
 import { computed, onUnmounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
