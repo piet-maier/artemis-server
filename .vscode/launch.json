@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // https://flask.palletsprojects.com/en/stable/debugging/
+    {
+      "name": "Server",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "flask",
+      "args": ["run", "--debug", "--no-debugger", "--no-reload"],
+      "cwd": "${workspaceFolder}/server"
+    }
+  ]
+}
