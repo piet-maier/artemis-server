@@ -21,6 +21,8 @@ export function useTheme(initialValue = "") {
     () => {
       const html = document.documentElement;
 
+      html.classList.add("transition-none");
+
       for (const name of html.classList) {
         if (name.startsWith(PREFIX)) {
           html.classList.remove(name);
@@ -30,6 +32,12 @@ export function useTheme(initialValue = "") {
       if (themeValue.value) {
         html.classList.add(PREFIX + themeValue.value);
       }
+
+      // https://paco.me/writing/disable-theme-transitions
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const _ = window.getComputedStyle(html).opacity;
+
+      html.classList.remove("transition-none");
     },
     { immediate: true },
   );
