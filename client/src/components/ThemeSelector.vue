@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTheme } from "@/composables/useTheme";
-import { PaletteIcon } from "lucide-vue-next";
+import { PaletteIcon } from "@lucide/vue";
 import { ref } from "vue";
 import IconButton from "./IconButton.vue";
 
@@ -28,8 +28,8 @@ function onThemeSelectorToggle() {
       <button
         v-for="theme in themes"
         :key="theme.key"
-        @click="activeTheme = theme.key"
         :class="{ 'bg-background-neutral': theme.key == activeTheme }"
+        @click="activeTheme = theme.key"
       >
         {{ theme.displayName }}
       </button>
