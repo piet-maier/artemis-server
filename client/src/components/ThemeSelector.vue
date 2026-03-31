@@ -1,38 +1,59 @@
 <script setup lang="ts">
 import { useTheme } from "@/composables/useTheme";
+import { useWindowEvent } from "@/composables/useWindowEvent";
 import { PaletteIcon } from "@lucide/vue";
 import { ref } from "vue";
 import IconButton from "./IconButton.vue";
 
 const themes = [
-  { displayName: "Midnight Tokyo", key: "tokyo" },
-  { displayName: "Light Mode", key: "kawaii" },
-  { displayName: "Demonic", key: "demonic" },
   { displayName: "High Contrast", key: "" },
+  { displayName: "Ashenlord", key: "ash" },
+  { displayName: "Light Mode", key: "kawaii" },
+  { displayName: "Tobias lieblings Theme", key: "tobias" },
+  { displayName: "Midnight Tokyo", key: "tokyo" },
+  { displayName: "Coruption", key: "corruption" },
+  { displayName: "Demonic", key: "demonic" },
+  { displayName: "Hydronominix", key: "hydro" },
+  { displayName: "Nostalgic", key: "windows" },
 ];
 const menuOpen = ref(false);
 const activeTheme = useTheme();
+const menu = ref<HTMLButtonElement | null>(null);
 
 function onThemeSelectorToggle() {
   menuOpen.value = !menuOpen.value;
 }
+
+useWindowEvent("click", (mouseEvent: MouseEvent) => {
+  if (!menu.value?.contains(mouseEvent.target as HTMLElement)) {
+    menuOpen.value = false;
+  }
+});
 </script>
 
 <template>
-  <div class="relative">
+  <div ref="menu" class="relative">
     <IconButton :icon="PaletteIcon" @click="onThemeSelectorToggle" />
-    <div
-      v-if="menuOpen"
-      class="absolute top-full right-0 mt-2 border border-border-default bg-background-default text-center"
+    <Transition
+      enter-active-class="transition duration-300 origin-top"
+      enter-from-class="opacity-0 scale-95"
+      leave-active-class="transition duration-300 origin-top"
+      leave-to-class="opacity-0 scale-95"
     >
-      <button
-        v-for="theme in themes"
-        :key="theme.key"
-        :class="{ 'bg-background-neutral': theme.key == activeTheme }"
-        @click="activeTheme = theme.key"
+      <div
+        v-if="menuOpen"
+        class="absolute top-full right-0 z-20 mt-2 rounded-md border border-border-default bg-background-default"
       >
-        {{ theme.displayName }}
-      </button>
-    </div>
+        <button
+          v-for="theme in themes"
+          :key="theme.key"
+          :class="{ 'bg-background-neutral': theme.key == activeTheme }"
+          class="w-full cursor-pointer gap-x-2 px-2 py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
+          @click="activeTheme = theme.key"
+        >
+          {{ theme.displayName }}
+        </button>
+      </div>
+    </Transition>
   </div>
 </template>
