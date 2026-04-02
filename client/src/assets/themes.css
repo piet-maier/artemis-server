@@ -12,6 +12,8 @@
   --foreground-color-muted: var(--color-zinc-400);
   --foreground-color-neutral: var(--color-zinc-50);
   --foreground-color-accent: var(--color-zinc-950);
+
+  @apply scheme-dark;
 }
 
 .theme-ash {
@@ -28,6 +30,8 @@
   --foreground-color-muted: var(--color-zinc-300);
   --foreground-color-neutral: var(--color-zinc-100);
   --foreground-color-accent: var(--color-zinc-800);
+
+  @apply scheme-dark;
 }
 
 .theme-corruption {
@@ -44,6 +48,8 @@
   --foreground-color-muted: var(--color-rose-300);
   --foreground-color-neutral: var(--color-pink-200);
   --foreground-color-accent: var(--color-mauve-50);
+
+  @apply scheme-dark;
 }
 
 .theme-demonic {
@@ -60,6 +66,8 @@
   --foreground-color-muted: var(--color-neutral-400);
   --foreground-color-neutral: var(--color-violet-900);
   --foreground-color-accent: var(--color-neutral-50);
+
+  @apply scheme-dark;
 }
 
 .theme-hydro {
@@ -76,6 +84,8 @@
   --foreground-color-muted: var(--color-blue-200);
   --foreground-color-neutral: var(--color-indigo-300);
   --foreground-color-accent: var(--color-blue-900);
+
+  @apply scheme-dark;
 }
 
 .theme-kawaii {
@@ -97,6 +107,8 @@
   New Cursor Icon
   New Font
   */
+
+  @apply scheme-light;
 }
 
 .theme-tobias {
@@ -113,6 +125,8 @@
   --foreground-color-muted: var(--color-zinc-400);
   --foreground-color-neutral: var(--color-rose-950);
   --foreground-color-accent: var(--color-zinc-950);
+
+  @apply scheme-dark;
 }
 
 .theme-tokyo {
@@ -129,6 +143,8 @@
   --foreground-color-muted: var(--color-indigo-300);
   --foreground-color-neutral: var(--color-fuchsia-400);
   --foreground-color-accent: var(--color-fuchsia-950);
+
+  @apply scheme-dark;
 }
 
 .theme-windows {
@@ -145,4 +161,6 @@
   --foreground-color-muted: var(--color-neutral-700);
   --foreground-color-neutral: var(--color-blue-950);
   --foreground-color-accent: var(--color-olive-50);
+
+  @apply scheme-light;
 }

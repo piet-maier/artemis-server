@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./variables.css";
+@import "./themes.css";
 
 @theme {
   --font-sans: Inter, sans-serif;
@@ -25,7 +25,7 @@
   }
 
   body {
-    @apply bg-background-default text-foreground-default scheme-dark;
+    @apply bg-background-default text-foreground-default;
   }
 }
 

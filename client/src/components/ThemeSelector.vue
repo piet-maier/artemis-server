@@ -2,7 +2,7 @@
 import { useTheme } from "@/composables/useTheme";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import { PaletteIcon } from "@lucide/vue";
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
 import IconButton from "./IconButton.vue";
 
 const themes = [
@@ -18,14 +18,14 @@ const themes = [
 ];
 const menuOpen = ref(false);
 const activeTheme = useTheme();
-const menu = ref<HTMLButtonElement | null>(null);
+const menuRef = useTemplateRef("menu");
 
 function onThemeSelectorToggle() {
   menuOpen.value = !menuOpen.value;
 }
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
-  if (!menu.value?.contains(mouseEvent.target as HTMLElement)) {
+  if (!menuRef.value?.contains(mouseEvent.target as HTMLElement)) {
     menuOpen.value = false;
   }
 });
@@ -47,8 +47,8 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
         <button
           v-for="theme in themes"
           :key="theme.key"
-          :class="{ 'bg-background-neutral': theme.key == activeTheme }"
-          class="w-full cursor-pointer gap-x-2 px-2 py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
+          :class="{ 'bg-background-neutral': theme.key === activeTheme }"
+          class="w-full cursor-pointer py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
           @click="activeTheme = theme.key"
         >
           {{ theme.displayName }}
