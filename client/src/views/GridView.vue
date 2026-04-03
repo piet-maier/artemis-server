@@ -6,16 +6,14 @@ import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
 import { format } from "date-fns";
-import { computed, onUnmounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { computed, onUnmounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const location = useRoute();
 
-const router = useRouter();
-
-const display = computed(() => location.query["display"]);
-
 const { data, readGrid, changeData } = useGridStore();
+
+const showGrid = ref(true);
 
 const emoji = (index: number, score: number, name: string) => {
   switch (score) {
@@ -133,16 +131,12 @@ onUnmounted(() => {
 <template>
   <main class="container py-4 sm:py-8">
     <IconButton
-      :icon="display === 'grid' ? ChartBarIcon : TableIcon"
+      :icon="showGrid ? ChartBarIcon : TableIcon"
       class="ml-auto"
-      @click="
-        router.replace({
-          query: { display: display === 'grid' ? 'chart' : 'grid' },
-        })
-      "
+      @click="showGrid = !showGrid"
     />
 
-    <div v-if="display === 'grid'">
+    <div v-if="showGrid">
       <div class="mb-8 space-y-2">
         <h2 class="text-4xl font-bold tracking-tight">
           {{ location.params.type }}
