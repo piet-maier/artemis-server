@@ -6,7 +6,7 @@ type Item = { x: number; y: number; z: string };
 
 const prop = defineProps<{ data: Item[] }>();
 
-const xScale = d3.scaleLinear([40, 620]);
+const xScale = d3.scaleLinear([40, 600]);
 const yScale = d3.scaleLinear([380, 20]);
 
 const bottomAxis = d3.axisBottom(xScale).tickSizeOuter(0);
@@ -21,6 +21,8 @@ const line = d3
   .y(({ y }) => yScale(y));
 
 const lineGroupRef = useTemplateRef("lineGroupRef");
+
+const textGroupRef = useTemplateRef("textGroupRef");
 
 onMounted(() => {
   watch(
@@ -54,6 +56,22 @@ onMounted(() => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           gElement.attr("d", ([_, groupValue]) => line(groupValue)),
         );
+
+      d3.select(textGroupRef.value!)
+        .selectAll<SVGGElement, [string, Item]>("text")
+        .data(groups, ([groupKey]) => groupKey)
+        .join(
+          (gElement) => gElement.append("text").text(([groupKey]) => groupKey),
+          (gElement) => gElement,
+          (gElement) => gElement.remove(),
+        )
+        .call((gElement) =>
+          gElement
+            .attr("x", xScale.range()[1])
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            .attr("y", ([_, groupValue]) => yScale(groupValue.at(-1)!.y))
+            .attr("dx", 4),
+        );
     },
     { immediate: true },
   );
@@ -72,6 +90,13 @@ onMounted(() => {
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="1.5"
+    />
+
+    <g
+      ref="textGroupRef"
+      dominant-baseline="middle"
+      fill="currentColor"
+      font-size="10"
     />
   </svg>
 </template>
