@@ -2,7 +2,9 @@
 import * as d3 from "d3";
 import { onMounted, useTemplateRef, watch } from "vue";
 
-const prop = defineProps<{ data: { x: number; y: number; z: string }[] }>();
+type Item = { x: number; y: number; z: string };
+
+const prop = defineProps<{ data: Item[] }>();
 
 const xScale = d3.scaleLinear([40, 620]);
 const yScale = d3.scaleLinear([380, 20]);
@@ -12,6 +14,13 @@ const leftAxis = d3.axisLeft(yScale);
 
 const bottomAxisGroupRef = useTemplateRef("bottomAxisGroupRef");
 const leftAxisGroupRef = useTemplateRef("leftAxisGroupRef");
+
+const line = d3
+  .line<Item>()
+  .x(({ x }) => xScale(x))
+  .y(({ y }) => yScale(y));
+
+const lineGroupRef = useTemplateRef("lineGroupRef");
 
 onMounted(() => {
   watch(
@@ -30,6 +39,21 @@ onMounted(() => {
       d3.select(leftAxisGroupRef.value!)
         .call(leftAxis)
         .call((groupElement) => groupElement.select(".domain").remove());
+
+      const groups = d3.group(prop.data, ({ z }) => z);
+
+      d3.select(lineGroupRef.value!)
+        .selectAll<SVGGElement, [string, Item]>("path")
+        .data(groups, ([groupKey]) => groupKey)
+        .join(
+          (gElement) => gElement.append("path"),
+          (gElement) => gElement,
+          (gElement) => gElement.remove(),
+        )
+        .call((gElement) =>
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          gElement.attr("d", ([_, groupValue]) => line(groupValue)),
+        );
     },
     { immediate: true },
   );
@@ -40,5 +64,14 @@ onMounted(() => {
   <svg class="h-auto max-w-full" height="400" viewBox="0 0 640 400" width="640">
     <g ref="bottomAxisGroupRef" transform="translate(0, 380)" />
     <g ref="leftAxisGroupRef" transform="translate(40, 0)" />
+
+    <g
+      ref="lineGroupRef"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.5"
+    />
   </svg>
 </template>
