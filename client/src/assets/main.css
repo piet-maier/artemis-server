@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./variables.css";
+@import "./themes.css";
 
 @theme {
   --font-sans: Inter, sans-serif;
@@ -15,6 +15,7 @@
   --color-focus-default: var(--focus-color-default);
   --color-foreground-default: var(--foreground-color-default);
   --color-foreground-muted: var(--foreground-color-muted);
+  --color-foreground-neutral: var(--foreground-color-neutral);
   --color-foreground-accent: var(--foreground-color-accent);
 }
 
@@ -24,12 +25,16 @@
   }
 
   body {
-    @apply bg-background-default text-foreground-default scheme-dark;
+    @apply bg-background-default text-foreground-default;
   }
 }
 
 @utility focus-ring {
   @apply ring-focus-default ring-offset-2 ring-offset-background-default focus:ring-2 focus-visible:outline-hidden;
+}
+
+html.transition-none * {
+  @apply transition-none;
 }
 
 .container {

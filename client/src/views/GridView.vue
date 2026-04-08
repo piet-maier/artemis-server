@@ -26,7 +26,7 @@ const emoji = (index: number, score: number, name: string) => {
     case 69:
       return "😏";
     case 420:
-      return "🔥";
+      return "🥦";
     case 666:
       return "😈";
     case 1337:

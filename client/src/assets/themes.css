@@ -1,0 +1,166 @@
+:root {
+  --background-color-default: var(--color-zinc-950);
+  --background-color-default-hover: var(--color-zinc-800);
+  --background-color-accent: var(--color-zinc-50);
+  --background-color-accent-hover: var(--color-zinc-200);
+  --background-color-neutral: var(--color-zinc-900);
+  --background-color-attention: var(--color-green-950);
+  --border-color-default: var(--color-zinc-800);
+  --border-color-attention: var(--color-green-700);
+  --focus-color-default: var(--color-zinc-300);
+  --foreground-color-default: var(--color-zinc-50);
+  --foreground-color-muted: var(--color-zinc-400);
+  --foreground-color-neutral: var(--color-zinc-50);
+  --foreground-color-accent: var(--color-zinc-950);
+
+  @apply scheme-dark;
+}
+
+.theme-ash {
+  --background-color-default: var(--color-zinc-800);
+  --background-color-default-hover: var(--color-zinc-600);
+  --background-color-accent: var(--color-zinc-100);
+  --background-color-accent-hover: var(--color-zinc-400);
+  --background-color-neutral: var(--color-zinc-700);
+  --background-color-attention: var(--color-green-800);
+  --border-color-default: var(--color-zinc-600);
+  --border-color-attention: var(--color-green-500);
+  --focus-color-default: var(--color-zinc-400);
+  --foreground-color-default: var(--color-zinc-50);
+  --foreground-color-muted: var(--color-zinc-300);
+  --foreground-color-neutral: var(--color-zinc-100);
+  --foreground-color-accent: var(--color-zinc-800);
+
+  @apply scheme-dark;
+}
+
+.theme-corruption {
+  --background-color-default: var(--color-zinc-900);
+  --background-color-default-hover: var(--color-violet-300);
+  --background-color-accent: var(--color-violet-300);
+  --background-color-accent-hover: var(--color-pink-300);
+  --background-color-neutral: var(--color-indigo-300);
+  --background-color-attention: var(--color-indigo-300);
+  --border-color-default: var(--color-pink-200);
+  --border-color-attention: var(--color-indigo-200);
+  --focus-color-default: var(--color-pink-300);
+  --foreground-color-default: var(--color-slate-100);
+  --foreground-color-muted: var(--color-rose-300);
+  --foreground-color-neutral: var(--color-pink-200);
+  --foreground-color-accent: var(--color-mauve-50);
+
+  @apply scheme-dark;
+}
+
+.theme-demonic {
+  --background-color-default: var(--color-neutral-950);
+  --background-color-default-hover: var(--color-red-950);
+  --background-color-accent: var(--color-violet-900);
+  --background-color-accent-hover: var(--color-red-900);
+  --background-color-neutral: var(--color-violet-950);
+  --background-color-attention: var(--color-red-950);
+  --border-color-default: var(--color-red-900);
+  --border-color-attention: var(--color-red-700);
+  --focus-color-default: var(--color-red-800);
+  --foreground-color-default: var(--color-neutral-50);
+  --foreground-color-muted: var(--color-neutral-400);
+  --foreground-color-neutral: var(--color-violet-900);
+  --foreground-color-accent: var(--color-neutral-50);
+
+  @apply scheme-dark;
+}
+
+.theme-hydro {
+  --background-color-default: var(--color-slate-900);
+  --background-color-default-hover: var(--color-blue-900);
+  --background-color-accent: var(--color-indigo-200);
+  --background-color-accent-hover: var(--color-blue-400);
+  --background-color-neutral: var(--color-blue-950);
+  --background-color-attention: var(--color-indigo-900);
+  --border-color-default: var(--color-sky-700);
+  --border-color-attention: var(--color-indigo-400);
+  --focus-color-default: var(--color-blue-400);
+  --foreground-color-default: var(--color-slate-200);
+  --foreground-color-muted: var(--color-blue-200);
+  --foreground-color-neutral: var(--color-indigo-300);
+  --foreground-color-accent: var(--color-blue-900);
+
+  @apply scheme-dark;
+}
+
+.theme-kawaii {
+  --background-color-default: var(--color-pink-50);
+  --background-color-default-hover: var(--color-violet-200);
+  --background-color-accent: var(--color-violet-300);
+  --background-color-accent-hover: var(--color-pink-300);
+  --background-color-neutral: var(--color-indigo-100);
+  --background-color-attention: var(--color-indigo-100);
+  --border-color-default: var(--color-pink-200);
+  --border-color-attention: var(--color-indigo-400);
+  --focus-color-default: var(--color-pink-300);
+  --foreground-color-default: var(--color-slate-500);
+  --foreground-color-muted: var(--color-rose-300);
+  --foreground-color-neutral: var(--color-pink-200);
+  --foreground-color-accent: var(--color-mauve-50);
+  /* TODO
+  Kirschblüten Hintergrund
+  New Cursor Icon
+  New Font
+  */
+
+  @apply scheme-light;
+}
+
+.theme-tobias {
+  --background-color-default: var(--color-zinc-950);
+  --background-color-default-hover: var(--color-rose-950);
+  --background-color-accent: var(--color-zinc-200);
+  --background-color-accent-hover: var(--color-rose-950);
+  --background-color-neutral: oklch(20% 0.09 12.094);
+  --background-color-attention: oklch(19% 0.075 12.094);
+  --border-color-default: var(--color-zinc-800);
+  --border-color-attention: var(--color-zinc-800);
+  --focus-color-default: var(--color-rose-900);
+  --foreground-color-default: var(--color-zinc-300);
+  --foreground-color-muted: var(--color-zinc-400);
+  --foreground-color-neutral: var(--color-rose-950);
+  --foreground-color-accent: var(--color-zinc-950);
+
+  @apply scheme-dark;
+}
+
+.theme-tokyo {
+  --background-color-default: var(--color-slate-950);
+  --background-color-default-hover: var(--color-fuchsia-900);
+  --background-color-accent: var(--color-fuchsia-300);
+  --background-color-accent-hover: var(--color-indigo-400);
+  --background-color-neutral: var(--color-fuchsia-900);
+  --background-color-attention: var(--color-violet-950);
+  --border-color-default: var(--color-indigo-600);
+  --border-color-attention: var(--color-violet-600);
+  --focus-color-default: var(--color-fuchsia-500);
+  --foreground-color-default: var(--color-mauve-200);
+  --foreground-color-muted: var(--color-indigo-300);
+  --foreground-color-neutral: var(--color-fuchsia-400);
+  --foreground-color-accent: var(--color-fuchsia-950);
+
+  @apply scheme-dark;
+}
+
+.theme-windows {
+  --background-color-default: oklch(0.8078 0 0);
+  --background-color-default-hover: var(--color-neutral-200);
+  --background-color-accent: var(--color-blue-900);
+  --background-color-accent-hover: var(--color-sky-600);
+  --background-color-neutral: var(--color-neutral-200);
+  --background-color-attention: var(--color-neutral-50);
+  --border-color-default: var(--color-neutral-500);
+  --border-color-attention: var(--color-neutral-200);
+  --focus-color-default: var(--color-neutral-950);
+  --foreground-color-default: var(--color-neutral-800);
+  --foreground-color-muted: var(--color-neutral-700);
+  --foreground-color-neutral: var(--color-blue-950);
+  --foreground-color-accent: var(--color-olive-50);
+
+  @apply scheme-light;
+}
