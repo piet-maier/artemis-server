@@ -42,7 +42,7 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
     >
       <div
         v-if="menuOpen"
-        class="absolute top-full right-0 z-20 mt-2 rounded-md border border-border-default bg-background-default"
+        class="absolute top-full right-0 z-20 mt-4 rounded-md border border-border-default bg-background-default"
       >
         <button
           v-for="theme in themes"

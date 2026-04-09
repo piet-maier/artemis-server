@@ -170,9 +170,15 @@ const turnIndicatorIndex = computed(() => {
         <tfoot>
           <tr v-if="body.length > 1">
             <th
-              v-for="name in computedHead"
+              v-for="(name, index) in computedHead"
               :key="name"
-              class="sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums"
+              :class="[
+                'sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums',
+                {
+                  'rounded-bl-md': index === 0,
+                  'rounded-br-md': index === computedHead.length - 1,
+                },
+              ]"
             >
               {{ foot[name] }}
             </th>
