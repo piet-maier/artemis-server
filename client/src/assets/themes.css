@@ -13,6 +13,12 @@
   --foreground-color-neutral: var(--color-zinc-50);
   --foreground-color-accent: var(--color-zinc-950);
 
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-400);
+  --chart-3: var(--color-blue-500);
+  --chart-4: var(--color-blue-600);
+  --chart-5: var(--color-blue-700);
+
   @apply scheme-dark;
 }
 

@@ -17,6 +17,12 @@
   --color-foreground-muted: var(--foreground-color-muted);
   --color-foreground-neutral: var(--foreground-color-neutral);
   --color-foreground-accent: var(--foreground-color-accent);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 }
 
 @layer base {
