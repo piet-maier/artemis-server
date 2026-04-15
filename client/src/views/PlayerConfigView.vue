@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import IconButton from "@/components/IconButton.vue";
-import { UserRoundPlusIcon, UserRoundXIcon } from "@lucide/vue";
+import {
+  SmilePlusIcon,
+  UserRoundPenIcon,
+  UserRoundPlusIcon,
+  UserRoundXIcon,
+} from "@lucide/vue";
 import { ref } from "vue";
 
 const inputValue = ref("");
@@ -26,7 +31,7 @@ function deletePlayer(playerName: string) {
       <input
         v-model="inputValue"
         type="text"
-        class="m-2 border border-border-default focus-ring"
+        class="m-2 rounded-md border border-border-default focus-ring"
       />
       <button
         type="button"
@@ -36,23 +41,40 @@ function deletePlayer(playerName: string) {
         <UserRoundPlusIcon class="mr-2" /> Create Player
       </button>
     </div>
-    <ul class="border border-border-default">
-      <li
+    <div
+      class="grid grid-cols-[1fr_max-content_max-content] rounded-md border border-border-default p-2 wrap-anywhere"
+    >
+      <template
         v-for="name in data.filter((name) =>
           name.toLowerCase().includes(inputValue.toLowerCase()),
         )"
         :key="name"
-        class="flex items-center justify-between"
       >
         {{ name }}
-        <div>
+        <div class="flex">
+          <IconButton
+            :icon="UserRoundPenIcon"
+            class="m-2 cursor-pointer bg-background-accent text-foreground-accent"
+            @click="deletePlayer(name)"
+          />
           <IconButton
             :icon="UserRoundXIcon"
-            class="m-2 cursor-pointer bg-background-neutral"
+            class="m-2 cursor-pointer bg-background-accent text-foreground-accent"
             @click="deletePlayer(name)"
           />
         </div>
-      </li>
-    </ul>
+        <div class="flex">
+          <input
+            type="text"
+            class="m-2 rounded-md border border-border-default focus-ring"
+          />
+          <IconButton
+            :icon="SmilePlusIcon"
+            class="m-2 cursor-pointer bg-background-accent text-foreground-accent"
+            @click="deletePlayer(name)"
+          />
+        </div>
+      </template>
+    </div>
   </main>
 </template>
