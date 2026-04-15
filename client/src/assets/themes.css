@@ -90,11 +90,11 @@
 
 .theme-kawaii {
   --background-color-default: var(--color-pink-50);
-  --background-color-default-hover: var(--color-violet-200);
+  --background-color-default-hover: var(--color-violet-100);
   --background-color-accent: var(--color-violet-300);
   --background-color-accent-hover: var(--color-pink-300);
-  --background-color-neutral: var(--color-indigo-100);
-  --background-color-attention: var(--color-indigo-50);
+  --background-color-neutral: var(--color-indigo-50);
+  --background-color-attention: var(--color-indigo-100);
   --border-color-default: var(--color-pink-200);
   --border-color-attention: var(--color-indigo-400);
   --focus-color-default: var(--color-pink-300);

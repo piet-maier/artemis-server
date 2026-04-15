@@ -42,13 +42,13 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
     >
       <div
         v-if="menuOpen"
-        class="absolute top-full right-0 mt-4 rounded-md border border-border-default bg-background-default"
+        class="absolute top-full right-0 mt-4 rounded-md border border-border-default bg-background-default p-1"
       >
         <button
           v-for="theme in themes"
           :key="theme.key"
           :class="{ 'bg-background-neutral': theme.key === activeTheme }"
-          class="w-full cursor-pointer py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
+          class="w-full cursor-pointer rounded-xs py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
           @click="activeTheme = theme.key"
         >
           {{ theme.displayName }}
