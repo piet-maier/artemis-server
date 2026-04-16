@@ -24,6 +24,7 @@ const leftAxisGroupRef = useTemplateRef("leftAxisGroupRef");
 
 const line = d3
   .line<Item>()
+  .defined(({ y }) => !isNaN(y))
   .x(({ x }) => xScale(x))
   .y(({ y }) => yScale(y));
 
@@ -36,12 +37,12 @@ onMounted(() => {
     () => prop.data,
     () => {
       xScale.domain([
-        Math.min(...prop.data.map(({ x }) => x)),
-        Math.max(...prop.data.map(({ x }) => x)),
+        d3.min(prop.data, ({ x }) => x)!,
+        d3.max(prop.data, ({ x }) => x)!,
       ]);
       yScale.domain([
-        Math.min(...prop.data.map(({ y }) => y)),
-        Math.max(...prop.data.map(({ y }) => y)),
+        d3.min(prop.data, ({ y }) => y)!,
+        d3.max(prop.data, ({ y }) => y)!,
       ]);
 
       d3.select(bottomAxisGroupRef.value!)
@@ -90,7 +91,15 @@ onMounted(() => {
           gElement
             .attr("x", xScale.range()[1])
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .attr("y", ([_, groupValue]) => yScale(groupValue.at(-1)!.y))
+            .attr("y", ([_, groupValue]) =>
+              yScale(
+                groupValue
+                  .filter(({ y }) => !isNaN(y))
+                  .reduce((previousItem, item) =>
+                    item.x > previousItem.x ? item : previousItem,
+                  ).y,
+              ),
+            )
             .attr("dx", 4),
         );
     },
