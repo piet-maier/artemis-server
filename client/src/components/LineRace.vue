@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import * as d3 from "d3";
+import { range } from "lodash";
 import { onMounted, useTemplateRef, watch } from "vue";
 
 type Item = { x: number; y: number; z: string };
 
 const prop = defineProps<{ data: Item[] }>();
 
-const xScale = d3.scaleLinear([40, 600]);
+const xScale = d3.scalePoint<number>([40, 600]);
 const yScale = d3.scaleLinear([380, 20]);
 const zScale = d3.scaleOrdinal([
   "stroke-chart-1",
@@ -25,7 +26,7 @@ const leftAxisGroupRef = useTemplateRef("leftAxisGroupRef");
 const line = d3
   .line<Item>()
   .defined(({ y }) => !isNaN(y))
-  .x(({ x }) => xScale(x))
+  .x(({ x }) => xScale(x)!)
   .y(({ y }) => yScale(y));
 
 const lineGroupRef = useTemplateRef("lineGroupRef");
@@ -36,10 +37,12 @@ onMounted(() => {
   watch(
     () => prop.data,
     () => {
-      xScale.domain([
-        d3.min(prop.data, ({ x }) => x)!,
-        d3.max(prop.data, ({ x }) => x)!,
-      ]);
+      xScale.domain(
+        range(
+          d3.min(prop.data, ({ x }) => x)!,
+          d3.max(prop.data, ({ x }) => x)! + 1,
+        ),
+      );
       yScale.domain([
         d3.min(prop.data, ({ y }) => y)!,
         d3.max(prop.data, ({ y }) => y)!,
