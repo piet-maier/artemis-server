@@ -13,11 +13,11 @@
   --foreground-color-neutral: var(--color-zinc-50);
   --foreground-color-accent: var(--color-zinc-950);
 
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-400);
-  --chart-3: var(--color-blue-500);
-  --chart-4: var(--color-blue-600);
-  --chart-5: var(--color-blue-700);
+  --chart-1: oklch(0.7241 0.16562500000000002 20);
+  --chart-2: oklch(0.707 0.16562500000000002 90);
+  --chart-3: oklch(0.6826 0.16562500000000002 180);
+  --chart-4: oklch(0.7041 0.16562500000000002 250);
+  --chart-5: oklch(0.7256 0.16562500000000002 320);
 
   @apply scheme-dark;
 }
