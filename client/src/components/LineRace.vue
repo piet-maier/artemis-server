@@ -15,6 +15,11 @@ const zScale = d3.scaleOrdinal([
   "stroke-chart-3",
   "stroke-chart-4",
   "stroke-chart-5",
+  "stroke-chart-6",
+  "stroke-chart-7",
+  "stroke-chart-8",
+  "stroke-chart-9",
+  "stroke-chart-10",
 ]);
 
 const bottomAxis = d3.axisBottom(xScale).tickSizeOuter(0);
