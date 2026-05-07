@@ -14,12 +14,17 @@ const open = ref(false);
     class="sticky top-0 z-20 border-b bg-background-default/95 backdrop-blur-sm supports-backdrop-filter:bg-background-default/60"
   >
     <div class="container flex h-14 items-center justify-between">
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-8 lg:gap-16">
         <IconButton :icon="Menu" @click="open = true" />
         <PageNavigation v-model="open" />
 
         <div class="flex items-center gap-4">
-          <RouterLink :to="{ name: 'player-config' }">Player Config</RouterLink>
+          <!-- TODO: hover:text change to foreground hover variable -->
+          <RouterLink
+            :to="{ name: 'player-config' }"
+            class="hover:text-background-default-hover"
+            >Player Config</RouterLink
+          >
         </div>
       </div>
       <ThemeSelector />

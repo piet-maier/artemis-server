@@ -54,12 +54,14 @@ function deletePlayer(playerName: string) {
         <div class="flex">
           <IconButton
             :icon="UserRoundPenIcon"
-            class="m-2 cursor-pointer bg-background-accent text-foreground-accent"
+            variant="accent"
+            class="m-2"
             @click="deletePlayer(name)"
           />
           <IconButton
             :icon="UserRoundXIcon"
-            class="m-2 cursor-pointer bg-background-accent text-foreground-accent"
+            variant="accent"
+            class="m-2"
             @click="deletePlayer(name)"
           />
         </div>
@@ -70,7 +72,8 @@ function deletePlayer(playerName: string) {
           />
           <IconButton
             :icon="SmilePlusIcon"
-            class="m-2 cursor-pointer bg-background-accent text-foreground-accent"
+            variant="accent"
+            class="m-2"
             @click="deletePlayer(name)"
           />
         </div>
