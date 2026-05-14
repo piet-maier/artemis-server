@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import IconButton from "@/components/IconButton.vue";
+import TextInput from "@/components/TextInput.vue";
 import {
   SmilePlusIcon,
   UserRoundPenIcon,
@@ -50,7 +51,7 @@ function deletePlayer(playerName: string) {
         )"
         :key="name"
       >
-        {{ name }}
+        <TextInput :value="name" />
         <div class="flex">
           <IconButton
             :icon="UserRoundPenIcon"
