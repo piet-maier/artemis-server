@@ -24,7 +24,10 @@ export const useConnectionStore = defineStore("connection", () => {
     });
 
     socket.on("grid:create", (type, grid) => {
-      navigation.value[type] ??= [];
+      if (!(type in navigation.value)) {
+        // Add the new array at the start of the object.
+        navigation.value = { [type]: [], ...navigation.value };
+      }
 
       navigation.value[type].unshift(grid);
     });
