@@ -131,8 +131,8 @@ onUnmounted(() => {
 <template>
   <main class="container py-4 sm:py-8">
     <IconButton
-      :icon="showGrid ? ChartBarIcon : TableIcon"
       class="ml-auto"
+      :icon="showGrid ? ChartBarIcon : TableIcon"
       @click="showGrid = !showGrid"
     />
 
@@ -152,8 +152,8 @@ onUnmounted(() => {
     <BarChart
       v-else-if="data.head.length > 0"
       :key="computedData.length"
-      :data="computedData"
       class="w-full"
+      :data="computedData"
     />
   </main>
 </template>

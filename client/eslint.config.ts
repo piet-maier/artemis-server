@@ -20,4 +20,21 @@ export default defineConfigWithVueTs(
     files: ["src/**/__tests__/*"],
   },
   skipFormatting,
+
+  {
+    rules: {
+      "vue/attributes-order": [
+        "warn",
+        {
+          alphabetical: true,
+        },
+      ],
+      "vue/block-order": [
+        "warn",
+        {
+          order: ["script", "template", "style"],
+        },
+      ],
+    },
+  },
 );

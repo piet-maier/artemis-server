@@ -47,10 +47,10 @@ useWindowEvent("click", ({ target }) => {
     <div ref="menu" class="flex h-10 rounded-md border">
       <input
         ref="text"
-        :placeholder="string"
-        :value="modelValue"
         class="h-full w-full border-none bg-transparent py-2 pl-3 text-sm placeholder:text-foreground-muted focus:border-border-default focus:ring-0 focus-visible:outline-hidden"
+        :placeholder="string"
         type="text"
+        :value="modelValue"
         @focus="open = true"
         @input="
           $emit('update:modelValue', ($event.target as HTMLInputElement).value)

@@ -100,8 +100,8 @@ const turnIndicatorIndex = computed(() => {
               v-for="name in head"
               :key="name"
               v-model="visibility"
-              :string="name"
               class="rounded-xs p-2 transition-colors hover:bg-background-default-hover"
+              :string="name"
             />
           </fieldset>
         </Transition>
@@ -126,9 +126,9 @@ const turnIndicatorIndex = computed(() => {
                   : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"
-              @dragstart="onDrag($event.dataTransfer!, name)"
               @dragenter.prevent
               @dragover.prevent="$event.dataTransfer!.dropEffect = 'move'"
+              @dragstart="onDrag($event.dataTransfer!, name)"
               @drop.prevent="
                 onDrop($event.dataTransfer!.getData('text/plain'), name)
               "
@@ -149,10 +149,10 @@ const turnIndicatorIndex = computed(() => {
               :class="[{ 'border-t': number !== 0 }, 'p-0']"
             >
               <input
-                :value="record[name]"
                 class="min-w-full scroll-my-12 border-none bg-transparent p-4 text-sm tabular-nums focus:ring-0 focus-visible:outline-hidden"
                 inputmode="numeric"
                 type="text"
+                :value="record[name]"
                 @change="
                   $emit(
                     'change',

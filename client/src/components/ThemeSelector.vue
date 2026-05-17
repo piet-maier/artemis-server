@@ -47,8 +47,8 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
         <button
           v-for="theme in themes"
           :key="theme.key"
-          :class="{ 'bg-background-neutral': theme.key === activeTheme }"
           class="w-full cursor-pointer py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
+          :class="{ 'bg-background-neutral': theme.key === activeTheme }"
           @click="activeTheme = theme.key"
         >
           {{ theme.displayName }}
