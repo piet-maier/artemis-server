@@ -21,14 +21,19 @@ jobs:
       - uses: actions/checkout@v6
         with:
           sparse-checkout: client
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: client/package.json
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: pnpm
+          cache-dependency-path: client/pnpm-lock.yaml
       - name: Install Dependencies
-        run: npm i
+        run: pnpm install
       - name: Run ESLint
-        run: npm run lint
+        run: pnpm run lint
       - name: Run Prettier
-        run: npm run format
+        run: pnpm run format
       - name: Run Vitest
-        run: npm run test:unit
+        run: pnpm run test:unit
