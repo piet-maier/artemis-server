@@ -9,7 +9,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "env.d.ts, tsconfig.*.json",
-    "package.json": "pnpm-lock.yaml",
+    "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml",
     "vite.config.ts": "vitest.config.ts"
   },
 
