@@ -1,23 +1,39 @@
 <script setup lang="ts">
 import IconButton from "@/components/IconButton.vue";
 import TextInput from "@/components/TextInput.vue";
+import { useWindowEvent } from "@/composables/useWindowEvent";
 import {
+  ChevronDownIcon,
+  ChevronUpIcon,
   SmilePlusIcon,
   UserRoundPenIcon,
   UserRoundPlusIcon,
   UserRoundXIcon,
 } from "@lucide/vue";
-import { reactive, ref } from "vue";
+import { reactive, ref, useTemplateRef } from "vue";
 
+const playerRowRef = useTemplateRef("player-row");
 const inputValue = ref("");
 const data = reactive([
   {
     name: "NikmanganzlangerNamederdasGesamteTexfeldausfühltundüberdenButtongehtname",
     id: 1,
   },
-  { name: "Fax", id: 1 },
-  { name: "PietySD", id: 1 },
+  { name: "Fax", id: 2 },
+  { name: "PietySD", id: 3 },
 ]);
+
+const expandedPlayerId = ref<number | null>(null);
+
+useWindowEvent("click", (mouseEvent: MouseEvent) => {
+  if (!playerRowRef.value?.contains(mouseEvent.target as HTMLElement)) {
+    expandedPlayerId.value = null;
+  }
+});
+
+function togglePlayer(id: number) {
+  expandedPlayerId.value = expandedPlayerId.value === id ? null : id;
+}
 
 function createPlayer() {
   console.log("Spieler erstellt (ohne Garantie)");
@@ -45,41 +61,57 @@ function deletePlayer(playerId: number) {
         <UserRoundPlusIcon class="mr-2" /> Create Player
       </button>
     </div>
-    <div
-      class="grid grid-cols-[1fr_max-content_max-content] rounded-md border border-border-default p-2 wrap-anywhere"
-    >
+    <div ref="player-row" class="rounded-md border border-border-default">
       <template
         v-for="player in data.filter((player) =>
           player.name.toLowerCase().includes(inputValue.toLowerCase()),
         )"
         :key="player.id"
       >
-        <TextInput v-model="player.name" class="m-2" />
-        <div class="flex">
-          <IconButton
-            :icon="UserRoundPenIcon"
-            variant="accent"
-            class="m-2"
-            @click="deletePlayer(player.id)"
+        <div class="flex cursor-pointer items-center justify-between p-2">
+          <TextInput
+            v-model="player.name"
+            class="m-2 flex-1 p-2"
+            @focus="expandedPlayerId = player.id"
           />
+
           <IconButton
-            :icon="UserRoundXIcon"
-            variant="accent"
-            class="m-2"
-            @click="deletePlayer(player.id)"
+            :icon="
+              expandedPlayerId === player.id ? ChevronUpIcon : ChevronDownIcon
+            "
+            @mousedown.prevent="togglePlayer(player.id)"
           />
         </div>
-        <div class="flex">
-          <input
-            type="text"
-            class="m-2 rounded-md border border-border-default focus-ring"
-          />
-          <IconButton
-            :icon="SmilePlusIcon"
-            variant="accent"
-            class="m-2"
-            @click="deletePlayer(player.id)"
-          />
+
+        <!-- TODO smoth out the expansion of the drop down -->
+        <div v-if="expandedPlayerId === player.id">
+          <div class="mx-2 flex gap-16 lg:gap-32">
+            <div class="flex">
+              <!-- TODO When changes to the Player name have been made highlight the Button -->
+              <IconButton
+                :icon="UserRoundPenIcon"
+                variant="accent"
+                class="m-2"
+                @click="deletePlayer(player.id)"
+              />
+              <IconButton
+                :icon="UserRoundXIcon"
+                variant="accent"
+                class="m-2"
+                @click="deletePlayer(player.id)"
+              />
+            </div>
+            <div class="flex min-w-0">
+              <TextInput class="m-2 min-w-0 text-right" />
+              <!-- TODO When changes to the Player emoji have been made highlight the Button -->
+              <IconButton
+                :icon="SmilePlusIcon"
+                variant="accent"
+                class="m-2 shrink-0"
+                @click="deletePlayer(player.id)"
+              />
+            </div>
+          </div>
         </div>
       </template>
     </div>
