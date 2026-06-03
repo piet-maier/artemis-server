@@ -4,7 +4,6 @@ import TextInput from "@/components/TextInput.vue";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import {
   ChevronDownIcon,
-  ChevronUpIcon,
   SmilePlusIcon,
   UserRoundPenIcon,
   UserRoundPlusIcon,
@@ -13,6 +12,8 @@ import {
 import { reactive, ref, useTemplateRef } from "vue";
 
 const playerRowRef = useTemplateRef("player-row");
+const changedPlayerId = ref<number | null>(null);
+const expandedPlayerId = ref<number | null>(null);
 const inputValue = ref("");
 const data = reactive([
   {
@@ -22,8 +23,6 @@ const data = reactive([
   { name: "Fax", id: 2 },
   { name: "PietySD", id: 3 },
 ]);
-
-const expandedPlayerId = ref<number | null>(null);
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
   if (!playerRowRef.value?.contains(mouseEvent.target as HTMLElement)) {
@@ -73,13 +72,13 @@ function deletePlayer(playerId: number) {
             v-model="player.name"
             class="m-2 flex-1 p-2"
             @focus="expandedPlayerId = player.id"
+            @update:model-value="changedPlayerId = player.id"
           />
 
           <IconButton
-            :icon="
-              expandedPlayerId === player.id ? ChevronUpIcon : ChevronDownIcon
-            "
-            @mousedown.prevent="togglePlayer(player.id)"
+            class="focus-ring"
+            :icon="ChevronDownIcon"
+            @click="togglePlayer(player.id)"
           />
         </div>
 
@@ -92,6 +91,7 @@ function deletePlayer(playerId: number) {
                 :icon="UserRoundPenIcon"
                 variant="accent"
                 class="m-2"
+                :disabled="changedPlayerId !== player.id"
                 @click="deletePlayer(player.id)"
               />
               <IconButton

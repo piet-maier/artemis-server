@@ -10,10 +10,11 @@ const { variant = "transparent" } = defineProps<{
 <template>
   <button
     :class="[
-      'flex h-10 w-10 cursor-pointer items-center justify-center rounded-md focus-ring transition-colors',
+      'flex h-10 w-10 cursor-pointer items-center justify-center rounded-md focus-ring transition-colors disabled:cursor-default disabled:opacity-50',
       {
-        'hover:bg-background-default-hover': variant == 'transparent',
-        'bg-background-accent text-foreground-accent hover:bg-background-accent-hover':
+        'hover:bg-background-default-hover disabled:hover:bg-transparent':
+          variant == 'transparent',
+        'bg-background-accent text-foreground-accent hover:bg-background-accent-hover disabled:hover:bg-background-accent':
           variant == 'accent',
       },
     ]"
