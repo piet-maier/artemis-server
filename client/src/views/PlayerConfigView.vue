@@ -2,6 +2,7 @@
 import IconButton from "@/components/IconButton.vue";
 import TextInput from "@/components/TextInput.vue";
 import { useWindowEvent } from "@/composables/useWindowEvent";
+import { usePlayerStore } from "@/stores/player";
 import {
   ChevronDownIcon,
   SmilePlusIcon,
@@ -9,20 +10,13 @@ import {
   UserRoundPlusIcon,
   UserRoundXIcon,
 } from "@lucide/vue";
-import { reactive, ref, useTemplateRef } from "vue";
+import { ref, useTemplateRef } from "vue";
 
 const playerRowRef = useTemplateRef("player-row");
 const changedPlayerId = ref<number | null>(null);
 const expandedPlayerId = ref<number | null>(null);
 const inputValue = ref("");
-const data = reactive([
-  {
-    name: "NikmanganzlangerNamederdasGesamteTexfeldausfühltundüberdenButtongehtname",
-    id: 1,
-  },
-  { name: "Fax", id: 2 },
-  { name: "PietySD", id: 3 },
-]);
+const playerStore = usePlayerStore();
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
   if (!playerRowRef.value?.contains(mouseEvent.target as HTMLElement)) {
@@ -62,7 +56,7 @@ function deletePlayer(playerId: number) {
     </div>
     <div ref="player-row" class="rounded-md border border-border-default">
       <template
-        v-for="player in data.filter((player) =>
+        v-for="player in playerStore.players.filter((player) =>
           player.name.toLowerCase().includes(inputValue.toLowerCase()),
         )"
         :key="player.id"

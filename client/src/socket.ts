@@ -1,4 +1,4 @@
-import type { Change, Data } from "@/type";
+import type { Change, Data, Player } from "@/type";
 import { io, type Socket } from "socket.io-client";
 
 interface ServerToClientEvents {
@@ -21,6 +21,7 @@ interface ClientToServerEvents {
   ) => void;
   "grid:update": (type: string, grid: string, change: Change) => void;
   plot: (callback: (data: Record<string, number>) => void) => void;
+  "player:read": (callback: (players: Player[]) => void) => void;
 }
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
