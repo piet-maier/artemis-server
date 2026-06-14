@@ -8,7 +8,7 @@ import IconButton from "./IconButton.vue";
 const themes = [
   { displayName: "High Contrast", key: "" },
   { displayName: "Ashenlord", key: "ash" },
-  { displayName: "Light Mode", key: "kawaii" },
+  { displayName: "Light Mode 🚫☢️⚠️🔞⛔", key: "kawaii" },
   { displayName: "Tobias lieblings Theme", key: "tobias" },
   { displayName: "Midnight Tokyo", key: "tokyo" },
   { displayName: "Coruption", key: "corruption" },
