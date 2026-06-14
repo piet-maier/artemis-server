@@ -40,7 +40,7 @@ const computedData = computed(() => {
   return result;
 });
 
-const showGrid = ref(location.query.mode!=='chart');
+const showGrid = ref(location.query.mode !== "chart");
 
 const emoji = (index: number, score: number, name: string) => {
   switch (score) {
@@ -107,9 +107,9 @@ const emoji = (index: number, score: number, name: string) => {
   }
 };
 
-const activePlayers = computed(() =>
-  data.head.filter((name) => data.foot[name] !== null),
-);
+// const activePlayers = computed(() =>
+//   data.head.filter((name) => data.foot[name] !== null),
+// );
 
 watch(
   () => [location.params.type, location.params.grid],
