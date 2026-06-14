@@ -110,7 +110,7 @@ const turnIndicatorIndex = computed(() => {
 
     <div
       ref="containerRef"
-      class="scrollbar-track-background-default max-h-90 scrollbar-thin scrollbar-thumb-background-default-hover overflow-auto focus-visible:outline-hidden"
+      class="max-h-90 scrollbar-thin scrollbar-thumb-background-default-hover scrollbar-track-background-default overflow-auto focus-visible:outline-hidden"
     >
       <table class="w-full border-separate border-spacing-0 text-left text-sm">
         <thead>
