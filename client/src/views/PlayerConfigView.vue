@@ -54,7 +54,17 @@ function deletePlayer(playerId: number) {
         <UserRoundPlusIcon class="mr-2" /> Create Player
       </button>
     </div>
-    <div ref="player-row" class="rounded-md border border-border-default">
+    <!-- TODO smoth out the expansion of the border of the div -->
+    <TransitionGroup
+      ref="player-row"
+      enter-active-class="transition duration-300"
+      enter-from-class="opacity-0 -translate-y-8 scale-y-0"
+      leave-active-class="transition duration-300 absolute"
+      leave-to-class="opacity-0 -translate-y-8 scale-y-0"
+      move-class="transition duration-300"
+      tag="div"
+      class="rounded-md border border-border-default"
+    >
       <template
         v-for="player in playerStore.players.filter((player) =>
           player.name.toLowerCase().includes(inputValue.toLowerCase()),
@@ -70,13 +80,13 @@ function deletePlayer(playerId: number) {
           />
 
           <IconButton
-            class="focus-ring"
+            class="focus-ring transition-transform duration-300"
+            :class="{ 'rotate-180': expandedPlayerId === player.id }"
             :icon="ChevronDownIcon"
             @click="togglePlayer(player.id)"
           />
         </div>
 
-        <!-- TODO smoth out the expansion of the drop down -->
         <div v-if="expandedPlayerId === player.id">
           <div class="mx-2 flex gap-16 lg:gap-32">
             <div class="flex">
@@ -108,6 +118,6 @@ function deletePlayer(playerId: number) {
           </div>
         </div>
       </template>
-    </div>
+    </TransitionGroup>
   </main>
 </template>
