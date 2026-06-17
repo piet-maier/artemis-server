@@ -15,7 +15,9 @@ const open = ref(false);
   >
     <div class="container flex h-14 items-center justify-between">
       <div class="flex items-center gap-8 lg:gap-16">
-        <IconButton :icon="Menu" @click="open = true" />
+        <IconButton @click="open = true">
+          <Menu />
+        </IconButton>
         <PageNavigation v-model="open" />
 
         <div class="flex items-center gap-4">

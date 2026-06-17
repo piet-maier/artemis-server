@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import type { Component } from "vue";
-
 const { variant = "transparent" } = defineProps<{
-  icon: Component;
   variant?: "transparent" | "accent";
 }>();
 </script>
@@ -20,6 +17,6 @@ const { variant = "transparent" } = defineProps<{
     ]"
     type="button"
   >
-    <component :is="icon" />
+    <slot />
   </button>
 </template>

@@ -33,7 +33,9 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
 
 <template>
   <div ref="menu" class="relative">
-    <IconButton :icon="PaletteIcon" @click="onThemeSelectorToggle" />
+    <IconButton @click="onThemeSelectorToggle">
+      <PaletteIcon />
+    </IconButton>
     <Transition
       enter-active-class="transition duration-300 origin-top"
       enter-from-class="opacity-0 scale-95"

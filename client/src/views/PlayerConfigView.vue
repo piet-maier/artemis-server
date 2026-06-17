@@ -79,12 +79,14 @@ function deletePlayer(playerId: number) {
             @update:model-value="changedPlayerId = player.id"
           />
 
-          <IconButton
-            class="focus-ring transition-transform duration-300"
-            :class="{ 'rotate-180': expandedPlayerId === player.id }"
-            :icon="ChevronDownIcon"
-            @click="togglePlayer(player.id)"
-          />
+          <IconButton class="focus-ring" @click="togglePlayer(player.id)">
+            <ChevronDownIcon
+              :class="[
+                'transition-transform duration-300',
+                { 'rotate-180': expandedPlayerId === player.id },
+              ]"
+            />
+          </IconButton>
         </div>
 
         <div v-if="expandedPlayerId === player.id">
@@ -92,28 +94,31 @@ function deletePlayer(playerId: number) {
             <div class="flex">
               <!-- TODO When changes to the Player name have been made highlight the Button -->
               <IconButton
-                :icon="UserRoundPenIcon"
                 variant="accent"
                 class="m-2"
                 :disabled="changedPlayerId !== player.id"
                 @click="deletePlayer(player.id)"
-              />
+              >
+                <UserRoundPenIcon />
+              </IconButton>
               <IconButton
-                :icon="UserRoundXIcon"
                 variant="accent"
                 class="m-2"
                 @click="deletePlayer(player.id)"
-              />
+              >
+                <UserRoundXIcon />
+              </IconButton>
             </div>
             <div class="flex min-w-0">
               <TextInput class="m-2 min-w-0 text-right" />
               <!-- TODO When changes to the Player emoji have been made highlight the Button -->
               <IconButton
-                :icon="SmilePlusIcon"
                 variant="accent"
                 class="m-2 shrink-0"
                 @click="deletePlayer(player.id)"
-              />
+              >
+                <SmilePlusIcon />
+              </IconButton>
             </div>
           </div>
         </div>

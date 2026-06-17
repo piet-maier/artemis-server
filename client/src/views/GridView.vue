@@ -130,11 +130,10 @@ onUnmounted(() => {
 
 <template>
   <main class="container py-4 sm:py-8">
-    <IconButton
-      :icon="showGrid ? ChartBarIcon : TableIcon"
-      class="ml-auto"
-      @click="showGrid = !showGrid"
-    />
+    <IconButton class="ml-auto" @click="showGrid = !showGrid">
+      <ChartBarIcon v-if="showGrid" />
+      <TableIcon v-else />
+    </IconButton>
 
     <div v-if="showGrid">
       <div class="mb-8 space-y-2">
