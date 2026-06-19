@@ -99,7 +99,7 @@ onMounted(() => {
         )
         .call((gElement) =>
           gElement
-            .attr("x", xScale.range()[1])
+            .attr("x", ([_, groupValue]) => xScale(last(groupValue)!.x)!)
             .attr("y", ([_, groupValue]) => yScale(last(groupValue)!.y))
             .attr("dx", 4),
         );
