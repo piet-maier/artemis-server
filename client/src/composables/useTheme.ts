@@ -34,8 +34,7 @@ export function useTheme(initialValue = "") {
       }
 
       // https://paco.me/writing/disable-theme-transitions
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _ = window.getComputedStyle(html).opacity;
+      const _ = getComputedStyle(html).opacity;
 
       html.classList.remove("transition-none");
     },

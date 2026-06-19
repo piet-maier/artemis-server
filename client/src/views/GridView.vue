@@ -24,7 +24,7 @@ const computedData = computed(() => {
     for (let x = 1; x < data.body.length; x++) {
       const record = data.body[x - 1];
 
-      let y = NaN;
+      let y = Number.NaN;
 
       if (z in record) {
         runningTotal[z] = (runningTotal[z] ?? 0) + record[z];
