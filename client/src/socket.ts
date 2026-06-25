@@ -9,6 +9,8 @@ interface ServerToClientEvents {
     change: Change,
     foot: number,
   ) => void;
+  "player:create": (player: Player) => void;
+  "player:delete": (id: number) => void;
 }
 
 interface ClientToServerEvents {
@@ -22,6 +24,8 @@ interface ClientToServerEvents {
   "grid:update": (type: string, grid: string, change: Change) => void;
   plot: (callback: (data: Record<string, number>) => void) => void;
   "player:read": (callback: (players: Player[]) => void) => void;
+  "player:create": (name: string) => void;
+  "player:delete": (id: number) => void;
 }
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(

@@ -1,9 +1,9 @@
 import { socket } from "@/socket.ts";
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { ref } from "vue";
 
 export const usePlayerStore = defineStore("player", () => {
-  const players = reactive([
+  const players = ref([
     {
       name: "NikmanganzlangerNamederdasGesamteTexfeldausfühltundüberdenButtongehtname",
       id: 1,
@@ -12,9 +12,31 @@ export const usePlayerStore = defineStore("player", () => {
     { name: "PietySD", id: 3 },
   ]);
 
-  function readPlayers() {
-    socket.emit("player:read", (playersResponse) => {});
+  function createPlayer(name: string) {
+    socket.emit("player:create", name);
   }
 
-  return { players };
+  function readPlayers() {
+    socket.emit("player:read", (playersResponse) => {
+      players.value = playersResponse;
+    });
+  }
+
+  function deletePlayer(id: number) {
+    socket.emit("player:delete", id);
+  }
+
+  function subscribe() {
+    socket.on("player:create", (player) => {
+      players.value.push(player);
+    });
+    socket.on("player:delete", (id) => {
+      players.value.splice(
+        players.value.findIndex((player) => player.id === id),
+        1,
+      );
+    });
+  }
+
+  return { players, createPlayer, readPlayers, deletePlayer, subscribe };
 });
