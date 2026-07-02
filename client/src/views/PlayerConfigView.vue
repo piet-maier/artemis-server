@@ -18,6 +18,8 @@ const expandedPlayerId = ref<number | null>(null);
 const inputValue = ref("");
 const playerStore = usePlayerStore();
 
+playerStore.readPlayers();
+
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
   if (!playerRowRef.value?.contains(mouseEvent.target as HTMLElement)) {
     expandedPlayerId.value = null;
@@ -29,12 +31,17 @@ function togglePlayer(id: number) {
 }
 
 function createPlayer() {
-  console.log("Spieler erstellt (ohne Garantie)");
+  /* TODO Add Validation */
+  playerStore.createPlayer(inputValue.value);
   inputValue.value = "";
 }
 
+function updatePlayer(index: number) {
+  playerStore.updatePlayer(playerStore.tempPlayers[index]);
+}
+
 function deletePlayer(playerId: number) {
-  console.log(playerId + " was deleted (ohne Garantie)");
+  playerStore.deletePlayer(playerId);
 }
 </script>
 
@@ -66,7 +73,7 @@ function deletePlayer(playerId: number) {
       class="rounded-md border border-border-default"
     >
       <template
-        v-for="player in playerStore.players.filter((player) =>
+        v-for="(player, index) in playerStore.tempPlayers.filter((player) =>
           player.name.toLowerCase().includes(inputValue.toLowerCase()),
         )"
         :key="player.id"
@@ -97,7 +104,7 @@ function deletePlayer(playerId: number) {
                 variant="accent"
                 class="m-2"
                 :disabled="changedPlayerId !== player.id"
-                @click="deletePlayer(player.id)"
+                @click="updatePlayer(index)"
               >
                 <UserRoundPenIcon />
               </IconButton>
@@ -112,11 +119,7 @@ function deletePlayer(playerId: number) {
             <div class="flex min-w-0">
               <TextInput class="m-2 min-w-0 text-right" />
               <!-- TODO When changes to the Player emoji have been made highlight the Button -->
-              <IconButton
-                variant="accent"
-                class="m-2 shrink-0"
-                @click="deletePlayer(player.id)"
-              >
+              <IconButton variant="accent" class="m-2 shrink-0">
                 <SmilePlusIcon />
               </IconButton>
             </div>

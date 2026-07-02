@@ -10,6 +10,7 @@ interface ServerToClientEvents {
     foot: number,
   ) => void;
   "player:create": (player: Player) => void;
+  "player:update": (player: Player) => void;
   "player:delete": (id: number) => void;
 }
 
@@ -23,8 +24,9 @@ interface ClientToServerEvents {
   ) => void;
   "grid:update": (type: string, grid: string, change: Change) => void;
   plot: (callback: (data: Record<string, number>) => void) => void;
-  "player:read": (callback: (players: Player[]) => void) => void;
   "player:create": (name: string) => void;
+  "player:read": (callback: (players: Player[]) => void) => void;
+  "player:update": (player: Player) => void;
   "player:delete": (id: number) => void;
 }
 

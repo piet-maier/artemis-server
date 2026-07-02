@@ -13,5 +13,5 @@ export interface Change {
 export interface Player {
   id: number;
   name: string;
-  emoji: string;
+  //emoji: string;
 }
