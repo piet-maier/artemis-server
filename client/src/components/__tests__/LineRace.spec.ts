@@ -60,3 +60,26 @@ test("Changing Data", async () => {
     "amt",
   ]);
 });
+
+test("Text Position", () => {
+  const lineRace = mount(LineRace, {
+    props: {
+      // Remove some values so that the "uv" line ends above and to the right of the "pv" line.
+      data: data.map((item, number) =>
+        number < 9 ? item : { ...item, y: Number.NaN },
+      ),
+    },
+  });
+
+  const text = lineRace.findAll(textSelector);
+
+  const uv = text.find((item) => item.text() === "uv");
+  const pv = text.find((item) => item.text() === "pv");
+
+  expect(Number(uv!.attributes("x"))).toBeGreaterThan(
+    Number(pv!.attributes("x")),
+  );
+
+  // The point of origin of the SVG coordinate system is the top left corner.
+  expect(Number(uv!.attributes("y"))).toBeLessThan(Number(pv!.attributes("y")));
+});

@@ -13,16 +13,16 @@
   --foreground-color-neutral: var(--color-zinc-50);
   --foreground-color-accent: var(--color-zinc-950);
 
-  --chart-1: var(--color-violet-600);
-  --chart-2: var(--color-green-600);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-teal-600);
-  --chart-5: var(--color-mauve-600);
-  --chart-6: var(--color-violet-400);
-  --chart-7: var(--color-green-400);
-  --chart-8: var(--color-blue-400);
-  --chart-9: var(--color-teal-400);
-  --chart-10: var(--color-mauve-400);
+  --chart-1: oklch(0.724121 0.165625 20);
+  --chart-2: oklch(0.707031 0.165625 90);
+  --chart-3: oklch(0.682617 0.165625 180);
+  --chart-4: oklch(0.704102 0.165625 250);
+  --chart-5: oklch(0.725586 0.165625 320);
+  --chart-6: var(--chart-1);
+  --chart-7: var(--chart-2);
+  --chart-8: var(--chart-3);
+  --chart-9: var(--chart-4);
+  --chart-10: var(--chart-5);
 
   @apply scheme-dark;
 }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import * as d3 from "d3";
-import { range } from "lodash";
 import { onMounted, useTemplateRef, watch } from "vue";
 
 type Item = { x: number; y: number; z: string };
@@ -30,7 +29,7 @@ const leftAxisGroupRef = useTemplateRef("leftAxisGroupRef");
 
 const line = d3
   .line<Item>()
-  .defined(({ y }) => !isNaN(y))
+  .defined(({ y }) => !Number.isNaN(y))
   .x(({ x }) => xScale(x)!)
   .y(({ y }) => yScale(y));
 
@@ -38,12 +37,16 @@ const lineGroupRef = useTemplateRef("lineGroupRef");
 
 const textGroupRef = useTemplateRef("textGroupRef");
 
+function last(list: Item[]) {
+  return d3.greatest(list, ({ x, y }) => (Number.isNaN(y) ? y : x));
+}
+
 onMounted(() => {
   watch(
     () => prop.data,
     () => {
       xScale.domain(
-        range(
+        d3.range(
           d3.min(prop.data, ({ x }) => x)!,
           d3.max(prop.data, ({ x }) => x)! + 1,
         ),
@@ -83,7 +86,6 @@ onMounted(() => {
           (gElement) => gElement.remove(),
         )
         .call((gElement) =>
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           gElement.attr("d", ([_, groupValue]) => line(groupValue)),
         );
 
@@ -97,17 +99,8 @@ onMounted(() => {
         )
         .call((gElement) =>
           gElement
-            .attr("x", xScale.range()[1])
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .attr("y", ([_, groupValue]) =>
-              yScale(
-                groupValue
-                  .filter(({ y }) => !isNaN(y))
-                  .reduce((previousItem, item) =>
-                    item.x > previousItem.x ? item : previousItem,
-                  ).y,
-              ),
-            )
+            .attr("x", ([_, groupValue]) => xScale(last(groupValue)!.x)!)
+            .attr("y", ([_, groupValue]) => yScale(last(groupValue)!.y))
             .attr("dx", 4),
         );
     },

@@ -2,10 +2,10 @@
 import DataGrid from "@/components/DataGrid.vue";
 import IconButton from "@/components/IconButton.vue";
 import LineRace from "@/components/LineRace.vue";
+import LocaleDate from "@/components/LocaleDate.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
-import { format } from "date-fns";
 import { computed, onUnmounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -25,7 +25,7 @@ const computedData = computed(() => {
     for (let x = 1; x < data.body.length; x++) {
       const record = data.body[x - 1];
 
-      let y = NaN;
+      let y = Number.NaN;
 
       if (z in record) {
         runningTotal[z] = (runningTotal[z] ?? 0) + record[z];
@@ -42,74 +42,75 @@ const computedData = computed(() => {
 
 const showGrid = computed(() => location.query.mode !== "chart");
 
-// const emoji = (index: number, score: number, name: string) => {
-//   switch (score) {
-//     case 4:
-//       return "4️⃣";
-//     case 7:
-//       return "🍀";
-//     case 67:
-//       return " ⁶🤷‍♂️⁷";
-//     case 69:
-//       return "😏";
-//     case 420:
-//       return "🥦";
-//     case 666:
-//       return "😈";
-//     case 1337:
-//       return "🤓";
-//     case 10000:
-//       return "🎲";
-//   }
-//   switch (index) {
-//     case 0: {
-//       switch (name) {
-//         case "Fax":
-//           return "✈️";
-//         case "Tobienchen":
-//           return "🌚";
-//         case "Nikman":
-//           return "🧜🏿‍♀️";
-//         case "Pert":
-//           return "🕴🏻";
-//         case "Schmelzofen":
-//           return "🗿";
-//         case "Herni":
-//           return "🪤";
-//         case "Hoctor Dirsch":
-//           return "🦌";
-//         case "Rilo":
-//           return "🐳";
-//         case "Prophet":
-//           return "👙";
-//         case "Chirs":
-//           return "🥵";
-//         default:
-//           return "👑";
-//       }
-//     }
-//     case activePlayers.value.length - 1:
-//       return "📉";
-//     case activePlayers.value.length - 2:
-//       return "🐟";
-//     case 1:
-//       return "🧙‍♀️";
-//     case 2:
-//       return "🫃";
-//     case 3:
-//       return "🤕";
-//     case 4:
-//       return "😤";
-//     case 5:
-//       return "😭";
-//     default:
-//       return "";
-//   }
-// };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emoji = (index: number, score: number, name: string) => {
+  switch (score) {
+    case 4:
+      return "4️⃣";
+    case 7:
+      return "🍀";
+    case 67:
+      return " ⁶🤷‍♂️⁷";
+    case 69:
+      return "😏";
+    case 420:
+      return "🥦";
+    case 666:
+      return "😈";
+    case 1337:
+      return "🤓";
+    case 10000:
+      return "🎲";
+  }
+  switch (index) {
+    case 0: {
+      switch (name) {
+        case "Fax":
+          return "✈️";
+        case "Tobienchen":
+          return "🌚";
+        case "Nikman":
+          return "🧜🏿‍♀️";
+        case "Pert":
+          return "🕴🏻";
+        case "Schmelzofen":
+          return "🗿";
+        case "Herni":
+          return "🪤";
+        case "Hoctor Dirsch":
+          return "🦌";
+        case "Rilo":
+          return "🐳";
+        case "Prophet":
+          return "👙";
+        case "Chirs":
+          return "🥵";
+        default:
+          return "👑";
+      }
+    }
+    case activePlayers.value.length - 1:
+      return "📉";
+    case activePlayers.value.length - 2:
+      return "🐟";
+    case 1:
+      return "🧙‍♀️";
+    case 2:
+      return "🫃";
+    case 3:
+      return "🤕";
+    case 4:
+      return "😤";
+    case 5:
+      return "😭";
+    default:
+      return "";
+  }
+};
 
-// const activePlayers = computed(() =>
-//   data.head.filter((name) => data.foot[name] !== null),
-// );
+const activePlayers = computed(() =>
+  data.head.filter((name) => data.foot[name] !== null),
+);
 
 watch(
   () => [location.params.type, location.params.grid],
@@ -159,7 +160,7 @@ onUnmounted(() => {
           {{ location.params.type }}
         </h2>
         <p class="text-lg text-foreground-muted">
-          {{ format(new Date(+location.params.grid), "PPpp") }}
+          <LocaleDate :date="new Date(+location.params.grid)" />
         </p>
       </div>
 
