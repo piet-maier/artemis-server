@@ -2,10 +2,10 @@
 import DataGrid from "@/components/DataGrid.vue";
 import IconButton from "@/components/IconButton.vue";
 import LineRace from "@/components/LineRace.vue";
+import LocaleDate from "@/components/LocaleDate.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
-import { format } from "date-fns";
 import { computed, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -41,6 +41,7 @@ const computedData = computed(() => {
 
 const showGrid = ref(true);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emoji = (index: number, score: number, name: string) => {
   switch (score) {
     case 4:
@@ -158,7 +159,7 @@ onUnmounted(() => {
           {{ location.params.type }}
         </h2>
         <p class="text-lg text-foreground-muted">
-          {{ format(new Date(+location.params.grid), "PPpp") }}
+          <LocaleDate :date="new Date(+location.params.grid)" />
         </p>
       </div>
 

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import Disclosure from "@/components/Disclosure.vue";
 import IconButton from "@/components/IconButton.vue";
+import LocaleDate from "@/components/LocaleDate.vue";
 import { useConnectionStore } from "@/stores/connection";
 import { X } from "@lucide/vue";
-import { format } from "date-fns";
 import { storeToRefs } from "pinia";
 import { RouterLink } from "vue-router";
 
@@ -66,7 +66,7 @@ const { navigation } = storeToRefs(useConnectionStore());
                 :to="{ name: 'grid', params: { type, grid: item } }"
                 @click="$emit('update:modelValue', false)"
               >
-                {{ format(new Date(item), "PPpp") }}
+                <LocaleDate :date="new Date(item)" />
               </RouterLink>
             </div>
           </Disclosure>
