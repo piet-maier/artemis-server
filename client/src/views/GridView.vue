@@ -6,10 +6,11 @@ import LocaleDate from "@/components/LocaleDate.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
-import { computed, onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onUnmounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const location = useRoute();
+const router = useRouter();
 
 const { data, readGrid, changeData } = useGridStore();
 
@@ -39,7 +40,7 @@ const computedData = computed(() => {
   return result;
 });
 
-const showGrid = ref(true);
+const showGrid = computed(() => location.query.mode !== "chart");
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emoji = (index: number, score: number, name: string) => {
@@ -150,7 +151,7 @@ onUnmounted(() => {
     <IconButton
       class="ml-auto"
       :icon="showGrid ? ChartBarIcon : TableIcon"
-      @click="showGrid = !showGrid"
+      @click="router.replace({ query: { mode: showGrid ? 'chart' : 'grid' } })"
     />
 
     <div v-if="showGrid">

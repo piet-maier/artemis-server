@@ -110,7 +110,7 @@ const turnIndicatorIndex = computed(() => {
 
     <div
       ref="containerRef"
-      class="max-h-90 overflow-auto focus-visible:outline-hidden"
+      class="max-h-90 scrollbar-thin scrollbar-thumb-background-neutral scrollbar-track-background-default overflow-auto focus-visible:outline-hidden"
     >
       <table class="w-full border-separate border-spacing-0 text-left text-sm">
         <thead>
@@ -122,7 +122,7 @@ const turnIndicatorIndex = computed(() => {
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
-                  ? 'rounded-md border border-border-attention bg-background-attention text-foreground-default'
+                  ? 'rounded-t-md border border-border-attention bg-background-attention text-foreground-default'
                   : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"
