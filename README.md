@@ -1,3 +1,7 @@
+<p align="center">
+    <a href="https://github.com/piet-maier/artemis-server/actions/workflows/client.yml"><img src="https://github.com/piet-maier/artemis-server/actions/workflows/client.yml/badge.svg" alt="Client Checks"></a>
+</p>
+
 ## Setting Up
 
 All commands should be run from the `server` or `client` directories, respectively.
