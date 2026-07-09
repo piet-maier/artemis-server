@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import IconButton from "@/components/IconButton.vue";
 import TextInput from "@/components/TextInput.vue";
-import { useWindowEvent } from "@/composables/useWindowEvent";
 import { usePlayerStore } from "@/stores/player";
 import {
   ChevronDownIcon,
@@ -10,21 +9,14 @@ import {
   UserRoundPlusIcon,
   UserRoundXIcon,
 } from "@lucide/vue";
-import { ref, useTemplateRef } from "vue";
+import { ref } from "vue";
 
-const playerRowRef = useTemplateRef("player-row");
 const changedPlayerId = ref<number | null>(null);
 const expandedPlayerId = ref<number | null>(null);
 const inputValue = ref("");
 const playerStore = usePlayerStore();
 
 playerStore.readPlayers();
-
-useWindowEvent("click", (mouseEvent: MouseEvent) => {
-  if (!playerRowRef.value?.contains(mouseEvent.target as HTMLElement)) {
-    expandedPlayerId.value = null;
-  }
-});
 
 function togglePlayer(id: number) {
   expandedPlayerId.value = expandedPlayerId.value === id ? null : id;
@@ -50,12 +42,12 @@ function deletePlayer(playerId: number) {
     <div class="mb-2 flex gap-2">
       <input
         v-model="inputValue"
-        type="text"
         class="rounded-md border border-border-default focus-ring"
+        type="text"
       />
       <button
-        type="button"
         class="flex cursor-pointer items-center rounded-md bg-background-accent px-4 py-2 text-sm font-medium text-foreground-accent focus-ring hover:bg-background-accent-hover"
+        type="button"
         @click="createPlayer"
       >
         <UserRoundPlusIcon class="mr-2" /> Create Player
@@ -63,14 +55,13 @@ function deletePlayer(playerId: number) {
     </div>
     <!-- TODO smoth out the expansion of the border of the div -->
     <TransitionGroup
-      ref="player-row"
+      class="rounded-md border border-border-default"
       enter-active-class="transition duration-300"
       enter-from-class="opacity-0 -translate-y-8 scale-y-0"
       leave-active-class="transition duration-300 absolute"
       leave-to-class="opacity-0 -translate-y-8 scale-y-0"
       move-class="transition duration-300"
       tag="div"
-      class="rounded-md border border-border-default"
     >
       <template
         v-for="(player, index) in playerStore.tempPlayers.filter((player) =>
@@ -101,16 +92,16 @@ function deletePlayer(playerId: number) {
             <div class="flex">
               <!-- TODO When changes to the Player name have been made highlight the Button -->
               <IconButton
-                variant="accent"
                 class="m-2"
                 :disabled="changedPlayerId !== player.id"
+                variant="accent"
                 @click="updatePlayer(index)"
               >
                 <UserRoundPenIcon />
               </IconButton>
               <IconButton
-                variant="accent"
                 class="m-2"
+                variant="accent"
                 @click="deletePlayer(player.id)"
               >
                 <UserRoundXIcon />
@@ -119,7 +110,7 @@ function deletePlayer(playerId: number) {
             <div class="flex min-w-0">
               <TextInput class="m-2 min-w-0 text-right" />
               <!-- TODO When changes to the Player emoji have been made highlight the Button -->
-              <IconButton variant="accent" class="m-2 shrink-0">
+              <IconButton class="m-2 shrink-0" variant="accent">
                 <SmilePlusIcon />
               </IconButton>
             </div>
