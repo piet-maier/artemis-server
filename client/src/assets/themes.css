@@ -13,6 +13,17 @@
   --foreground-color-neutral: var(--color-zinc-50);
   --foreground-color-accent: var(--color-zinc-950);
 
+  --chart-1: oklch(0.724121 0.165625 20);
+  --chart-2: oklch(0.707031 0.165625 90);
+  --chart-3: oklch(0.682617 0.165625 180);
+  --chart-4: oklch(0.704102 0.165625 250);
+  --chart-5: oklch(0.725586 0.165625 320);
+  --chart-6: var(--chart-1);
+  --chart-7: var(--chart-2);
+  --chart-8: var(--chart-3);
+  --chart-9: var(--chart-4);
+  --chart-10: var(--chart-5);
+
   @apply scheme-dark;
 }
 
@@ -30,6 +41,17 @@
   --foreground-color-muted: var(--color-zinc-300);
   --foreground-color-neutral: var(--color-zinc-100);
   --foreground-color-accent: var(--color-zinc-800);
+
+  --chart-1: var(--color-violet-400);
+  --chart-2: var(--color-green-400);
+  --chart-3: var(--color-blue-400);
+  --chart-4: var(--color-teal-400);
+  --chart-5: var(--color-mauve-400);
+  --chart-6: var(--color-violet-300);
+  --chart-7: var(--color-green-300);
+  --chart-8: var(--color-blue-300);
+  --chart-9: var(--color-teal-300);
+  --chart-10: var(--color-mauve-300);
 
   @apply scheme-dark;
 }
@@ -49,6 +71,17 @@
   --foreground-color-neutral: var(--color-pink-200);
   --foreground-color-accent: var(--color-mauve-50);
 
+  --chart-1: var(--color-violet-400);
+  --chart-2: var(--color-pink-400);
+  --chart-3: var(--color-indigo-400);
+  --chart-4: var(--color-rose-400);
+  --chart-5: var(--color-blue-400);
+  --chart-6: var(--color-violet-300);
+  --chart-7: var(--color-pink-300);
+  --chart-8: var(--color-indigo-300);
+  --chart-9: var(--color-rose-300);
+  --chart-10: var(--color-blue-300);
+
   @apply scheme-dark;
 }
 
@@ -66,6 +99,17 @@
   --foreground-color-muted: var(--color-neutral-400);
   --foreground-color-neutral: var(--color-violet-900);
   --foreground-color-accent: var(--color-neutral-50);
+
+  --chart-1: var(--color-red-900);
+  --chart-2: var(--color-violet-900);
+  --chart-3: var(--color-rose-800);
+  --chart-4: var(--color-purple-800);
+  --chart-5: var(--color-neutral-700);
+  --chart-6: var(--color-red-700);
+  --chart-7: var(--color-violet-700);
+  --chart-8: var(--color-rose-600);
+  --chart-9: var(--color-purple-600);
+  --chart-10: var(--color-neutral-500);
 
   @apply scheme-dark;
 }
@@ -85,6 +129,17 @@
   --foreground-color-neutral: var(--color-indigo-300);
   --foreground-color-accent: var(--color-blue-900);
 
+  --chart-1: var(--color-blue-700);
+  --chart-2: var(--color-indigo-700);
+  --chart-3: var(--color-sky-700);
+  --chart-4: var(--color-cyan-700);
+  --chart-5: var(--color-violet-700);
+  --chart-6: var(--color-blue-400);
+  --chart-7: var(--color-indigo-400);
+  --chart-8: var(--color-sky-400);
+  --chart-9: var(--color-cyan-400);
+  --chart-10: var(--color-violet-400);
+
   @apply scheme-dark;
 }
 
@@ -102,6 +157,18 @@
   --foreground-color-muted: var(--color-rose-300);
   --foreground-color-neutral: var(--color-pink-200);
   --foreground-color-accent: var(--color-mauve-50);
+
+  --chart-1: var(--color-violet-300);
+  --chart-2: var(--color-pink-300);
+  --chart-3: var(--color-indigo-300);
+  --chart-4: var(--color-rose-300);
+  --chart-5: var(--color-slate-300);
+  --chart-6: var(--color-violet-200);
+  --chart-7: var(--color-pink-200);
+  --chart-8: var(--color-indigo-200);
+  --chart-9: var(--color-rose-200);
+  --chart-10: var(--color-slate-200);
+
   /* TODO
   Kirschblüten Hintergrund
   New Cursor Icon
@@ -126,6 +193,17 @@
   --foreground-color-neutral: var(--color-rose-950);
   --foreground-color-accent: var(--color-zinc-950);
 
+  --chart-1: var(--color-rose-900);
+  --chart-2: var(--color-red-900);
+  --chart-3: var(--color-pink-900);
+  --chart-4: var(--color-rose-700);
+  --chart-5: var(--color-red-700);
+  --chart-6: var(--color-rose-500);
+  --chart-7: var(--color-red-500);
+  --chart-8: var(--color-pink-700);
+  --chart-9: var(--color-rose-300);
+  --chart-10: var(--color-red-300);
+
   @apply scheme-dark;
 }
 
@@ -144,6 +222,17 @@
   --foreground-color-neutral: var(--color-fuchsia-400);
   --foreground-color-accent: var(--color-fuchsia-950);
 
+  --chart-1: var(--color-fuchsia-900);
+  --chart-2: var(--color-indigo-600);
+  --chart-3: var(--color-violet-900);
+  --chart-4: var(--color-sky-600);
+  --chart-5: var(--color-pink-600);
+  --chart-6: var(--color-fuchsia-600);
+  --chart-7: var(--color-indigo-300);
+  --chart-8: var(--color-violet-600);
+  --chart-9: var(--color-sky-300);
+  --chart-10: var(--color-pink-300);
+
   @apply scheme-dark;
 }
 
@@ -161,6 +250,17 @@
   --foreground-color-muted: var(--color-neutral-700);
   --foreground-color-neutral: var(--color-blue-950);
   --foreground-color-accent: var(--color-olive-50);
+
+  --chart-1: var(--color-neutral-800);
+  --chart-2: var(--color-blue-900);
+  --chart-3: var(--color-purple-800);
+  --chart-4: var(--color-red-900);
+  --chart-5: var(--color-neutral-800);
+  --chart-6: var(--color-blue-900);
+  --chart-7: var(--color-purple-800);
+  --chart-8: var(--color-red-900);
+  --chart-9: var(--color-neutral-800);
+  --chart-10: var(--color-blue-900);
 
   @apply scheme-light;
 }

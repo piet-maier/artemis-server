@@ -20,4 +20,30 @@ export default defineConfigWithVueTs(
     files: ["src/**/__tests__/*"],
   },
   skipFormatting,
+
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          varsIgnorePattern: "_",
+          argsIgnorePattern: "_",
+          caughtErrorsIgnorePattern: "_",
+          destructuredArrayIgnorePattern: "_",
+        },
+      ],
+      "vue/attributes-order": [
+        "warn",
+        {
+          alphabetical: true,
+        },
+      ],
+      "vue/block-order": [
+        "warn",
+        {
+          order: ["script", "template", "style"],
+        },
+      ],
+    },
+  },
 );

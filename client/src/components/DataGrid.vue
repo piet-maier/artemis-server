@@ -100,8 +100,8 @@ const turnIndicatorIndex = computed(() => {
               v-for="name in head"
               :key="name"
               v-model="visibility"
-              :string="name"
               class="rounded-xs p-2 transition-colors hover:bg-background-default-hover"
+              :string="name"
             />
           </fieldset>
         </Transition>
@@ -110,7 +110,7 @@ const turnIndicatorIndex = computed(() => {
 
     <div
       ref="containerRef"
-      class="max-h-90 overflow-auto focus-visible:outline-hidden"
+      class="max-h-90 scrollbar-thin scrollbar-thumb-background-neutral scrollbar-track-background-default overflow-auto focus-visible:outline-hidden"
     >
       <table class="w-full border-separate border-spacing-0 text-left text-sm">
         <thead>
@@ -122,13 +122,13 @@ const turnIndicatorIndex = computed(() => {
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
                 turnIndicatorIndex !== -1 &&
                 name === computedHead[turnIndicatorIndex]
-                  ? 'rounded-md border border-border-attention bg-background-attention text-foreground-default'
+                  ? 'rounded-t-md border border-border-attention bg-background-attention text-foreground-default'
                   : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"
-              @dragstart="onDrag($event.dataTransfer!, name)"
               @dragenter.prevent
               @dragover.prevent="$event.dataTransfer!.dropEffect = 'move'"
+              @dragstart="onDrag($event.dataTransfer!, name)"
               @drop.prevent="
                 onDrop($event.dataTransfer!.getData('text/plain'), name)
               "
@@ -149,10 +149,10 @@ const turnIndicatorIndex = computed(() => {
               :class="[{ 'border-t': number !== 0 }, 'p-0']"
             >
               <input
-                :value="record[name]"
                 class="min-w-full scroll-my-12 border-none bg-transparent p-4 text-sm tabular-nums focus:ring-0 focus-visible:outline-hidden"
                 inputmode="numeric"
                 type="text"
+                :value="record[name]"
                 @change="
                   $emit(
                     'change',

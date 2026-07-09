@@ -1,3 +1,7 @@
+<p align="center">
+    <a href="https://github.com/piet-maier/artemis-server/actions/workflows/client.yml"><img src="https://github.com/piet-maier/artemis-server/actions/workflows/client.yml/badge.svg" alt="Client Checks"></a>
+</p>
+
 ## Setting Up
 
 All commands should be run from the `server` or `client` directories, respectively.
@@ -12,8 +16,10 @@ All commands should be run from the `server` or `client` directories, respective
 ### Client
 
 1. Install [Node.js](https://nodejs.org/en).
-2. Run `npm install` to install required packages.
+2. Run `npm install --global corepack@latest` to install [corepack](https://github.com/nodejs/corepack).
+3. Run `corepack enable pnpm` to enable [pnpm](https://pnpm.io/).
+4. Run `pnpm install` to install required packages.
 
 ## Development
 
-During development, run `flask run` from the `server` directory and `npm run dev` from the `client` directory. Then, open http://localhost:5173 in your browser.
+During development, run `flask run` from the `server` directory and `pnpm run dev` from the `client` directory. Then, open http://localhost:5173 in your browser.

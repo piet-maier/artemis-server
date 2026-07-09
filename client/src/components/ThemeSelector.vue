@@ -8,7 +8,7 @@ import IconButton from "./IconButton.vue";
 const themes = [
   { displayName: "High Contrast", key: "" },
   { displayName: "Ashenlord", key: "ash" },
-  { displayName: "Light Mode", key: "kawaii" },
+  { displayName: "Light Mode 🚫☢️⚠️🔞⛔", key: "kawaii" },
   { displayName: "Tobias lieblings Theme", key: "tobias" },
   { displayName: "Midnight Tokyo", key: "tokyo" },
   { displayName: "Coruption", key: "corruption" },
@@ -49,8 +49,8 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
         <button
           v-for="theme in themes"
           :key="theme.key"
-          :class="{ 'bg-background-neutral': theme.key === activeTheme }"
           class="w-full cursor-pointer rounded-xs py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
+          :class="{ 'bg-background-neutral': theme.key === activeTheme }"
           @click="activeTheme = theme.key"
         >
           {{ theme.displayName }}

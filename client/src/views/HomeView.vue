@@ -27,8 +27,8 @@ socket.emit("plot", (data) => {
     class="container grid items-center justify-items-center gap-4 py-4 sm:py-8 lg:grid-cols-7"
   >
     <Card
-      :disabled="!type"
       class="w-full max-w-sm lg:col-span-3"
+      :disabled="!type"
       header="Create Grid"
       submit="Create"
       @submit="createGrid(type)"
@@ -40,10 +40,10 @@ socket.emit("plot", (data) => {
       />
     </Card>
 
-    <Card header="" submit="" class="w-full lg:col-span-4">
+    <Card class="w-full lg:col-span-4" header="" submit="">
       <BarChart
-        :data="Object.entries(plot).map(([y, x]) => ({ x, y }))"
         class="h-auto w-full"
+        :data="Object.entries(plot).map(([y, x]) => ({ x, y }))"
       />
     </Card>
   </main>

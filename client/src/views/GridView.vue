@@ -1,20 +1,48 @@
 <script lang="ts" setup>
-import BarChart from "@/components/BarChart.vue";
 import DataGrid from "@/components/DataGrid.vue";
 import IconButton from "@/components/IconButton.vue";
+import LineRace from "@/components/LineRace.vue";
+import LocaleDate from "@/components/LocaleDate.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
-import { format } from "date-fns";
-import { computed, onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onUnmounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const location = useRoute();
+const router = useRouter();
 
 const { data, readGrid, changeData } = useGridStore();
 
-const showGrid = ref(true);
+const computedData = computed(() => {
+  const filteredHead = data.head.filter((name) => data.foot[name] !== null);
 
+  const runningTotal: Record<string, number> = {};
+
+  const result = filteredHead.map((name) => ({ x: 0, y: 0, z: name }));
+
+  for (const z of filteredHead) {
+    for (let x = 1; x < data.body.length; x++) {
+      const record = data.body[x - 1];
+
+      let y = Number.NaN;
+
+      if (z in record) {
+        runningTotal[z] = (runningTotal[z] ?? 0) + record[z];
+
+        y = runningTotal[z];
+      }
+
+      result.push({ x, y, z });
+    }
+  }
+
+  return result;
+});
+
+const showGrid = computed(() => location.query.mode !== "chart");
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emoji = (index: number, score: number, name: string) => {
   switch (score) {
     case 4:
@@ -80,16 +108,6 @@ const emoji = (index: number, score: number, name: string) => {
   }
 };
 
-const computedData = computed(() =>
-  data.head
-    .filter((name) => data.foot[name] !== null)
-    .sort((a, b) => data.foot[b] - data.foot[a])
-    .map((name, index) => ({
-      x: data.foot[name],
-      y: name + emoji(index, data.foot[name], name),
-    })),
-);
-
 const activePlayers = computed(() =>
   data.head.filter((name) => data.foot[name] !== null),
 );
@@ -130,7 +148,10 @@ onUnmounted(() => {
 
 <template>
   <main class="container py-4 sm:py-8">
-    <IconButton class="ml-auto" @click="showGrid = !showGrid">
+    <IconButton
+      class="ml-auto"
+      @click="router.replace({ query: { mode: showGrid ? 'chart' : 'grid' } })"
+    >
       <ChartBarIcon v-if="showGrid" />
       <TableIcon v-else />
     </IconButton>
@@ -141,18 +162,17 @@ onUnmounted(() => {
           {{ location.params.type }}
         </h2>
         <p class="text-lg text-foreground-muted">
-          {{ format(new Date(+location.params.grid), "PPpp") }}
+          <LocaleDate :date="new Date(+location.params.grid)" />
         </p>
       </div>
 
       <DataGrid v-if="data.head.length > 0" v-bind="data" @change="onChange" />
     </div>
 
-    <BarChart
+    <LineRace
       v-else-if="data.head.length > 0"
-      :key="computedData.length"
-      :data="computedData"
       class="w-full"
+      :data="computedData"
     />
   </main>
 </template>
