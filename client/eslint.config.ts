@@ -33,13 +33,13 @@ export default defineConfigWithVueTs(
         },
       ],
       "vue/attributes-order": [
-        "warn",
+        "error",
         {
           alphabetical: true,
         },
       ],
       "vue/block-order": [
-        "warn",
+        "error",
         {
           order: ["script", "template", "style"],
         },
