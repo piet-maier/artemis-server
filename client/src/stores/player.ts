@@ -16,22 +16,6 @@ export const usePlayerStore = defineStore("player", () => {
       players.value = playersResponse;
       tempPlayers.value = playersResponse;
     });
-    players.value = [
-      {
-        name: "NikmanganzlangerNamederdasGesamteTexfeldausfühltundüberdenButtongehtname",
-        id: 1,
-      },
-      { name: "Fax", id: 2 },
-      { name: "PietySD", id: 3 },
-    ];
-    tempPlayers.value = [
-      {
-        name: "NikmanganzlangerNamederdasGesamteTexfeldausfühltundüberdenButtongehtname",
-        id: 1,
-      },
-      { name: "Fax", id: 2 },
-      { name: "PietySD", id: 3 },
-    ];
   }
 
   function updatePlayer(player: Player) {
