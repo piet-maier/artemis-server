@@ -7,8 +7,8 @@ const model = defineModel<string>();
     v-model="model"
     type="text"
     :class="[
-      'rounded-md pr-2 pl-2 focus-ring hover:border-border-default focus:border-border-default',
-      !model ? 'border border-border-default' : 'border border-transparent',
+      'rounded-md border pr-2 pl-2 focus-ring hover:border-border-default focus:border-border-default',
+      !model ? 'border-border-default' : 'border-transparent',
     ]"
   />
 </template>
