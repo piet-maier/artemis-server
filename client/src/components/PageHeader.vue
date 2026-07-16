@@ -23,8 +23,8 @@ const open = ref(false);
         <div class="flex items-center gap-4">
           <!-- TODO: hover:text change to foreground hover variable -->
           <RouterLink
-            :to="{ name: 'player-config' }"
             class="hover:text-background-default-hover"
+            :to="{ name: 'player-config' }"
             >Player Config</RouterLink
           >
         </div>
