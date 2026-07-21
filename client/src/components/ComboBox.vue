@@ -47,7 +47,7 @@ useWindowEvent("click", ({ target }) => {
     <div ref="menu" class="flex h-10 rounded-md border">
       <input
         ref="text"
-        class="h-full w-full border-none bg-transparent py-2 pl-3 text-sm placeholder:text-foreground-muted focus:border-border-default focus:ring-0 focus-visible:outline-hidden"
+        class="h-full w-full border-none bg-transparent py-2 pl-4 text-sm placeholder:text-foreground-muted focus:border-border-default focus:ring-0 focus-visible:outline-hidden"
         :placeholder="string"
         type="text"
         :value="modelValue"
@@ -57,7 +57,7 @@ useWindowEvent("click", ({ target }) => {
         "
       />
 
-      <button class="h-full pr-3 pl-2" type="button" @click="toggle">
+      <button class="p h-full pr-4 pl-4" type="button" @click="toggle">
         <ChevronDown
           :class="[
             { 'rotate-180': open },
