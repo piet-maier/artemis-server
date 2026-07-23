@@ -12,14 +12,16 @@ import {
 import { ref } from "vue";
 
 const changedPlayerIds = ref<number[]>([]);
-const expandedPlayerId = ref<number | null>(null);
+const expandedPlayerIds = ref<number[]>([]);
 const inputValue = ref("");
 const playerStore = usePlayerStore();
 
 playerStore.readPlayers();
 
 function togglePlayer(id: number) {
-  expandedPlayerId.value = expandedPlayerId.value === id ? null : id;
+  const idIndex = expandedPlayerIds.value.indexOf(id);
+  if (idIndex === -1) expandedPlayerIds.value.push(id);
+  else expandedPlayerIds.value.splice(idIndex, 1);
 }
 
 function createPlayer() {
@@ -43,7 +45,7 @@ function updateChangedPlayerIds(id: number) {
   );
   if (player?.name === tempPlayer?.name)
     changedPlayerIds.value.splice(changedPlayerIds.value.indexOf(id), 1);
-  else if (changedPlayerIds.value.indexOf(id) === -1)
+  else if (!changedPlayerIds.value.includes(id))
     changedPlayerIds.value.push(id);
 }
 </script>
@@ -84,7 +86,10 @@ function updateChangedPlayerIds(id: number) {
           <TextInput
             v-model="player.name"
             class="m-2 flex-1 p-2"
-            @focus="expandedPlayerId = player.id"
+            @focus="
+              expandedPlayerIds.includes(player.id) ||
+              expandedPlayerIds.push(player.id)
+            "
             @update:model-value="updateChangedPlayerIds(player.id)"
           />
 
@@ -92,14 +97,13 @@ function updateChangedPlayerIds(id: number) {
             <ChevronDownIcon
               :class="[
                 'transition-transform duration-300',
-                { 'rotate-180': expandedPlayerId === player.id },
+                { 'rotate-180': expandedPlayerIds.includes(player.id) },
               ]"
             />
           </IconButton>
         </div>
 
-        <!-- TODO Make it possible expand multiple Rows at the same time (maybe even close them upon clicking the update button) -->
-        <div v-if="expandedPlayerId === player.id">
+        <div v-if="expandedPlayerIds.includes(player.id)">
           <div class="mx-2 flex gap-16 lg:gap-32">
             <div class="flex">
               <IconButton
