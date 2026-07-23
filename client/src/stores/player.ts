@@ -14,7 +14,7 @@ export const usePlayerStore = defineStore("player", () => {
   function readPlayers() {
     socket.emit("player:read", (playersResponse) => {
       players.value = playersResponse;
-      tempPlayers.value = playersResponse;
+      tempPlayers.value = structuredClone(playersResponse);
     });
   }
 
@@ -31,12 +31,21 @@ export const usePlayerStore = defineStore("player", () => {
   function subscribe() {
     socket.on("player:create", (player) => {
       players.value.push(player);
+      tempPlayers.value.push(player);
     });
     socket.on("player:update", (newPlayer) => {
       const newPlayerIndex = players.value.findIndex(
         (player) => player.id === newPlayer.id,
       );
-      players.value[newPlayerIndex] = newPlayer;
+      const newtempPlayerIndex = tempPlayers.value.findIndex(
+        (player) => player.id === newPlayer.id,
+      );
+      if (
+        players.value[newPlayerIndex].name ===
+        tempPlayers.value[newtempPlayerIndex].name
+      )
+        tempPlayers.value[newtempPlayerIndex].name = newPlayer.name;
+      players.value[newPlayerIndex].name = newPlayer.name;
     });
     socket.on("player:delete", (id) => {
       players.value.splice(
