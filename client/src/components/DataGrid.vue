@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import CheckBox from "@/components/CheckBox.vue";
 import { useScrollToEnd } from "@/composables/useScrollToEnd";
+import { useStorage } from "@/composables/useStorage";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import { useGridStore } from "@/stores/grid";
 import type { Data } from "@/type";
 import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "@lucide/vue";
-import { computed, ref, watch } from "vue";
+import { computed, ref, type Ref } from "vue";
 
 const prop = defineProps<Data>();
 
@@ -18,21 +19,9 @@ const open = ref(false);
 
 const { data } = useGridStore();
 
-const visibility = ref(
-  localStorage.getItem("visibility")
-    ? JSON.parse(localStorage.getItem("visibility")!)
-    : prop.head,
-);
+const visibility = useStorage("visibility", prop.head) as Ref<string[]>;
 
-watch(visibility, (visibility) => {
-  localStorage.setItem("visibility", JSON.stringify(visibility));
-});
-
-const ordering = ref<string[]>(
-  localStorage.getItem("ordering")
-    ? JSON.parse(localStorage.getItem("ordering")!)
-    : prop.head,
-);
+const ordering = useStorage("ordering", prop.head) as Ref<string[]>;
 
 const computedHead = computed(() =>
   ordering.value.filter((name) => visibility.value.includes(name)),
@@ -57,8 +46,6 @@ function onDrop(drag: string, drop: string) {
       0,
       ordering.value.splice(ordering.value.indexOf(drag), 1)[0],
     );
-
-    localStorage.setItem("ordering", JSON.stringify(ordering.value));
   }
 }
 
