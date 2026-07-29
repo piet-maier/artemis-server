@@ -71,6 +71,21 @@ const turnIndicatorIndex = computed(() => {
     return -1;
   }
 });
+
+function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
+  if (!(target instanceof HTMLInputElement) || repeat) {
+    return;
+  }
+
+  const number = +target.value;
+
+  if (!Number.isNaN(number)) {
+    target.value = (number + (shiftKey ? -10 : 10)).toString();
+
+    // The browser does not fire a change event for programmatic changes.
+    target.dispatchEvent(new Event("change"));
+  }
+}
 </script>
 
 <template>
@@ -137,7 +152,7 @@ const turnIndicatorIndex = computed(() => {
             </th>
           </tr>
         </thead>
-        <tbody class="divide-y">
+        <tbody class="divide-y" @keydown.prevent.space="onSpacePress">
           <tr
             v-for="(record, number) in body"
             :key="number"
