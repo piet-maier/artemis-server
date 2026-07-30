@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import CheckBox from "@/components/CheckBox.vue";
+import MotionNumber from "@/components/MotionNumber.vue";
 import { useScrollToEnd } from "@/composables/useScrollToEnd";
 import { useStorage } from "@/composables/useStorage";
 import { useWindowEvent } from "@/composables/useWindowEvent";
@@ -176,7 +177,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
               :key="name"
               class="sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums"
             >
-              {{ foot[name] }}
+              <MotionNumber v-if="foot[name] !== null" :number="foot[name]" />
             </th>
           </tr>
         </tfoot>
