@@ -88,3 +88,5 @@ def create_score_table() -> None:
     add_field("score", "fk_round", "INTEGER", foreign_key_reference="round")
     add_field("score", "score", "INTEGER")
     add_field("score", "fk_user", "INTEGER", foreign_key_reference="user")
+
+    # TODO: Unique Constraint

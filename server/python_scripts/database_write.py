@@ -1,6 +1,5 @@
 """Util functions to write to a connected sqlite database"""
 
-from python_scripts.database_read import score_exists
 from python_scripts.database_utils import database_query_commit
 
 
@@ -53,43 +52,6 @@ def add_new_score(
     game_identifier: int, player_name: str, round_number: int, score: int
 ):
     """add new score to database"""
-    if score_exists(game_identifier, player_name, round_number):
-        sql = f"""
-        WITH game_id AS (
-            SELECT id
-            FROM game
-            WHERE creation_timestamp = ?
-        ),
-        user_id AS (
-            SELECT id
-            FROM user
-            WHERE name = "{player_name}"
-        )
-        UPDATE score
-        SET score = ?
-        WHERE fk_game = (SELECT id FROM game_id)
-            AND fk_user = (SELECT id FROM user_id)
-            AND fk_round = ?
-        """
-        payload = (game_identifier, score, round_number)
-    else:
-        sql = """
-        WITH game_id AS (
-            SELECT id
-            FROM game
-            WHERE game.creation_timestamp = ?
-        ),
-        user_id AS (
-            SELECT id
-            FROM user
-            WHERE user.name = ?
-        )
-        INSERT INTO score (fk_game, fk_round, score, fk_user)
-        SELECT 
-            (SELECT id FROM game_id),
-            ?,
-            ?,
-            (SELECT id FROM user_id)
-        """
-        payload = (game_identifier, player_name, round_number, score)
+    sql = "INSERT INTO score (fk_game, fk_round, score, fk_user) VALUES ((SELECT id FROM game WHERE game.creation_timestamp = ?), ?, ?, (SELECT id FROM user WHERE user.name = ?)) ON CONFLICT (fk_game, fk_round, fk_user) DO UPDATE SET score = ?"
+    payload = (game_identifier, round_number, score, player_name, score)
     database_query_commit(sql, payload)
