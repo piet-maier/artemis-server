@@ -65,6 +65,7 @@ function updateChangedPlayerIds(id: number) {
       >
         <UserRoundPlusIcon class="mr-2" /> Create Player
       </button>
+      <!-- TODO add (un)expand all Players Button -->
     </div>
     <!-- TODO smoth out the expansion of the border of the div -->
     <TransitionGroup

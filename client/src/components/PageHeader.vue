@@ -21,9 +21,8 @@ const open = ref(false);
         <PageNavigation v-model="open" />
 
         <div class="flex items-center gap-4">
-          <!-- TODO: hover:text change to foreground hover variable -->
           <RouterLink
-            class="hover:text-background-default-hover"
+            class="hover:text-foreground-default-hover"
             :to="{ name: 'player-config' }"
             >Player Config</RouterLink
           >
