@@ -121,11 +121,16 @@ watch(
 );
 
 function onChange(name: string, number: number, cell: string) {
+  const change = { name, number, cell };
+
   socket.emit(
     "grid:update",
     location.params.type as string,
     location.params.grid as string,
-    { name, number, cell },
+    change,
+    (foot) => {
+      changeData(change, foot);
+    },
   );
 }
 

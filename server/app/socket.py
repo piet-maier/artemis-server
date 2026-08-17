@@ -57,21 +57,26 @@ def handle_request_last_game_of_type(game_type: str, game_name: int) -> Grid:
 
 
 @socketio.on("grid:update")
-def handle_submit(game_type: str, game_timestamp: int, change: Change) -> None:
+def handle_submit(game_type: str, game_timestamp: int, change: Change):
     if change["cell"]:
         add_new_score(game_timestamp, *change.values())
     else:
         delete_score(game_timestamp, change["name"], change["number"])
+
+    foot = get_score_sum(game_timestamp, change["name"])
+
     socketio.emit(
         "grid:update",
         (
             game_type,
             game_timestamp,
             change,
-            get_score_sum(game_timestamp, change["name"]),
+            foot,
         ),
-        include_self=True,
+        include_self=False,
     )
+
+    return foot
 
 
 @socketio.on("plot")
