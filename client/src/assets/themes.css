@@ -99,7 +99,7 @@
   --border-color-attention: var(--color-red-700);
   --focus-color-default: var(--color-red-800);
   --foreground-color-default: var(--color-neutral-50);
-  --foreground-color-default-hover: var(--color-neutral-400);
+  --foreground-color-default-hover: var(--color-red-700);
   --foreground-color-muted: var(--color-neutral-400);
   --foreground-color-neutral: var(--color-violet-900);
   --foreground-color-accent: var(--color-neutral-50);
