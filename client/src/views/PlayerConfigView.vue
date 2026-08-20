@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import IconButton from "@/components/IconButton.vue";
-import TextInput from "@/components/TextInput.vue";
+import ListTextInput from "@/components/ListTextInput.vue";
 import { usePlayerStore } from "@/stores/player";
 import {
   ChevronDownIcon,
@@ -84,7 +84,7 @@ function updateChangedPlayerIds(id: number) {
         :key="player.id"
       >
         <div class="flex cursor-pointer items-center justify-between p-2">
-          <TextInput
+          <ListTextInput
             v-model="player.name"
             class="m-2 flex-1 p-2"
             @focus="
@@ -124,7 +124,7 @@ function updateChangedPlayerIds(id: number) {
               </IconButton>
             </div>
             <div class="flex min-w-0">
-              <TextInput
+              <ListTextInput
                 class="m-2 min-w-0 pr-2 pl-2 text-right sm:pr-4 sm:pl-4"
               />
               <!-- TODO When changes to the Player emoji have been made highlight the Button -->
