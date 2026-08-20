@@ -6,7 +6,7 @@ const model = defineModel<string>();
   <input
     v-model="model"
     :class="[
-      'rounded-md border pr-2 pl-2 focus-ring hover:border-border-default focus:border-border-default',
+      'rounded-md border px-2 focus-ring hover:border-border-default focus:border-border-default',
       !model ? 'border-border-default' : 'border-transparent',
     ]"
     type="text"

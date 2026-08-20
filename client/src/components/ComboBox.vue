@@ -57,7 +57,7 @@ useWindowEvent("click", ({ target }) => {
         "
       />
 
-      <button class="p h-full pr-4 pl-4" type="button" @click="toggle">
+      <button class="h-full px-4" type="button" @click="toggle">
         <ChevronDown
           :class="[
             { 'rotate-180': open },
