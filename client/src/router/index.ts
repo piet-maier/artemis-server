@@ -19,6 +19,11 @@ const router = createRouter({
       name: "player-config",
       component: () => import("@/views/PlayerConfigView.vue"),
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/LoginView.vue"),
+    },
   ],
 });
 
