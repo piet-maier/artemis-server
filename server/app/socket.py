@@ -2,17 +2,18 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Literal, TypedDict
 
-from flask_socketio import SocketIO
-
-from app.database import query_db
+from flask_socketio import SocketIO, emit
 from python_scripts.database_delete import delete_score
 from python_scripts.database_read import (
     get_all_game_types,
     get_all_games,
     get_score_sum,
 )
-from python_scripts.database_write import add_new_game_type, add_new_score, add_new_game
-from python_scripts.grid_utils import build_grid_payload, Grid
+from python_scripts.database_utils import database_query_commit
+from python_scripts.database_write import add_new_game, add_new_game_type, add_new_score
+from python_scripts.grid_utils import Grid, build_grid_payload
+
+from app.database import get_database, query_db
 
 # FIXME: Remove CORS In Production
 socketio = SocketIO(cors_allowed_origins="*")
@@ -22,6 +23,11 @@ class Change(TypedDict):
     name: str
     number: int
     cell: str
+
+
+class Player(TypedDict):
+    id: int
+    name: str
 
 
 @socketio.on("navigation")
@@ -95,3 +101,37 @@ def plot() -> dict[str, int]:
         k: v
         for k, v in sorted(result.items(), key=lambda item: (-item[1], item[0]))[:10]
     }
+
+
+@socketio.on("player:read")
+def player_list():
+    result = query_db("SELECT id, name FROM user")
+
+    return [{"id": item["id"], "name": item["name"]} for item in result]
+
+
+@socketio.on("player:create")
+def player_create(name: str):
+    connection = get_database()
+
+    cursor = connection.cursor()
+
+    cursor.execute("INSERT INTO user (name) VALUES (?)", (name,))
+
+    connection.commit()
+
+    emit("player:create", {"id": cursor.lastrowid, "name": name}, broadcast=True)
+
+
+@socketio.on("player:update")
+def player_update(player: Player):
+    database_query_commit(
+        "UPDATE user SET name = ? WHERE id = ?", (player["name"], player["id"])
+    )
+
+    emit("player:update", player, broadcast=True)
+
+
+@socketio.on("player:delete")
+def player_delete(id: int):
+    pass

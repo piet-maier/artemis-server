@@ -47,7 +47,9 @@ const { navigation } = storeToRefs(useConnectionStore());
           >
             Artemis
           </RouterLink>
-          <IconButton :icon="X" @click="$emit('update:modelValue', false)" />
+          <IconButton @click="$emit('update:modelValue', false)">
+            <X />
+          </IconButton>
         </div>
         <div
           class="flex flex-col gap-y-2 overflow-y-auto focus-visible:outline-hidden"

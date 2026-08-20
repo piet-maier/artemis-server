@@ -14,6 +14,7 @@
   --color-border-attention: var(--border-color-attention);
   --color-focus-default: var(--focus-color-default);
   --color-foreground-default: var(--foreground-color-default);
+  --color-foreground-default-hover: var(--foreground-color-default-hover);
   --color-foreground-muted: var(--foreground-color-muted);
   --color-foreground-neutral: var(--foreground-color-neutral);
   --color-foreground-accent: var(--foreground-color-accent);

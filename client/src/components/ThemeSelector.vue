@@ -33,7 +33,9 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
 
 <template>
   <div ref="menu" class="relative">
-    <IconButton :icon="PaletteIcon" @click="onThemeSelectorToggle" />
+    <IconButton @click="onThemeSelectorToggle">
+      <PaletteIcon />
+    </IconButton>
     <Transition
       enter-active-class="transition duration-300 origin-top"
       enter-from-class="opacity-0 scale-95"
@@ -42,12 +44,12 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
     >
       <div
         v-if="menuOpen"
-        class="absolute top-full right-0 z-20 mt-2 rounded-md border border-border-default bg-background-default"
+        class="absolute top-full right-0 mt-4 rounded-md border border-border-default bg-background-default p-1"
       >
         <button
           v-for="theme in themes"
           :key="theme.key"
-          class="w-full cursor-pointer py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
+          class="w-full cursor-pointer rounded-xs py-1.5 pr-8 pl-4 text-left text-sm whitespace-nowrap transition-colors hover:bg-background-default-hover"
           :class="{ 'bg-background-neutral': theme.key === activeTheme }"
           @click="activeTheme = theme.key"
         >

@@ -175,7 +175,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
             <th
               v-for="name in computedHead"
               :key="name"
-              class="sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums"
+              class="sticky bottom-0 h-12 border-t bg-background-neutral px-4 py-0 font-medium tabular-nums first:rounded-bl-md last:rounded-br-md"
             >
               <MotionNumber v-if="foot[name] !== null" :number="foot[name]" />
             </th>

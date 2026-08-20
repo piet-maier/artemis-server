@@ -150,9 +150,11 @@ onUnmounted(() => {
   <main class="container py-4 sm:py-8">
     <IconButton
       class="ml-auto"
-      :icon="showGrid ? ChartBarIcon : TableIcon"
       @click="router.replace({ query: { mode: showGrid ? 'chart' : 'grid' } })"
-    />
+    >
+      <ChartBarIcon v-if="showGrid" />
+      <TableIcon v-else />
+    </IconButton>
 
     <div v-if="showGrid">
       <div class="mb-8 space-y-2">
