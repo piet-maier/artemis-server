@@ -10,7 +10,7 @@ export const useConnectionStore = defineStore("connection", () => {
 
   const plot = ref<Record<string, number>>({});
 
-  function openSocket() {
+  function on() {
     socket.on("connect", () => {
       open.value = true;
 
@@ -31,8 +31,6 @@ export const useConnectionStore = defineStore("connection", () => {
 
       navigation.value[type].unshift(grid);
     });
-
-    socket.connect();
   }
 
   function createGrid(type: string) {
@@ -48,5 +46,5 @@ export const useConnectionStore = defineStore("connection", () => {
     }
   }
 
-  return { open, navigation, plot, openSocket, createGrid };
+  return { open, navigation, plot, on, createGrid };
 });
