@@ -1,7 +1,9 @@
 """Util functions for converting data structures"""
 
+from typing import Any
 
-def flatten_tuples(input_list: list[tuple[str]]) -> list[str]:
+
+def flatten_tuples(input_list: list[tuple[Any, ...]]) -> list[Any]:
     """convert list containing tuples of values into a list containing these values"""
     return [item[0] for item in input_list]
 

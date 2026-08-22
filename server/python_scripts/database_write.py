@@ -48,10 +48,8 @@ def add_new_round(game_identifier: int, first_user_name: str):
     database_query_commit(sql, payload)
 
 
-def add_new_score(
-    game_identifier: int, player_name: str, round_number: int, score: int
-):
+def add_new_score(game_identifier: int, player: int, round_number: int, score: int):
     """add new score to database"""
-    sql = "INSERT INTO score (fk_game, fk_round, score, fk_user) VALUES ((SELECT id FROM game WHERE game.creation_timestamp = ?), ?, ?, (SELECT id FROM user WHERE user.name = ?)) ON CONFLICT (fk_game, fk_round, fk_user) DO UPDATE SET score = ?"
-    payload = (game_identifier, round_number, score, player_name, score)
+    sql = "INSERT INTO score (fk_game, fk_round, score, fk_user) VALUES ((SELECT id FROM game WHERE game.creation_timestamp = ?), ?, ?, ?) ON CONFLICT (fk_game, fk_round, fk_user) DO UPDATE SET score = ?"
+    payload = (game_identifier, round_number, score, player, score)
     database_query_commit(sql, payload)
