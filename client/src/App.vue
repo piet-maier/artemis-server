@@ -7,9 +7,13 @@ import { RouterView } from "vue-router";
 import { usePlayerStore } from "./stores/player";
 
 const { openSocket } = useConnectionStore();
-const { subscribe } = usePlayerStore();
+
+const { readPlayers, subscribe } = usePlayerStore();
 
 openSocket();
+
+readPlayers();
+
 subscribe();
 </script>
 
