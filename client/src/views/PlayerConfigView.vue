@@ -55,7 +55,7 @@ function updateChangedPlayerIds(id: number) {
     <div class="mb-2 flex gap-2">
       <input
         v-model="inputValue"
-        class="rounded-md border border-border-default pr-2 pl-2 focus-ring sm:pr-4 sm:pl-4"
+        class="rounded-md border border-border-default px-2 focus-ring sm:px-4"
         type="text"
       />
       <button
@@ -124,9 +124,7 @@ function updateChangedPlayerIds(id: number) {
               </IconButton>
             </div>
             <div class="flex min-w-0">
-              <ListTextInput
-                class="m-2 min-w-0 pr-2 pl-2 text-right sm:pr-4 sm:pl-4"
-              />
+              <ListTextInput class="m-2 min-w-0 px-2 text-right sm:px-4" />
               <!-- TODO When changes to the Player emoji have been made highlight the Button -->
               <IconButton class="m-2 shrink-0" variant="accent">
                 <SmilePlusIcon />
