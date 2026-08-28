@@ -23,9 +23,9 @@ const open = ref(false);
 
 const { data } = useGridStore();
 
-const visibility = useStorage("visibility", prop.head) as Ref<number[]>;
+const visibility = useStorage("visibility", [...prop.head]) as Ref<number[]>;
 
-const ordering = useStorage("ordering", prop.head) as Ref<number[]>;
+const ordering = useStorage("ordering", [...prop.head]) as Ref<number[]>;
 
 const computedHead = computed(() =>
   ordering.value.filter((id) => visibility.value.includes(id)),
