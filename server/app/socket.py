@@ -20,7 +20,7 @@ socketio = SocketIO(cors_allowed_origins="*")
 
 
 class Change(TypedDict):
-    name: str
+    player: int
     number: int
     cell: str
 
@@ -49,9 +49,8 @@ def create_grid(grid_type: str) -> int:
     return current_timestamp
 
 
-# noinspection PyUnusedLocal
 @socketio.on("grid:read")
-def handle_request_last_game_of_type(game_type: str, game_name: int) -> Grid:
+def handle_request_last_game_of_type(_: str, game_name: int) -> Grid:
     payload = build_grid_payload(game_name)
     return payload
 
@@ -61,9 +60,9 @@ def handle_submit(game_type: str, game_timestamp: int, change: Change):
     if change["cell"]:
         add_new_score(game_timestamp, *change.values())
     else:
-        delete_score(game_timestamp, change["name"], change["number"])
+        delete_score(game_timestamp, change["player"], change["number"])
 
-    foot = get_score_sum(game_timestamp, change["name"])
+    foot = get_score_sum(game_timestamp, change["player"])
 
     socketio.emit(
         "grid:update",

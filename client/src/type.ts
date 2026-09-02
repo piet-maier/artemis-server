@@ -1,11 +1,11 @@
 export interface Data {
-  head: string[];
-  body: Record<string, number>[];
-  foot: Record<string, number>;
+  head: number[];
+  body: Record<number, number>[];
+  foot: Record<number, number>;
 }
 
 export interface Change {
-  name: string;
+  player: number;
   number: number;
   cell: string;
 }

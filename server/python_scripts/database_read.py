@@ -1,7 +1,7 @@
 """Util functions to read from a connected sqlite database"""
 
 from app.database import query_db
-from python_scripts.data_structure_utils import flatten_tuples, convert_list_to_dict
+from python_scripts.data_structure_utils import convert_list_to_dict, flatten_tuples
 
 SCORE_SUM_ROW_KEY = "SUM(score)"
 COUNT_ROWS_KEY = "SUM(*)"
@@ -66,12 +66,12 @@ def get_all_player_names() -> list[str]:
     return flatten_tuples(game_types)
 
 
-def get_all_scores_of_game(game_name: int) -> list[tuple[int, str, int]]:
+def get_all_scores_of_game(game_name: int) -> list[tuple[int, int, int]]:
     """retrieve a list of all scores of a game from database"""
+    # For some ungodly reason, `score.fk_user` is of type TEXT in the current database.
     sql = """
-    SELECT score.fk_round, user.name, score
+    SELECT score.fk_round, CAST(score.fk_user AS INTEGER), score
     FROM score
-        JOIN user ON user.id = score.fk_user
         JOIN game ON game.id = score.fk_game
     WHERE game.creation_timestamp = ?
     """
@@ -96,17 +96,16 @@ def score_exists(game_identifier: int, player_name: str, round_number: int) -> b
     return query_db(sql, payload, True)[0]
 
 
-def get_score_sum(game_identifier: int, user_name: str) -> int:
+def get_score_sum(game_identifier: int, user: int) -> int:
     """retrieve sum of all scores in given game by given player from database"""
     sql = """
     SELECT SUM(score)
     FROM score
-        JOIN user ON user.id = score.fk_user
         JOIN game ON game.id = score.fk_game
     WHERE game.creation_timestamp = ? 
-        AND user.name = ?
+        AND score.fk_user = ?
     """
-    payload = (game_identifier, user_name)
+    payload = (game_identifier, user)
     return query_db(sql, payload, True)[SCORE_SUM_ROW_KEY]
 
 

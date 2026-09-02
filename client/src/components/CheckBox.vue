@@ -2,19 +2,18 @@
 import { Check } from "@lucide/vue";
 import { computed } from "vue";
 
-const prop = defineProps<{ modelValue: string[]; string: string }>();
+const prop = defineProps<{ number: number; string: string }>();
 
-const emit = defineEmits<{ "update:modelValue": [modelValue: string[]] }>();
+const modelValue = defineModel<number[]>({ required: true });
 
-const bool = computed(() => prop.modelValue.includes(prop.string));
+const bool = computed(() => modelValue.value.includes(prop.number));
 
 function update() {
-  emit(
-    "update:modelValue",
-    bool.value
-      ? prop.modelValue.filter((string) => string !== prop.string)
-      : [...prop.modelValue, prop.string],
-  );
+  if (bool.value) {
+    modelValue.value.splice(modelValue.value.indexOf(prop.number), 1);
+  } else {
+    modelValue.value.push(prop.number);
+  }
 }
 </script>
 

@@ -7,6 +7,10 @@ export const usePlayerStore = defineStore("player", () => {
   const players = ref<Player[]>([]);
   const tempPlayers = ref<Player[]>([]);
 
+  function playerNameByID(id: number) {
+    return players.value.find((player) => player.id === id)?.name;
+  }
+
   function createPlayer(name: string) {
     socket.emit("player:create", name);
   }
@@ -58,6 +62,7 @@ export const usePlayerStore = defineStore("player", () => {
   return {
     players,
     tempPlayers,
+    playerNameByID,
     createPlayer,
     readPlayers,
     updatePlayer,

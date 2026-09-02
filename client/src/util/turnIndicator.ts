@@ -8,16 +8,16 @@ import { isEmpty } from "lodash";
  */
 export function turnIndicator(
   { body, foot }: Data,
-  ordering: string[],
-  visibility: string[],
+  ordering: number[],
+  visibility: number[],
 ): number {
   if (ordering.length === 0 || visibility.length === 0)
     throw new Error("Ordering or Visibility Empty!");
-  const computedHead = ordering.filter((name) => visibility.includes(name));
+  const computedHead = ordering.filter((id) => visibility.includes(id));
   if (body.length === 1) return 0;
   if (body.length === 2) return computedHead.length > 1 ? 1 : 0;
   // Ordered Array of all playing players
-  const premiumFoot = ordering.filter((name) => foot[name] !== null);
+  const premiumFoot = ordering.filter((id) => foot[id] !== null);
   let playerIndex = -1;
   for (const row of body.slice(0, -2)) {
     if (isEmpty(row)) continue;
@@ -29,8 +29,8 @@ export function turnIndicator(
   }
 
   const lastRound = body[body.length - 3];
-  const activePlayers = ordering.filter((name) =>
-    Object.keys(lastRound).includes(name),
+  const activePlayers = ordering.filter((id) =>
+    Object.keys(lastRound).includes(id.toString()),
   );
   const lastPlayer = activePlayers.indexOf(premiumFoot[playerIndex]);
   const nextPlayer = activePlayers[(lastPlayer + 2) % activePlayers.length];
