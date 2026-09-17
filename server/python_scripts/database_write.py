@@ -28,7 +28,7 @@ def add_new_game(game_type: str, game_identifier: int):
 def add_player(player_name: str):
     """add new player to database"""
     sql = """
-    INSERT INTO user (name) 
+    INSERT INTO player (name) 
     VALUES (?)
     """
     payload = (player_name,)

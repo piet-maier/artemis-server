@@ -45,9 +45,9 @@ def get_all_rounds_of_game(game_identifier: int) -> list[str]:
 def get_all_player_names_of_game(game_identifier: int) -> list[str]:
     """retrieve a list of all player names participating in a game from database"""
     sql = """
-    SELECT DISTINCT user.name
+    SELECT DISTINCT player.name
     FROM score
-        JOIN user ON user.id = score.fk_user 
+        JOIN player ON player.id = score.fk_user 
         JOIN game ON game.id = score.fk_game
     WHERE game.creation_timestamp = ?
     """
@@ -60,7 +60,7 @@ def get_all_player_names() -> list[str]:
     """retrieve a list of all player names from database"""
     sql = """
     SELECT name
-    FROM user
+    FROM player
     """
     game_types = query_db(sql)
     return flatten_tuples(game_types)
@@ -85,11 +85,11 @@ def score_exists(game_identifier: int, player_name: str, round_number: int) -> b
     SELECT EXISTS (
         SELECT 1
         FROM score
-            JOIN user ON user.id = score.fk_user
+            JOIN player ON player.id = score.fk_user
             JOIN game ON game.id = score.fk_game
         WHERE game.creation_timestamp = ?
             AND score.fk_round = ?
-            AND user.name = ?
+            AND player.name = ?
     )
     """
     payload = (game_identifier, round_number, player_name)
@@ -120,9 +120,9 @@ def get_table_information(table_name: str) -> list[str]:
 def get_highest_score(game_type: str) -> list[str | int]:
     """retrieve the highest score archived in a given game type from database"""
     sql = """
-    SELECT user.name, score
+    SELECT player.name, score
     FROM score
-        JOIN user ON user.id = score.fk_user
+        JOIN player ON player.id = score.fk_user
         JOIN game ON game.id = score.fk_game
         JOIN game_type ON game_type.id = game.fk_game_type
     WHERE game_type.name = ?
@@ -136,9 +136,9 @@ def get_highest_score(game_type: str) -> list[str | int]:
 def get_lowest_score(game_type: str) -> list[str | int]:
     """retrieve the lowest score archived in a given game type from database"""
     sql = """
-    SELECT user.name, score
+    SELECT player.name, score
     FROM score
-        JOIN user ON user.id = score.fk_user
+        JOIN player ON player.id = score.fk_user
         JOIN game ON game.id = score.fk_game
         JOIN game_type ON game_type.id = game.fk_game_type
     WHERE game_type.name = ?
@@ -180,11 +180,11 @@ def get_total_score_per_game_and_user(game_type: str, user_name: str) -> int:
     sql = """
     SELECT SUM(score)
     FROM score
-        JOIN user ON user.id = score.fk_user
+        JOIN player ON player.id = score.fk_user
         JOIN game ON game.id = score.fk_game
         JOIN game_type ON game_type.id = game.fk_game_type
     WHERE game_type.name = ?
-        AND user.name = ?
+        AND player.name = ?
     """
     payload = (game_type, user_name)
     return query_db(sql, payload, True)[SCORE_SUM_ROW_KEY]
@@ -195,11 +195,11 @@ def get_total_rounds_per_game_and_user(game_type: str, user_name: str) -> int:
     sql = """
     SELECT COUNT(*)
     FROM score
-        JOIN user ON user.id = score.fk_user
+        JOIN player ON player.id = score.fk_user
         JOIN game ON game.id = score.fk_game
         JOIN game_type ON game_type.id = game.fk_game_type
     WHERE game_type.name = ?
-        AND user.name = ?
+        AND player.name = ?
     """
     payload = (game_type, user_name)
     return query_db(sql, payload, True)[COUNT_ROWS_KEY]

@@ -19,7 +19,7 @@ class Grid(TypedDict):
 def build_grid_payload(game_identifier: int) -> Grid:
     """build grid payload for given game"""
     scores = get_all_scores_of_game(game_identifier)
-    users = flatten_tuples(query_db("SELECT id FROM user"))
+    users = flatten_tuples(query_db("SELECT id FROM player"))
 
     payload: Grid = {
         "head": users,
