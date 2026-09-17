@@ -10,14 +10,16 @@ const model = defineModel<string>();
 </script>
 
 <template>
-  <label class="sr-only" :for="id">{{ placeholder }}</label>
-  <TextInput
-    :id
-    v-model="model"
-    :class="['h-10 rounded-md px-4 py-2']"
-    :invalid="errorLabel !== ''"
-    :placeholder
-    :type
-  />
-  <div>Shiver me error</div>
+  <div>
+    <label class="sr-only" :for="id">{{ placeholder }}</label>
+    <TextInput
+      :id
+      v-model="model"
+      class="h-10 w-full rounded-md px-4 py-2"
+      :invalid="errorLabel !== ''"
+      :placeholder
+      :type
+    />
+    <div v-if="errorLabel" class="mt-1 px-2 text-red-300">{{ errorLabel }}</div>
+  </div>
 </template>
