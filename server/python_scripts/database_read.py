@@ -17,10 +17,10 @@ def get_all_game_types() -> list[str]:
     return flatten_tuples(game_types)
 
 
-def get_all_games() -> dict[str, list[int]]:
+def get_all_games():
     """retrieve a list of all games from database"""
     sql = """
-    SELECT game_type.name, creation_timestamp
+    SELECT game_type.name, game.id, game.creation_timestamp
     FROM game
         JOIN game_type ON game_type.id = game.fk_game_type
     ORDER BY creation_timestamp DESC
@@ -73,7 +73,7 @@ def get_all_scores_of_game(game_name: int) -> list[tuple[int, int, int]]:
     SELECT score.fk_round, CAST(score.fk_user AS INTEGER), score
     FROM score
         JOIN game ON game.id = score.fk_game
-    WHERE game.creation_timestamp = ?
+    WHERE game.id = ?
     """
     payload = (game_name,)
     return query_db(sql, payload)
@@ -102,7 +102,7 @@ def get_score_sum(game_identifier: int, user: int) -> int:
     SELECT SUM(score)
     FROM score
         JOIN game ON game.id = score.fk_game
-    WHERE game.creation_timestamp = ? 
+    WHERE game.id = ? 
         AND score.fk_user = ?
     """
     payload = (game_identifier, user)
