@@ -6,7 +6,9 @@ import { ref } from "vue";
 export const useConnectionStore = defineStore("connection", () => {
   const open = ref(false);
 
-  const navigation = ref<Record<string, number[]>>({});
+  const navigation = ref<Record<string, { id: number; unixTime: number }[]>>(
+    {},
+  );
 
   const plot = ref<Record<string, number>>({});
 
@@ -23,13 +25,13 @@ export const useConnectionStore = defineStore("connection", () => {
       open.value = false;
     });
 
-    socket.on("grid:create", (type, grid) => {
+    socket.on("grid:create", (type, id, unixTime) => {
       if (!(type in navigation.value)) {
         // Add the new array at the start of the object.
         navigation.value = { [type]: [], ...navigation.value };
       }
 
-      navigation.value[type].unshift(grid);
+      navigation.value[type].unshift({ id, unixTime });
     });
 
     socket.connect();
@@ -37,13 +39,13 @@ export const useConnectionStore = defineStore("connection", () => {
 
   function createGrid(type: string) {
     if (type !== "") {
-      socket.emit("grid:create", type, (grid) => {
+      socket.emit("grid:create", type, (id, unixTime) => {
         navigation.value[type] ??= [];
 
-        navigation.value[type].unshift(grid);
+        navigation.value[type].unshift({ id, unixTime });
 
         // noinspection JSIgnoredPromiseFromCall
-        router.push("/grid/" + type + "/" + grid);
+        router.push("/grid/" + type + "/" + id);
       });
     }
   }

@@ -7,6 +7,7 @@ import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { usePlayerStore } from "@/stores/player";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
+import { storeToRefs } from "pinia";
 import { computed, onUnmounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -15,7 +16,11 @@ const router = useRouter();
 
 const { playerNameByID } = usePlayerStore();
 
-const { data, readGrid, changeData } = useGridStore();
+const grid = useGridStore();
+
+const { date } = storeToRefs(grid);
+
+const { data, readGrid, changeData } = grid;
 
 const computedData = computed(() => {
   const filteredHead = data.head.filter((id) => data.foot[id] !== null);
@@ -120,9 +125,9 @@ const activePlayers = computed(() =>
 );
 
 watch(
-  () => [location.params.type, location.params.grid],
-  ([type, grid]) => {
-    readGrid(type as string, grid as string);
+  () => location.params.grid,
+  (grid) => {
+    readGrid(+(grid as string));
   },
   { immediate: true },
 );
@@ -132,8 +137,7 @@ function onChange(player: number, number: number, cell: string) {
 
   socket.emit(
     "grid:update",
-    location.params.type as string,
-    location.params.grid as string,
+    +(location.params.grid as string),
     change,
     (foot) => {
       changeData(change, foot);
@@ -141,14 +145,14 @@ function onChange(player: number, number: number, cell: string) {
   );
 }
 
-socket.on("grid:update", (type, grid, change, foot) => {
-  if (type === location.params.type && grid === location.params.grid) {
+socket.on("grid:update", (grid, change, foot) => {
+  if (grid.toString() === location.params.grid) {
     changeData(change, foot);
   }
 });
 
 socket.io.on("reconnect", () => {
-  readGrid(location.params.type as string, location.params.grid as string);
+  readGrid(+(location.params.grid as string));
 });
 
 onUnmounted(() => {
@@ -173,8 +177,8 @@ onUnmounted(() => {
         <h2 class="text-4xl font-bold tracking-tight">
           {{ location.params.type }}
         </h2>
-        <p class="text-lg text-foreground-muted">
-          <LocaleDate :date="new Date(+location.params.grid)" />
+        <p v-if="date" class="text-lg text-foreground-muted">
+          <LocaleDate :date="date" />
         </p>
       </div>
 
