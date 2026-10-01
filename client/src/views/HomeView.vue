@@ -46,5 +46,14 @@ socket.emit("plot", (data) => {
         :data="Object.entries(plot).map(([y, x]) => ({ x, y }))"
       />
     </Card>
+    <div class="col-span-3 col-start-3">
+      <h2 class="my-4 text-center text-2xl font-bold">Todays Sponsor:</h2>
+      <a href="https://raidshadowlegends.com/">
+        <img
+          class="h-1/4 rounded-2xl"
+          src="https://m.media-amazon.com/images/M/MV5BNTM5OWU5NGQtZjg4Mi00ZDUzLWFkYmUtODA1ZDJmNTY4ZjFmXkEyXkFqcGc@._V1_.jpg"
+        />
+      </a>
+    </div>
   </main>
 </template>
