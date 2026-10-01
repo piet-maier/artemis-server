@@ -5,6 +5,7 @@ import { useScrollToEnd } from "@/composables/useScrollToEnd";
 import { useStorage } from "@/composables/useStorage";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import { useGridStore } from "@/stores/grid";
+import { usePlayerStore } from "@/stores/player";
 import type { Data } from "@/type";
 import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "@lucide/vue";
@@ -12,7 +13,9 @@ import { computed, ref, type Ref } from "vue";
 
 const prop = defineProps<Data>();
 
-defineEmits<{ change: [name: string, number: number, cell: string] }>();
+defineEmits<{ change: [player: number, number: number, cell: string] }>();
+
+const { playerNameByID } = usePlayerStore();
 
 const menu = ref<HTMLDivElement | null>(null);
 
@@ -20,12 +23,12 @@ const open = ref(false);
 
 const { data } = useGridStore();
 
-const visibility = useStorage("visibility", prop.head) as Ref<string[]>;
+const visibility = useStorage("visibility", [...prop.head]) as Ref<number[]>;
 
-const ordering = useStorage("ordering", prop.head) as Ref<string[]>;
+const ordering = useStorage("ordering", [...prop.head]) as Ref<number[]>;
 
 const computedHead = computed(() =>
-  ordering.value.filter((name) => visibility.value.includes(name)),
+  ordering.value.filter((id) => visibility.value.includes(id)),
 );
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
@@ -34,13 +37,13 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
   }
 });
 
-function onDrag(dataTransfer: DataTransfer, name: string) {
-  dataTransfer.setData("text/plain", name);
+function onDrag(dataTransfer: DataTransfer, id: number) {
+  dataTransfer.setData("text/plain", id.toString());
 
   dataTransfer.effectAllowed = "move";
 }
 
-function onDrop(drag: string, drop: string) {
+function onDrop(drag: number, drop: number) {
   if (drag !== drop) {
     ordering.value.splice(
       ordering.value.indexOf(drop),
@@ -100,11 +103,12 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
             class="absolute top-full right-0 z-10 mt-2 w-56 rounded-md border bg-background-default p-1"
           >
             <CheckBox
-              v-for="name in head"
-              :key="name"
+              v-for="id in head"
+              :key="id"
               v-model="visibility"
               class="rounded-xs p-2 transition-colors hover:bg-background-default-hover"
-              :string="name"
+              :number="id"
+              :string="playerNameByID(id)!"
             />
           </fieldset>
         </Transition>
@@ -119,24 +123,24 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
         <thead>
           <tr>
             <th
-              v-for="name in computedHead"
-              :key="name"
+              v-for="id in computedHead"
+              :key="id"
               :class="[
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
                 turnIndicatorIndex !== -1 &&
-                name === computedHead[turnIndicatorIndex]
+                id === computedHead[turnIndicatorIndex]
                   ? 'rounded-t-md border border-border-attention bg-background-attention text-foreground-default'
                   : 'bg-background-default text-foreground-muted',
               ]"
               draggable="true"
               @dragenter.prevent
               @dragover.prevent="$event.dataTransfer!.dropEffect = 'move'"
-              @dragstart="onDrag($event.dataTransfer!, name)"
+              @dragstart="onDrag($event.dataTransfer!, id)"
               @drop.prevent="
-                onDrop($event.dataTransfer!.getData('text/plain'), name)
+                onDrop(+$event.dataTransfer!.getData('text/plain'), id)
               "
             >
-              {{ name }}
+              {{ playerNameByID(id) }}
             </th>
           </tr>
         </thead>

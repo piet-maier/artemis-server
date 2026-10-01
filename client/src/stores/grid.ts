@@ -21,11 +21,11 @@ export const useGridStore = defineStore("grid", () => {
     });
   }
 
-  function changeData({ name, number, cell }: Change, foot: number) {
+  function changeData({ player, number, cell }: Change, foot: number) {
     if (cell !== "") {
-      data.body[number][name] = +cell;
+      data.body[number][player] = +cell;
     } else {
-      delete data.body[number][name];
+      delete data.body[number][player];
     }
 
     if (!isEmpty(data.body[data.body.length - 1])) {
@@ -36,7 +36,7 @@ export const useGridStore = defineStore("grid", () => {
       }
     }
 
-    data.foot[name] = foot;
+    data.foot[player] = foot;
   }
 
   return { data, readGrid, changeData };

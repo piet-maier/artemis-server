@@ -9,224 +9,200 @@ test("empty", () => {
     foot: {},
   };
 
-  const ordering: string[] = [];
+  const ordering: number[] = [];
 
-  expect(() => turnIndicator(table, ordering, [])).toThrowError(
+  expect(() => turnIndicator(table, ordering, [])).toThrow(
     "Ordering or Visibility Empty!",
   );
 });
 
 test("happypath", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
-    body: [{ niklas: 1, piet: 2, henri: 3, tobias: 4 }, {}],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    head: [1, 2, 3, 4],
+    body: [{ 1: 1, 2: 2, 3: 3, 4: 4 }, {}],
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(
-    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(1);
 });
 
 test("longer happypath", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
-    body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      {},
-    ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    head: [1, 2, 3, 4],
+    body: [{ 1: 1, 2: 2, 3: 3, 4: 4 }, { 1: 1, 2: 2, 3: 3, 4: 4 }, {}],
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(
-    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(2);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(2);
 });
 
 test("happy wrap-around", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
+    head: [1, 2, 3, 4],
     body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
       {},
     ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(
-    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(0);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(0);
 });
 
 test("lonly test😭", () => {
   const table: Data = {
-    head: ["niklas"],
-    body: [{ niklas: 1 }, {}],
-    foot: { niklas: 1 },
+    head: [1],
+    body: [{ 1: 1 }, {}],
+    foot: { 1: 1 },
   };
 
-  const ordering: string[] = ["niklas"];
+  const ordering = [1];
 
-  expect(turnIndicator(table, ordering, ["niklas"])).toBe(0);
+  expect(turnIndicator(table, ordering, [1])).toBe(0);
 });
 
 test("henri weg", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
+    head: [1, 2, 3, 4],
     body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, tobias: 4 },
-      { niklas: 1, piet: 2, tobias: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 4: 4 },
+      { 1: 1, 2: 2, 4: 4 },
       {},
     ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, ["niklas", "piet", "tobias"])).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 2, 4])).toBe(1);
 });
 
 test("henri kacken💩", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
+    head: [1, 2, 3, 4],
     body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
       {},
     ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(
-    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(1);
 });
 
 test("mehrmaliger wrap-around", () => {
   const table: Data = {
-    head: ["niklas", "rike", "henri"],
+    head: [1, 2, 3],
     body: [
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
-      { niklas: 1, rike: 2, henri: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
+      { 1: 1, 2: 2, 3: 3 },
       {},
     ],
-    foot: { niklas: 1, rike: 2, henri: 3 },
+    foot: { 1: 1, 2: 2, 3: 3 },
   };
 
-  const ordering: string[] = ["niklas", "rike", "henri"];
+  const ordering = [1, 2, 3];
 
-  expect(turnIndicator(table, ordering, ["niklas", "rike", "henri"])).toBe(2);
+  expect(turnIndicator(table, ordering, [1, 2, 3])).toBe(2);
 });
 
 test("last player gone", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
+    head: [1, 2, 3, 4],
     body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
       {},
     ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(() =>
-    turnIndicator(table, ordering, ["niklas", "piet", "henri"]),
-  ).toThrowError("Returning non visible Player.");
+  expect(() => turnIndicator(table, ordering, [1, 2, 3])).toThrow(
+    "Returning non visible Player.",
+  );
 });
 
 test("last two players gone", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
+    head: [1, 2, 3, 4],
     body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
       {},
     ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(() => turnIndicator(table, ordering, ["niklas", "piet"])).toThrowError(
+  expect(() => turnIndicator(table, ordering, [1, 2])).toThrow(
     "Returning non visible Player.",
   );
 });
 
 test("piet kackt und kommt zurück", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
-    body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, henri: 3, tobias: 4 },
-      {},
-    ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    head: [1, 2, 3, 4],
+    body: [{ 1: 1, 2: 2, 3: 3, 4: 4 }, { 1: 1, 3: 3, 4: 4 }, {}],
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(
-    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(2);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(2);
 });
 
 test("piet kackt und kommt nicht zurück", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
-    body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, henri: 3, tobias: 4 },
-      {},
-    ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    head: [1, 2, 3, 4],
+    body: [{ 1: 1, 2: 2, 3: 3, 4: 4 }, { 1: 1, 3: 3, 4: 4 }, {}],
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, ["niklas", "henri", "tobias"])).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 3, 4])).toBe(1);
 });
 
 test("piet kackt und kommt zurück 2 Electric Boogaloo", () => {
   const table: Data = {
-    head: ["niklas", "piet", "henri", "tobias"],
+    head: [1, 2, 3, 4],
     body: [
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
-      { niklas: 1, henri: 3, tobias: 4 },
-      { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
+      { 1: 1, 3: 3, 4: 4 },
+      { 1: 1, 2: 2, 3: 3, 4: 4 },
       {},
     ],
-    foot: { niklas: 1, piet: 2, henri: 3, tobias: 4 },
+    foot: { 1: 1, 2: 2, 3: 3, 4: 4 },
   };
 
-  const ordering: string[] = ["niklas", "piet", "henri", "tobias"];
+  const ordering = [1, 2, 3, 4];
 
-  expect(
-    turnIndicator(table, ordering, ["niklas", "piet", "henri", "tobias"]),
-  ).toBe(0);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(0);
 });

@@ -22,7 +22,12 @@ interface ClientToServerEvents {
     grid: string,
     callback: (data: Data) => void,
   ) => void;
-  "grid:update": (type: string, grid: string, change: Change) => void;
+  "grid:update": (
+    type: string,
+    grid: string,
+    change: Change,
+    callback: (foot: number) => void,
+  ) => void;
   plot: (callback: (data: Record<string, number>) => void) => void;
   "player:create": (name: string) => void;
   "player:read": (callback: (players: Player[]) => void) => void;

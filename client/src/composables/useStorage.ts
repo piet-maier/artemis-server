@@ -1,5 +1,15 @@
 import { ref, watch } from "vue";
 
+/**
+ * This composable writes any changes made to the returned `ref` object to the browser's local storage.
+ *
+ * @example
+ * const item = useStorage<number>("item");
+ *
+ * item.value = 1;
+ *
+ * localStorage.getItem("item"); // -> "1"
+ */
 export function useStorage<Item>(
   name: string,
   initialValue: Item | null = null,

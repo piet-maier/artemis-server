@@ -1,6 +1,5 @@
 """Util functions to write to a connected sqlite database"""
 
-from python_scripts.database_read import score_exists
 from python_scripts.database_utils import database_query_commit
 
 
@@ -29,7 +28,7 @@ def add_new_game(game_type: str, game_identifier: int):
 def add_player(player_name: str):
     """add new player to database"""
     sql = """
-    INSERT INTO user (name) 
+    INSERT INTO player (name) 
     VALUES (?)
     """
     payload = (player_name,)
@@ -49,47 +48,8 @@ def add_new_round(game_identifier: int, first_user_name: str):
     database_query_commit(sql, payload)
 
 
-def add_new_score(
-    game_identifier: int, player_name: str, round_number: int, score: int
-):
+def add_new_score(game_identifier: int, player: int, round_number: int, score: int):
     """add new score to database"""
-    if score_exists(game_identifier, player_name, round_number):
-        sql = f"""
-        WITH game_id AS (
-            SELECT id
-            FROM game
-            WHERE creation_timestamp = ?
-        ),
-        user_id AS (
-            SELECT id
-            FROM user
-            WHERE name = "{player_name}"
-        )
-        UPDATE score
-        SET score = ?
-        WHERE fk_game = (SELECT id FROM game_id)
-            AND fk_user = (SELECT id FROM user_id)
-            AND fk_round = ?
-        """
-        payload = (game_identifier, score, round_number)
-    else:
-        sql = """
-        WITH game_id AS (
-            SELECT id
-            FROM game
-            WHERE game.creation_timestamp = ?
-        ),
-        user_id AS (
-            SELECT id
-            FROM user
-            WHERE user.name = ?
-        )
-        INSERT INTO score (fk_game, fk_round, score, fk_user)
-        SELECT 
-            (SELECT id FROM game_id),
-            ?,
-            ?,
-            (SELECT id FROM user_id)
-        """
-        payload = (game_identifier, player_name, round_number, score)
+    sql = "INSERT INTO score (fk_game, fk_round, score, fk_user) VALUES ((SELECT id FROM game WHERE game.creation_timestamp = ?), ?, ?, ?) ON CONFLICT (fk_game, fk_round, fk_user) DO UPDATE SET score = ?"
+    payload = (game_identifier, round_number, score, player, score)
     database_query_commit(sql, payload)

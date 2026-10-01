@@ -16,8 +16,6 @@ const expandedPlayerIds = ref<number[]>([]);
 const inputValue = ref("");
 const playerStore = usePlayerStore();
 
-playerStore.readPlayers();
-
 function togglePlayer(id: number) {
   const idIndex = expandedPlayerIds.value.indexOf(id);
   if (idIndex === -1) expandedPlayerIds.value.push(id);

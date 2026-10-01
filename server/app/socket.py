@@ -20,7 +20,7 @@ socketio = SocketIO(cors_allowed_origins="*")
 
 
 class Change(TypedDict):
-    name: str
+    player: int
     number: int
     cell: str
 
@@ -49,29 +49,33 @@ def create_grid(grid_type: str) -> int:
     return current_timestamp
 
 
-# noinspection PyUnusedLocal
 @socketio.on("grid:read")
-def handle_request_last_game_of_type(game_type: str, game_name: int) -> Grid:
+def handle_request_last_game_of_type(_: str, game_name: int) -> Grid:
     payload = build_grid_payload(game_name)
     return payload
 
 
 @socketio.on("grid:update")
-def handle_submit(game_type: str, game_timestamp: int, change: Change) -> None:
+def handle_submit(game_type: str, game_timestamp: int, change: Change):
     if change["cell"]:
         add_new_score(game_timestamp, *change.values())
     else:
-        delete_score(game_timestamp, change["name"], change["number"])
+        delete_score(game_timestamp, change["player"], change["number"])
+
+    foot = get_score_sum(game_timestamp, change["player"])
+
     socketio.emit(
         "grid:update",
         (
             game_type,
             game_timestamp,
             change,
-            get_score_sum(game_timestamp, change["name"]),
+            foot,
         ),
-        include_self=True,
+        include_self=False,
     )
+
+    return foot
 
 
 @socketio.on("plot")
@@ -80,15 +84,15 @@ def plot() -> dict[str, int]:
 
     def query(func: Literal["MIN", "MAX"]) -> str:
         return (
-            "SELECT user.name, COUNT(*) AS count "
+            "SELECT player.name, COUNT(*) AS count "
             "FROM score "
-            "JOIN user ON score.fk_user = user.id "
+            "JOIN player ON score.fk_user = player.id "
             "JOIN game ON score.fk_game = game.id "
             "JOIN game_type ON game.fk_game_type = game_type.id "
             f"JOIN (SELECT fk_game, fk_round, {func} (score) AS val FROM score GROUP BY fk_game, fk_round) AS val "
             "ON score.fk_game = val.fk_game AND score.fk_round = val.fk_round AND score.score = val.val "
             "WHERE game_type.name = ? "
-            "GROUP BY user.id "
+            "GROUP BY player.id "
             "ORDER BY count DESC"
         )
 
@@ -105,7 +109,7 @@ def plot() -> dict[str, int]:
 
 @socketio.on("player:read")
 def player_list():
-    result = query_db("SELECT id, name FROM user")
+    result = query_db("SELECT id, name FROM player")
 
     return [{"id": item["id"], "name": item["name"]} for item in result]
 
@@ -116,7 +120,7 @@ def player_create(name: str):
 
     cursor = connection.cursor()
 
-    cursor.execute("INSERT INTO user (name) VALUES (?)", (name,))
+    cursor.execute("INSERT INTO player (name) VALUES (?)", (name,))
 
     connection.commit()
 
@@ -126,7 +130,7 @@ def player_create(name: str):
 @socketio.on("player:update")
 def player_update(player: Player):
     database_query_commit(
-        "UPDATE user SET name = ? WHERE id = ?", (player["name"], player["id"])
+        "UPDATE player SET name = ? WHERE id = ?", (player["name"], player["id"])
     )
 
     emit("player:update", player, broadcast=True)

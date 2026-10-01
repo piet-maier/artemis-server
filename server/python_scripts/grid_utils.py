@@ -2,23 +2,24 @@
 
 from typing import TypedDict
 
+from app.database import query_db
+from python_scripts.data_structure_utils import flatten_tuples
 from python_scripts.database_read import (
     get_all_scores_of_game,
     get_score_sum,
-    get_all_player_names,
 )
 
 
 class Grid(TypedDict):
-    head: list[str]
-    body: list[dict[str, int]]
-    foot: dict[str, int]
+    head: list[int]
+    body: list[dict[int, int]]
+    foot: dict[int, int]
 
 
 def build_grid_payload(game_identifier: int) -> Grid:
     """build grid payload for given game"""
     scores = get_all_scores_of_game(game_identifier)
-    users = get_all_player_names()
+    users = flatten_tuples(query_db("SELECT id FROM player"))
 
     payload: Grid = {
         "head": users,
@@ -26,15 +27,15 @@ def build_grid_payload(game_identifier: int) -> Grid:
         "foot": {},
     }
 
-    for round_number, user_name, score in scores:
-        if user_name not in users:
+    for round_number, user, score in scores:
+        if user not in users:
             continue
         while len(payload["body"]) <= round_number:
             payload["body"].append({})
 
-        payload["body"][round_number][user_name] = score
+        payload["body"][round_number][user] = score
 
-    for user_name in users:
-        payload["foot"][user_name] = get_score_sum(game_identifier, user_name)
+    for user in users:
+        payload["foot"][user] = get_score_sum(game_identifier, user)
 
     return payload

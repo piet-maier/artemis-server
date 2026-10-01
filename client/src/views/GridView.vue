@@ -5,6 +5,7 @@ import LineRace from "@/components/LineRace.vue";
 import LocaleDate from "@/components/LocaleDate.vue";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
+import { usePlayerStore } from "@/stores/player";
 import { ChartBarIcon, TableIcon } from "@lucide/vue";
 import { computed, onUnmounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -12,14 +13,20 @@ import { useRoute, useRouter } from "vue-router";
 const location = useRoute();
 const router = useRouter();
 
+const { playerNameByID } = usePlayerStore();
+
 const { data, readGrid, changeData } = useGridStore();
 
 const computedData = computed(() => {
-  const filteredHead = data.head.filter((name) => data.foot[name] !== null);
+  const filteredHead = data.head.filter((id) => data.foot[id] !== null);
 
-  const runningTotal: Record<string, number> = {};
+  const runningTotal: Record<number, number> = {};
 
-  const result = filteredHead.map((name) => ({ x: 0, y: 0, z: name }));
+  const result = filteredHead.map((id) => ({
+    x: 0,
+    y: 0,
+    z: playerNameByID(id)!,
+  }));
 
   for (const z of filteredHead) {
     for (let x = 1; x < data.body.length; x++) {
@@ -33,7 +40,7 @@ const computedData = computed(() => {
         y = runningTotal[z];
       }
 
-      result.push({ x, y, z });
+      result.push({ x, y, z: playerNameByID(z)! });
     }
   }
 
@@ -120,12 +127,17 @@ watch(
   { immediate: true },
 );
 
-function onChange(name: string, number: number, cell: string) {
+function onChange(player: number, number: number, cell: string) {
+  const change = { player, number, cell };
+
   socket.emit(
     "grid:update",
     location.params.type as string,
     location.params.grid as string,
-    { name, number, cell },
+    change,
+    (foot) => {
+      changeData(change, foot);
+    },
   );
 }
 
