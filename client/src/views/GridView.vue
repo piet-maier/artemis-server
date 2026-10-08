@@ -160,13 +160,20 @@ onUnmounted(() => {
 
 <template>
   <main class="container py-4 sm:py-8">
-    <IconButton
-      class="ml-auto"
-      @click="router.replace({ query: { mode: showGrid ? 'chart' : 'grid' } })"
-    >
-      <ChartBarIcon v-if="showGrid" />
-      <TableIcon v-else />
-    </IconButton>
+    <div class="flex flex-row-reverse">
+      <IconButton
+        class=""
+        @click="
+          router.replace({ query: { mode: showGrid ? 'chart' : 'grid' } })
+        "
+      >
+        <ChartBarIcon v-if="showGrid" />
+        <TableIcon v-else />
+      </IconButton>
+      <div v-if="!showGrid" class="mx-auto shadow-lg shadow-amber-50">
+        Hier könnte ihre Soose stehen
+      </div>
+    </div>
 
     <div v-if="showGrid">
       <div class="mb-8 space-y-2">
@@ -183,7 +190,7 @@ onUnmounted(() => {
 
     <LineRace
       v-else-if="data.head.length > 0"
-      class="w-full"
+      class="w-full border"
       :data="computedData"
     />
   </main>
