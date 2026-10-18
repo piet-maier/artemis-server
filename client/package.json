@@ -26,6 +26,7 @@
     "vue-router": "^5.4.0"
   },
   "devDependencies": {
+    "@pinia/testing": "^2.0.1",
     "@tailwindcss/vite": "^4.3.3",
     "@tsconfig/node24": "latest",
     "@types/d3": "^7.4.3",
