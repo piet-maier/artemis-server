@@ -174,8 +174,8 @@ onUnmounted(() => {
         <ChartBarIcon v-if="showGrid" />
         <TableIcon v-else />
       </IconButton>
-      <div v-if="!showGrid" class="mx-auto shadow-lg shadow-amber-50">
-        Hier könnte ihre Soose stehen
+      <div v-if="!showGrid" class="mx-auto shadow-lg shadow-violet-950">
+        Es ist gerade Runde: SZ, Dröfl ist dran
       </div>
     </div>
 
