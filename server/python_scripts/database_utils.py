@@ -11,9 +11,11 @@ def get_database_cursor(database_connection: sqlite3.Connection) -> sqlite3.Curs
     return database_connection.cursor()
 
 
-def database_query_commit(sql: str, payload: tuple[Any, ...] = ()) -> None:
+def database_query_commit(sql: str, payload: tuple[Any, ...] = ()):
     """execute sql without return value"""
     database_connection = get_database()
     cursor = get_database_cursor(database_connection)
     cursor.execute(sql, payload)
     database_connection.commit()
+
+    return cursor.lastrowid

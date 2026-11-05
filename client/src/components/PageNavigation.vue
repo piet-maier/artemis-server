@@ -62,13 +62,13 @@ const { navigation } = storeToRefs(useConnectionStore());
           >
             <div class="flex flex-col">
               <RouterLink
-                v-for="item in list"
-                :key="item"
+                v-for="{ id, unixTime } in list"
+                :key="id"
                 class="-mr-3 -ml-2 rounded-md p-2 text-foreground-muted ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
-                :to="{ name: 'grid', params: { type, grid: item } }"
+                :to="{ name: 'grid', params: { type, grid: id } }"
                 @click="$emit('update:modelValue', false)"
               >
-                <LocaleDate :date="new Date(item)" />
+                <LocaleDate :date="new Date(unixTime)" />
               </RouterLink>
             </div>
           </Disclosure>

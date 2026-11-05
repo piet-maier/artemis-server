@@ -31,44 +31,47 @@ class Player(TypedDict):
 
 
 @socketio.on("navigation")
-def navigation() -> dict[str, list[int]]:
+def navigation():
     return get_all_games()
 
 
 @socketio.on("grid:create")
-def create_grid(grid_type: str) -> int:
+def create_grid(grid_type: str):
     current_timestamp = int(datetime.now().timestamp() * 1000)
 
     if grid_type not in get_all_game_types():
         add_new_game_type(grid_type)
 
-    add_new_game(grid_type, current_timestamp)
+    grid = add_new_game(grid_type, current_timestamp)
 
-    socketio.emit("grid:create", (grid_type, current_timestamp), include_self=False)
+    socketio.emit(
+        "grid:create", (grid_type, grid, current_timestamp), include_self=False
+    )
 
-    return current_timestamp
+    return (grid, current_timestamp)
 
 
 @socketio.on("grid:read")
-def handle_request_last_game_of_type(_: str, game_name: int) -> Grid:
-    payload = build_grid_payload(game_name)
-    return payload
+def handle_request_last_game_of_type(grid: int) -> tuple[int, Grid]:
+    result = query_db("SELECT creation_timestamp FROM game WHERE id = ?", (grid,), True)
+
+    payload = build_grid_payload(grid)
+    return (result[0], payload)
 
 
 @socketio.on("grid:update")
-def handle_submit(game_type: str, game_timestamp: int, change: Change):
+def handle_submit(grid: int, change: Change):
     if change["cell"]:
-        add_new_score(game_timestamp, *change.values())
+        add_new_score(grid, *change.values())
     else:
-        delete_score(game_timestamp, change["player"], change["number"])
+        delete_score(grid, change["player"], change["number"])
 
-    foot = get_score_sum(game_timestamp, change["player"])
+    foot = get_score_sum(grid, change["player"])
 
     socketio.emit(
         "grid:update",
         (
-            game_type,
-            game_timestamp,
+            grid,
             change,
             foot,
         ),

@@ -2,17 +2,21 @@ import { socket } from "@/socket";
 import type { Change, Data } from "@/type";
 import { isEmpty } from "lodash";
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 export const useGridStore = defineStore("grid", () => {
+  const date = ref<Date>();
+
   const data: Data = reactive({
     head: [],
     body: [],
     foot: {},
   });
 
-  function readGrid(type: string, grid: string) {
-    socket.emit("grid:read", type, grid, ({ head, body, foot }) => {
+  function readGrid(grid: number) {
+    socket.emit("grid:read", grid, (unixTime, { head, body, foot }) => {
+      date.value = new Date(+unixTime);
+
       body.push({});
 
       data.head = head;
@@ -39,5 +43,5 @@ export const useGridStore = defineStore("grid", () => {
     data.foot[player] = foot;
   }
 
-  return { data, readGrid, changeData };
+  return { date, data, readGrid, changeData };
 });

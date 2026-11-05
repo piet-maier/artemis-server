@@ -2,30 +2,32 @@
 import CheckBox from "@/components/CheckBox.vue";
 import MotionNumber from "@/components/MotionNumber.vue";
 import { useScrollToEnd } from "@/composables/useScrollToEnd";
-import { useStorage } from "@/composables/useStorage";
 import { useWindowEvent } from "@/composables/useWindowEvent";
 import { useGridStore } from "@/stores/grid";
 import { usePlayerStore } from "@/stores/player";
 import type { Data } from "@/type";
 import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "@lucide/vue";
-import { computed, ref, type Ref } from "vue";
+import { storeToRefs } from "pinia";
+import { computed, ref } from "vue";
 
 const prop = defineProps<Data>();
 
 defineEmits<{ change: [player: number, number: number, cell: string] }>();
 
-const { playerNameByID } = usePlayerStore();
+const player = usePlayerStore();
+
+const { visibility, ordering } = storeToRefs(player);
+
+const { playerNameByID, maybeInitializeStorage } = player;
+
+maybeInitializeStorage(prop.head);
 
 const menu = ref<HTMLDivElement | null>(null);
 
 const open = ref(false);
 
 const { data } = useGridStore();
-
-const visibility = useStorage("visibility", [...prop.head]) as Ref<number[]>;
-
-const ordering = useStorage("ordering", [...prop.head]) as Ref<number[]>;
 
 const computedHead = computed(() =>
   ordering.value.filter((id) => visibility.value.includes(id)),
