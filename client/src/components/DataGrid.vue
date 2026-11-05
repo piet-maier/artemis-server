@@ -15,9 +15,9 @@ defineEmits<{ change: [player: number, number: number, cell: string] }>();
 
 const player = usePlayerStore();
 
-const { visibility, ordering } = storeToRefs(player);
+const { visibility, ordering, turnIndicatorIndex } = storeToRefs(player);
 
-const { playerNameByID, maybeInitializeStorage, turnIndicatorIndex } = player;
+const { playerNameByID, maybeInitializeStorage } = player;
 
 maybeInitializeStorage(prop.head);
 
