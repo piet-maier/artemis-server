@@ -3,10 +3,8 @@ import CheckBox from "@/components/CheckBox.vue";
 import MotionNumber from "@/components/MotionNumber.vue";
 import { useScrollToEnd } from "@/composables/useScrollToEnd";
 import { useWindowEvent } from "@/composables/useWindowEvent";
-import { useGridStore } from "@/stores/grid";
 import { usePlayerStore } from "@/stores/player";
 import type { Data } from "@/type";
-import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "@lucide/vue";
 import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
@@ -19,15 +17,13 @@ const player = usePlayerStore();
 
 const { visibility, ordering } = storeToRefs(player);
 
-const { playerNameByID, maybeInitializeStorage } = player;
+const { playerNameByID, maybeInitializeStorage, turnIndicatorIndex } = player;
 
 maybeInitializeStorage(prop.head);
 
 const menu = ref<HTMLDivElement | null>(null);
 
 const open = ref(false);
-
-const { data } = useGridStore();
 
 const computedHead = computed(() =>
   ordering.value.filter((id) => visibility.value.includes(id)),
@@ -56,14 +52,6 @@ function onDrop(drag: number, drop: number) {
 }
 
 const { containerRef, endRef } = useScrollToEnd();
-
-const turnIndicatorIndex = computed(() => {
-  try {
-    return turnIndicator(data, ordering.value, visibility.value);
-  } catch {
-    return -1;
-  }
-});
 
 function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
   if (!(target instanceof HTMLInputElement) || repeat) {
@@ -129,8 +117,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
               :key="id"
               :class="[
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
-                turnIndicatorIndex !== -1 &&
-                id === computedHead[turnIndicatorIndex]
+                turnIndicatorIndex !== -1 && id === turnIndicatorIndex
                   ? 'rounded-t-md border border-border-attention bg-background-attention text-foreground-default'
                   : 'bg-background-default text-foreground-muted',
               ]"

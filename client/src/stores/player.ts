@@ -1,15 +1,26 @@
 import { useStorage } from "@/composables/useStorage";
 import { socket } from "@/socket.ts";
 import type { Player } from "@/type";
+import { turnIndicator } from "@/util/turnIndicator";
 import { defineStore } from "pinia";
-import { ref, type Ref } from "vue";
+import { computed, ref, type Ref } from "vue";
+import { useGridStore } from "./grid";
 
 export const usePlayerStore = defineStore("player", () => {
   const players = ref<Player[]>([]);
   const tempPlayers = ref<Player[]>([]);
+  const { data } = useGridStore();
 
   const visibility = useStorage("visibility") as Ref<number[]>;
   const ordering = useStorage("ordering") as Ref<number[]>;
+
+  const turnIndicatorIndex = computed(() => {
+    try {
+      return turnIndicator(data, ordering.value, visibility.value);
+    } catch {
+      return -1;
+    }
+  });
 
   function playerNameByID(id: number) {
     return players.value.find((player) => player.id === id)?.name;
@@ -76,6 +87,7 @@ export const usePlayerStore = defineStore("player", () => {
     tempPlayers,
     visibility,
     ordering,
+    turnIndicatorIndex,
     playerNameByID,
     createPlayer,
     readPlayers,

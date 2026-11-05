@@ -25,7 +25,7 @@ test("happypath", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(2);
 });
 
 test("longer happypath", () => {

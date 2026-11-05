@@ -2,7 +2,7 @@ import type { Data } from "@/type";
 import { isEmpty } from "lodash";
 
 /**
- * Finds the Index of the player whos next up in the order of all visible players.
+ * Finds the Id of the player whos next up in the order of all visible players.
  * @param ordering Ordered array of all existing players
  * @param visibility Array of all visible players
  */
@@ -34,7 +34,7 @@ export function turnIndicator(
   );
   const lastPlayer = activePlayers.indexOf(premiumFoot[playerIndex]);
   const nextPlayer = activePlayers[(lastPlayer + 2) % activePlayers.length];
-  const nextPlayerResult = computedHead.indexOf(nextPlayer);
-  if (nextPlayerResult === -1) throw new Error("Returning non visible Player.");
-  return nextPlayerResult;
+  if (!computedHead.includes(nextPlayer))
+    throw new Error("Returning non visible Player.");
+  return nextPlayer;
 }
