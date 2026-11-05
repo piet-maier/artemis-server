@@ -14,8 +14,8 @@ export function turnIndicator(
   if (ordering.length === 0 || visibility.length === 0)
     throw new Error("Ordering or Visibility Empty!");
   const computedHead = ordering.filter((id) => visibility.includes(id));
-  if (body.length === 1) return 0;
-  if (body.length === 2) return computedHead.length > 1 ? 1 : 0;
+  if (body.length === 1) return computedHead[0];
+  if (body.length === 2) return computedHead[computedHead.length > 1 ? 1 : 0];
   // Ordered Array of all playing players
   const premiumFoot = ordering.filter((id) => foot[id] !== null);
   let playerIndex = -1;

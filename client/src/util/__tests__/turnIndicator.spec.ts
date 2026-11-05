@@ -37,7 +37,7 @@ test("longer happypath", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(2);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(3);
 });
 
 test("happy wrap-around", () => {
@@ -55,7 +55,7 @@ test("happy wrap-around", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(0);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(1);
 });
 
 test("lonly test😭", () => {
@@ -67,7 +67,7 @@ test("lonly test😭", () => {
 
   const ordering = [1];
 
-  expect(turnIndicator(table, ordering, [1])).toBe(0);
+  expect(turnIndicator(table, ordering, [1])).toBe(1);
 });
 
 test("henri weg", () => {
@@ -85,7 +85,7 @@ test("henri weg", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 4])).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 2, 4])).toBe(2);
 });
 
 test("henri kacken💩", () => {
@@ -103,7 +103,7 @@ test("henri kacken💩", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(2);
 });
 
 test("mehrmaliger wrap-around", () => {
@@ -125,7 +125,7 @@ test("mehrmaliger wrap-around", () => {
 
   const ordering = [1, 2, 3];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3])).toBe(2);
+  expect(turnIndicator(table, ordering, [1, 2, 3])).toBe(3);
 });
 
 test("last player gone", () => {
@@ -175,7 +175,7 @@ test("piet kackt und kommt zurück", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(2);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(3);
 });
 
 test("piet kackt und kommt nicht zurück", () => {
@@ -187,7 +187,7 @@ test("piet kackt und kommt nicht zurück", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 3, 4])).toBe(1);
+  expect(turnIndicator(table, ordering, [1, 3, 4])).toBe(3);
 });
 
 test("piet kackt und kommt zurück 2 Electric Boogaloo", () => {
@@ -204,5 +204,5 @@ test("piet kackt und kommt zurück 2 Electric Boogaloo", () => {
 
   const ordering = [1, 2, 3, 4];
 
-  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(0);
+  expect(turnIndicator(table, ordering, [1, 2, 3, 4])).toBe(1);
 });
