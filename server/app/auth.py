@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.database import get_database
 
@@ -36,6 +36,31 @@ def sign_up():
         return jsonify("The user already exists."), 400
 
     return "", 201
+
+
+@bp.post("/sign-in")
+def sign_in():
+    name = request.form.get("name", "")
+    password = request.form.get("password", "")
+
+    if not name:
+        return jsonify("The name is required."), 400
+    elif not password:
+        return jsonify("The password is required."), 400
+
+    db = get_database()
+
+    user = db.execute("SELECT hash FROM user WHERE name = ?", (name,)).fetchone()
+
+    if user is None:
+        return jsonify("The name is invalid."), 400
+
+    if not check_password_hash(password, user["password"]):
+        return jsonify("The password is invalid."), 400
+
+    # TODO: Session
+
+    return "", 200
 
 
 def _validate_name(name: str):
