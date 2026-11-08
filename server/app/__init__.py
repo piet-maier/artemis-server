@@ -1,9 +1,10 @@
 import os
-from typing import Mapping, Any
+from collections.abc import Mapping
+from typing import Any
 
 from flask import Flask, Response
 
-from . import database, socket
+from . import auth, database, socket
 
 
 def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
@@ -33,6 +34,8 @@ def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     @app.route("/<path:path>")
     def catch_all(path: str) -> Response:
         return app.send_static_file(path if "." in path else "index.html")
+
+    app.register_blueprint(auth.bp)
 
     # socket.py
     socket.socketio.init_app(app)
