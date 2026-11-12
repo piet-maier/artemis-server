@@ -54,7 +54,6 @@ const computedData = computed(() => {
 
 const showGrid = computed(() => location.query.mode !== "chart");
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emoji = (index: number, score: number, name: string) => {
   switch (score) {
     case 4:
@@ -180,7 +179,15 @@ onUnmounted(() => {
       >
         Es ist gerade Runde: {{ data.body.length }},
         {{
-          turnIndicatorId !== -1 ? playerNameByID(turnIndicatorId) : "N̡͉̱̪̿̽̓i̴̵̷̵̗̣̟̲͎̞̱̞͖͓͕͓̘̓͆̂̓͊ͬ͑ͥͪ͛ͦ̌̓ͦ͘͜é̡̮͎̰̭̇̔͟m̵̯̲̗̠̦̪̺̪̣͍̯̺͔͍̺̝ͨ̒̎̔ͨ̽̂͆̀̐̓͡͞a͖̤̯̗̮̳͚̿̂̽ͭ͆̅̎̋͢͟ͅn̡̥̭͉̘͉̗ͪ͐͒ͬ͒̒̄̀̚̕d̷̵̴̵͍͕͍̘͕̠͎̜͍͍͕̺͉̝̅̈͌͗̈́̄ͭ̿͐̓̊̃ͯ̄͌͑͂̌͜͠͝͠͡ͅ"
+          turnIndicatorId !== -1
+            ? playerNameByID(turnIndicatorId) +
+              " " +
+              emoji(
+                data.body.length,
+                data.foot[turnIndicatorId],
+                playerNameByID(turnIndicatorId)!,
+              )
+            : "N̡͉̱̪̿̽̓i̴̵̷̵̗̣̟̲͎̞̱̞͖͓͕͓̘̓͆̂̓͊ͬ͑ͥͪ͛ͦ̌̓ͦ͘͜é̡̮͎̰̭̇̔͟m̵̯̲̗̠̦̪̺̪̣͍̯̺͔͍̺̝ͨ̒̎̔ͨ̽̂͆̀̐̓͡͞a͖̤̯̗̮̳͚̿̂̽ͭ͆̅̎̋͢͟ͅn̡̥̭͉̘͉̗ͪ͐͒ͬ͒̒̄̀̚̕d̷̵̴̵͍͕͍̘͕̠͎̜͍͍͕̺͉̝̅̈͌͗̈́̄ͭ̿͐̓̊̃ͯ̄͌͑͂̌͜͠͝͠͡ͅ"
         }}
         ist dran
       </div>
