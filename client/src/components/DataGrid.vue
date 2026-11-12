@@ -15,7 +15,7 @@ defineEmits<{ change: [player: number, number: number, cell: string] }>();
 
 const player = usePlayerStore();
 
-const { visibility, ordering, turnIndicatorIndex } = storeToRefs(player);
+const { visibility, ordering, turnIndicatorId } = storeToRefs(player);
 
 const { playerNameByID, maybeInitializeStorage } = player;
 
@@ -117,7 +117,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
               :key="id"
               :class="[
                 'sticky top-0 h-12 border-b px-4 py-0 font-medium whitespace-nowrap transition-all duration-300 ease-in',
-                turnIndicatorIndex !== -1 && id === turnIndicatorIndex
+                turnIndicatorId !== -1 && id === turnIndicatorId
                   ? 'rounded-t-md border border-border-attention bg-background-attention text-foreground-default'
                   : 'bg-background-default text-foreground-muted',
               ]"

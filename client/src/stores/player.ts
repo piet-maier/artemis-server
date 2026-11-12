@@ -14,7 +14,7 @@ export const usePlayerStore = defineStore("player", () => {
   const visibility = useStorage("visibility") as Ref<number[]>;
   const ordering = useStorage("ordering") as Ref<number[]>;
 
-  const turnIndicatorIndex = computed(() => {
+  const turnIndicatorId = computed(() => {
     try {
       return turnIndicator(data, ordering.value, visibility.value);
     } catch {
@@ -87,7 +87,7 @@ export const usePlayerStore = defineStore("player", () => {
     tempPlayers,
     visibility,
     ordering,
-    turnIndicatorIndex,
+    turnIndicatorId,
     playerNameByID,
     createPlayer,
     readPlayers,

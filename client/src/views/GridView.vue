@@ -14,12 +14,12 @@ import { useRoute, useRouter } from "vue-router";
 const location = useRoute();
 const router = useRouter();
 
-const { playerNameByID } = usePlayerStore();
+const playerStore = usePlayerStore();
+const { turnIndicatorId } = storeToRefs(playerStore);
+const { playerNameByID } = playerStore;
 
 const grid = useGridStore();
-
 const { date } = storeToRefs(grid);
-
 const { data, readGrid, changeData } = grid;
 
 const computedData = computed(() => {
@@ -174,8 +174,15 @@ onUnmounted(() => {
         <ChartBarIcon v-if="showGrid" />
         <TableIcon v-else />
       </IconButton>
-      <div v-if="!showGrid" class="mx-auto shadow-lg shadow-violet-950">
-        Es ist gerade Runde: SZ, Dröfl ist dran
+      <div
+        v-if="!showGrid"
+        class="mx-auto mb-4 px-4 text-3xl shadow-lg shadow-violet-900"
+      >
+        Es ist gerade Runde: {{ data.body.length }},
+        {{
+          turnIndicatorId !== -1 ? playerNameByID(turnIndicatorId) : "N̡͉̱̪̿̽̓i̴̵̷̵̗̣̟̲͎̞̱̞͖͓͕͓̘̓͆̂̓͊ͬ͑ͥͪ͛ͦ̌̓ͦ͘͜é̡̮͎̰̭̇̔͟m̵̯̲̗̠̦̪̺̪̣͍̯̺͔͍̺̝ͨ̒̎̔ͨ̽̂͆̀̐̓͡͞a͖̤̯̗̮̳͚̿̂̽ͭ͆̅̎̋͢͟ͅn̡̥̭͉̘͉̗ͪ͐͒ͬ͒̒̄̀̚̕d̷̵̴̵͍͕͍̘͕̠͎̜͍͍͕̺͉̝̅̈͌͗̈́̄ͭ̿͐̓̊̃ͯ̄͌͑͂̌͜͠͝͠͡ͅ"
+        }}
+        ist dran
       </div>
     </div>
 
