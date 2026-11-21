@@ -19,6 +19,11 @@ const router = createRouter({
       name: "player-config",
       component: () => import("@/views/PlayerConfigView.vue"),
     },
+    {
+      path: "/:catchAll(.*)*",
+      name: "NotFound",
+      component: () => import("@/views/NotFoundView.vue"),
+    },
   ],
 });
 
