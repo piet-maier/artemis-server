@@ -22,16 +22,12 @@ jobs:
         with:
           persist-credentials: false
           sparse-checkout: client
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/setup@v3
         with:
-          package_json_file: client/package.json
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: pnpm
-          cache-dependency-path: client/pnpm-lock.yaml
-      - name: Install Dependencies
-        run: pnpm ci
+          runtime: node@24
+          cache: true
+          working-directory: client
+          require-lockfile: true
       - name: Run Type Check
         run: pnpm run type-check
       - name: Run ESLint
