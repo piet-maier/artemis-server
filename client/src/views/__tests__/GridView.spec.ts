@@ -29,11 +29,21 @@ function render(initialState?: StateTree, stub = true) {
 }
 
 test("Display Grid Type & Date", () => {
-  const gridView = render({ grid: { date: new Date(0) } });
+  const date = new Date(0);
+  const gridView = render({ grid: { date } });
 
   expect(gridView.get("h2").text()).toBe("Type");
 
-  expect(gridView.get("p").text()).toBe("Jan 1, 1970, 1:00:00 AM");
+  expect(gridView.get("p").text()).toBe(
+    date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+    }),
+  );
 });
 
 test("Emit grid:read WS Event", () => {
