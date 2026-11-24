@@ -24,7 +24,7 @@ jobs:
           sparse-checkout: client
       - uses: pnpm/setup@v3
         with:
-          runtime: node@24
+          runtime: node@26
           cache: true
           working-directory: client
           require-lockfile: true
