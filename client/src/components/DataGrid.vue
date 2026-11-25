@@ -40,18 +40,18 @@ const playersWithScore = computed(() =>
   prop.head.filter((id) => prop.foot[id] !== null),
 );
 
-const isLatestGame =
-  route.name === "grid-latest" || route.name === "chart-latest";
+watch(
+  playersWithScore,
+  (players) => {
+    const isLatestGame =
+      route.name === "grid-latest" || route.name === "chart-latest";
 
-if (!isLatestGame) {
-  watch(
-    () => prop.head.length,
-    () => {
-      showScoredPlayers();
-    },
-    { immediate: true, once: true },
-  );
-}
+    if (!isLatestGame && players.length > 0) {
+      visibility.value = [...players];
+    }
+  },
+  { immediate: true },
+);
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
   if (!menu.value?.contains(mouseEvent.target as HTMLElement)) {
