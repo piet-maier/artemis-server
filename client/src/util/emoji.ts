@@ -43,6 +43,8 @@ function getFirstPlaceEmoji(name: string): string {
       return "👙";
     case "Chirs":
       return "🥵";
+    case "Christos":
+      return "🦄";
     default:
       return "👑";
   }
@@ -64,7 +66,7 @@ function getPositionEmoji(placement: number, playerCount: number): string {
     case 5:
       return "😭";
     default:
-      return "";
+      return "👀";
   }
 }
 
