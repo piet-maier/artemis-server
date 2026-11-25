@@ -2,7 +2,12 @@
 import * as d3 from "d3";
 import { onMounted, useTemplateRef, watch } from "vue";
 
-type Item = { x: number; y: number; z: string };
+type Item = {
+  x: number;
+  y: number;
+  z: string;
+  emoji?: string;
+};
 
 const prop = defineProps<{ data: Item[] }>();
 
@@ -93,9 +98,21 @@ onMounted(() => {
         .selectAll<SVGGElement, [string, Item]>("text")
         .data(groups, ([groupKey]) => groupKey)
         .join(
-          (gElement) => gElement.append("text").text(([groupKey]) => groupKey),
+          (gElement) =>
+            gElement
+              .append("text")
+              .text(([groupKey, groupValue]) =>
+                groupValue[0]?.emoji
+                  ? `${groupValue[0].emoji} ${groupKey}`
+                  : groupKey,
+              ),
           (gElement) => gElement,
           (gElement) => gElement.remove(),
+        )
+        .text(([groupKey, groupValue]) =>
+          last(groupValue)?.emoji
+            ? `${last(groupValue)!.emoji} ${groupKey}`
+            : groupKey,
         )
         .call((gElement) =>
           gElement
