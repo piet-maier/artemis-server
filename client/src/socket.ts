@@ -4,6 +4,7 @@ import { io, type Socket } from "socket.io-client";
 interface ServerToClientEvents {
   "grid:create": (type: string, id: number, unixTime: number) => void;
   "grid:update": (id: number, change: Change, foot: number) => void;
+  "grid:latest": (game: { type: string; id: number; unixTime: number }) => void;
   "player:create": (player: Player) => void;
   "player:update": (player: Player) => void;
   "player:delete": (id: number) => void;
@@ -27,6 +28,15 @@ interface ClientToServerEvents {
     id: number,
     change: Change,
     callback: (foot: number) => void,
+  ) => void;
+  "grid:latest:read": (
+    callback: (
+      game: {
+        type: string;
+        id: number;
+        unixTime: number;
+      } | null,
+    ) => void,
   ) => void;
   plot: (callback: (data: Record<string, number>) => void) => void;
   "player:create": (name: string) => void;

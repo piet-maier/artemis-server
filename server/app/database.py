@@ -56,10 +56,10 @@ def query_db(query: str, args: tuple[Any, ...] = (), one: bool = False) -> Any:
     This function executes the given SQL statement, binding any arguments to placeholders in the query.
     If the query fetches rows from the database, it can return either all or just a single result.
     """
-    cur = get_database().execute(query, args)
+    cursor = get_database().execute(query, args)
 
-    rv = cur.fetchall()
+    result = cursor.fetchall()
 
-    cur.close()
+    cursor.close()
 
-    return (rv[0] if rv else None) if one else rv
+    return (result[0] if result else None) if one else result

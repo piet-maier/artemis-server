@@ -44,8 +44,13 @@ export const useConnectionStore = defineStore("connection", () => {
 
         navigation.value[type].unshift({ id, unixTime });
 
-        // noinspection JSIgnoredPromiseFromCall
-        router.push("/grid/" + type + "/" + id);
+        router.push({
+          name: "grid-game",
+          params: {
+            type,
+            grid: String(id),
+          },
+        });
       });
     }
   }

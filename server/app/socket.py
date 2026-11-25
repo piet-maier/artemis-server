@@ -7,6 +7,7 @@ from python_scripts.database_delete import delete_score
 from python_scripts.database_read import (
     get_all_game_types,
     get_all_games,
+    get_latest_game,
     get_score_sum,
 )
 from python_scripts.database_utils import database_query_commit
@@ -48,7 +49,12 @@ def create_grid(grid_type: str):
         "grid:create", (grid_type, grid, current_timestamp), include_self=False
     )
 
-    return (grid, current_timestamp)
+    latest_game = get_latest_game()
+
+    if latest_game:
+        socketio.emit("grid:latest", latest_game)
+
+    return grid, current_timestamp
 
 
 @socketio.on("grid:read")
@@ -56,7 +62,12 @@ def handle_request_last_game_of_type(grid: int) -> tuple[int, Grid]:
     result = query_db("SELECT creation_timestamp FROM game WHERE id = ?", (grid,), True)
 
     payload = build_grid_payload(grid)
-    return (result[0], payload)
+    return result[0], payload
+
+
+@socketio.on("grid:latest:read")
+def handle_latest_game():
+    return get_latest_game()
 
 
 @socketio.on("grid:update")
