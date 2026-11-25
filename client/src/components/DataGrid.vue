@@ -103,6 +103,46 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
     target.dispatchEvent(new Event("change"));
   }
 }
+
+function moveVertical(
+  event: KeyboardEvent,
+  rowIndex: number,
+  columnIndex: number,
+) {
+  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+    return;
+  }
+
+  event.preventDefault();
+
+  const tbody = (event.target as HTMLElement).closest("tbody");
+
+  if (!tbody) {
+    return;
+  }
+
+  const inputs = [...tbody.querySelectorAll<HTMLInputElement>("input")];
+
+  const rowCount = prop.body.length;
+
+  if (rowCount === 0) {
+    return;
+  }
+
+  const nextRow =
+    event.key === "ArrowDown"
+      ? (rowIndex + 1) % rowCount
+      : (rowIndex - 1 + rowCount) % rowCount;
+
+  const targetIndex = nextRow * computedHead.value.length + columnIndex;
+
+  const target = inputs[targetIndex];
+
+  if (target) {
+    target.focus();
+    target.select();
+  }
+}
 </script>
 
 <template>
@@ -187,7 +227,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
             class="transition-colors hover:bg-background-default-hover"
           >
             <td
-              v-for="name in computedHead"
+              v-for="(name, column) in computedHead"
               :key="name"
               :class="[{ 'border-t': number !== 0 }, 'p-0']"
             >
@@ -204,6 +244,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
                     ($event.target as HTMLInputElement).value,
                   )
                 "
+                @keydown="moveVertical($event, number, column)"
               />
             </td>
           </tr>
