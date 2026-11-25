@@ -10,7 +10,7 @@ import { fuseNames, seededShuffle } from "@/util/sharedName";
 import { TableIcon } from "@lucide/vue";
 
 const { data, gameId } = useGameData();
-const { toggleView } = useGameNavigation();
+const { targetRoute } = useGameNavigation();
 
 const { playerNameByID } = usePlayerStore();
 
@@ -150,9 +150,11 @@ const computedData = computed(() => {
 
 <template>
   <main class="container py-4 sm:py-8">
-    <IconButton class="ml-auto" @click="toggleView">
-      <TableIcon />
-    </IconButton>
+    <RouterLink class="ml-auto flex w-10" :to="targetRoute">
+      <IconButton>
+        <TableIcon />
+      </IconButton>
+    </RouterLink>
 
     <LineRace v-if="data.head.length > 0" class="w-full" :data="computedData" />
   </main>

@@ -9,7 +9,7 @@ import type { Change } from "@/type";
 import { ChartBarIcon } from "@lucide/vue";
 
 const { data, date, gameId, grid, gameType } = useGameData();
-const { toggleView } = useGameNavigation();
+const { targetRoute } = useGameNavigation();
 
 function onChange(player: number, number: number, cell: string) {
   const id = gameId();
@@ -26,9 +26,11 @@ function onChange(player: number, number: number, cell: string) {
 
 <template>
   <main class="container py-4 sm:py-8">
-    <IconButton class="ml-auto" @click="toggleView">
-      <ChartBarIcon />
-    </IconButton>
+    <RouterLink class="ml-auto flex w-10" :to="targetRoute">
+      <IconButton>
+        <ChartBarIcon />
+      </IconButton>
+    </RouterLink>
 
     <div class="mb-8 space-y-2">
       <h2 class="text-4xl font-bold tracking-tight">

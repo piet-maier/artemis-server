@@ -1,29 +1,35 @@
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 export function useGameNavigation() {
   const route = useRoute();
   const router = useRouter();
 
-  function toggleView() {
+  const targetRoute = computed(() => {
     const target = route.path.startsWith("/grid") ? "chart" : "grid";
 
     if (
       typeof route.params.type === "string" &&
       typeof route.params.grid === "string"
     ) {
-      router.push({
+      return {
         name: `${target}-game`,
         params: {
           type: route.params.type,
           grid: route.params.grid,
         },
-      });
-    } else {
-      router.push({
-        name: `${target}-latest`,
-      });
+      };
     }
-  }
 
-  return { toggleView };
+    return {
+      name: `${target}-latest`,
+    };
+  });
+
+  const href = computed(() => router.resolve(targetRoute.value).href);
+
+  return {
+    targetRoute,
+    href,
+  };
 }
