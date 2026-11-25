@@ -3,18 +3,18 @@ import { mount } from "@vue/test-utils";
 import { expect, test } from "vitest";
 
 const data = [
-  { x: 1, y: 400, z: "uv" },
-  { x: 2, y: 300, z: "uv" },
-  { x: 3, y: 300, z: "uv" },
-  { x: 4, y: 200, z: "uv" },
-  { x: 5, y: 278, z: "uv" },
-  { x: 6, y: 189, z: "uv" },
-  { x: 1, y: 240, z: "pv" },
-  { x: 2, y: 456, z: "pv" },
-  { x: 3, y: 139, z: "pv" },
-  { x: 4, y: 980, z: "pv" },
-  { x: 5, y: 390, z: "pv" },
-  { x: 6, y: 480, z: "pv" },
+  { x: 1, y: 400, id: 1, name: "uv" },
+  { x: 2, y: 300, id: 1, name: "uv" },
+  { x: 3, y: 300, id: 1, name: "uv" },
+  { x: 4, y: 200, id: 1, name: "uv" },
+  { x: 5, y: 278, id: 1, name: "uv" },
+  { x: 6, y: 189, id: 1, name: "uv" },
+  { x: 1, y: 240, id: 2, name: "pv" },
+  { x: 2, y: 456, id: 2, name: "pv" },
+  { x: 3, y: 139, id: 2, name: "pv" },
+  { x: 4, y: 980, id: 2, name: "pv" },
+  { x: 5, y: 390, id: 2, name: "pv" },
+  { x: 6, y: 480, id: 2, name: "pv" },
 ];
 
 const lineSelector = "path";
@@ -44,13 +44,13 @@ test("Changing Data", async () => {
 
   await lineRace.setProps({
     data: [
-      { x: 1, y: 2400, z: "amt" },
-      { x: 2, y: 2210, z: "amt" },
-      { x: 3, y: 2290, z: "amt" },
-      { x: 4, y: 2000, z: "amt" },
-      { x: 5, y: 2181, z: "amt" },
-      { x: 6, y: 2500, z: "amt" },
-      { x: 7, y: 2100, z: "amt" },
+      { x: 1, y: 2400, id: 3, name: "amt" },
+      { x: 2, y: 2210, id: 3, name: "amt" },
+      { x: 3, y: 2290, id: 3, name: "amt" },
+      { x: 4, y: 2000, id: 3, name: "amt" },
+      { x: 5, y: 2181, id: 3, name: "amt" },
+      { x: 6, y: 2500, id: 3, name: "amt" },
+      { x: 7, y: 2100, id: 3, name: "amt" },
     ],
   });
 

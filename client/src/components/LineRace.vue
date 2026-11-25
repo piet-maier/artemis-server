@@ -5,7 +5,8 @@ import { onMounted, useTemplateRef, watch } from "vue";
 type Item = {
   x: number;
   y: number;
-  z: string;
+  id: number;
+  name: string;
   emoji?: string;
 };
 
@@ -39,7 +40,6 @@ const line = d3
   .y(({ y }) => yScale(y));
 
 const lineGroupRef = useTemplateRef("lineGroupRef");
-
 const textGroupRef = useTemplateRef("textGroupRef");
 
 function last(list: Item[]) {
@@ -75,18 +75,18 @@ onMounted(() => {
             .attr("stroke-opacity", 0.1),
         );
 
-      const groups = d3.group(prop.data, ({ z }) => z);
+      const groups = d3.group(prop.data, ({ id }) => id);
 
-      zScale.domain(groups.keys());
+      zScale.domain([...groups.keys()].map(String));
 
       d3.select(lineGroupRef.value!)
-        .selectAll<SVGGElement, [string, Item]>("path")
+        .selectAll<SVGPathElement, [number, Item[]]>("path")
         .data(groups, ([groupKey]) => groupKey)
         .join(
           (gElement) =>
             gElement
               .append("path")
-              .attr("class", ([groupKey]) => zScale(groupKey)),
+              .attr("class", ([groupKey]) => zScale(String(groupKey))),
           (gElement) => gElement,
           (gElement) => gElement.remove(),
         )
@@ -95,25 +95,20 @@ onMounted(() => {
         );
 
       d3.select(textGroupRef.value!)
-        .selectAll<SVGGElement, [string, Item]>("text")
+        .selectAll<SVGTextElement, [number, Item[]]>("text")
         .data(groups, ([groupKey]) => groupKey)
         .join(
-          (gElement) =>
-            gElement
-              .append("text")
-              .text(([groupKey, groupValue]) =>
-                groupValue[0]?.emoji
-                  ? `${groupValue[0].emoji} ${groupKey}`
-                  : groupKey,
-              ),
+          (gElement) => gElement.append("text"),
           (gElement) => gElement,
           (gElement) => gElement.remove(),
         )
-        .text(([groupKey, groupValue]) =>
-          last(groupValue)?.emoji
-            ? `${last(groupValue)!.emoji} ${groupKey}`
-            : groupKey,
-        )
+        .text(([_, groupValue]) => {
+          const item = last(groupValue);
+
+          if (!item?.name) return "";
+
+          return item.emoji ? `${item.emoji} ${item.name}` : item.name;
+        })
         .call((gElement) =>
           gElement
             .attr("x", ([_, groupValue]) => xScale(last(groupValue)!.x)!)
