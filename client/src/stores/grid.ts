@@ -13,15 +13,26 @@ export const useGridStore = defineStore("grid", () => {
     foot: {},
   });
 
-  function readGrid(grid: number) {
-    socket.emit("grid:read", grid, (unixTime, { head, body, foot }) => {
-      date.value = new Date(+unixTime);
+  async function readGrid(grid: number): Promise<boolean> {
+    return await new Promise((resolve) => {
+      socket.emit("grid:read", grid, (unixTime, payload) => {
+        if (!payload) {
+          resolve(false);
+          return;
+        }
 
-      body.push({});
+        const { head, body, foot } = payload;
 
-      data.head = head;
-      data.body = body;
-      data.foot = foot;
+        date.value = new Date(+unixTime);
+
+        body.push({});
+
+        data.head = head;
+        data.body = body;
+        data.foot = foot;
+
+        resolve(true);
+      });
     });
   }
 

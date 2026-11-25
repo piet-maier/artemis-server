@@ -29,6 +29,28 @@ def get_all_games():
     return convert_list_to_dict(games)
 
 
+def get_latest_game():
+    """retrieve the newest game from database"""
+    sql = """
+    SELECT game_type.name, game.id, game.creation_timestamp
+    FROM game
+        JOIN game_type ON game_type.id = game.fk_game_type
+    ORDER BY game.creation_timestamp DESC, game.id DESC
+    LIMIT 1
+    """
+
+    result = query_db(sql, (), True)
+
+    if result is None:
+        return None
+
+    return {
+        "type": result["name"],
+        "id": result["id"],
+        "unixTime": result["creation_timestamp"],
+    }
+
+
 def get_all_rounds_of_game(game_identifier: int) -> list[str]:
     """retrieve a list of all rounds of game from database"""
     sql = """

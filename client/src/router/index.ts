@@ -10,8 +10,23 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: "/chart",
+      name: "chart-latest",
+      component: () => import("@/views/ChartView.vue"),
+    },
+    {
+      path: "/chart/:type/:grid",
+      name: "chart-game",
+      component: () => import("@/views/ChartView.vue"),
+    },
+    {
+      path: "/grid",
+      name: "grid-latest",
+      component: () => import("@/views/GridView.vue"),
+    },
+    {
       path: "/grid/:type/:grid",
-      name: "grid",
+      name: "grid-game",
       component: () => import("@/views/GridView.vue"),
     },
     {

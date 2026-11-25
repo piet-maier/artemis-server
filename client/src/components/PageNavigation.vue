@@ -65,7 +65,7 @@ const { navigation } = storeToRefs(useConnectionStore());
                 v-for="{ id, unixTime } in list"
                 :key="id"
                 class="-mr-3 -ml-2 rounded-md p-2 text-foreground-muted ring-focus-default ring-inset focus:ring-2 focus-visible:outline-hidden"
-                :to="{ name: 'grid', params: { type, grid: id } }"
+                :to="{ name: 'grid-game', params: { type, grid: String(id) } }"
                 @click="$emit('update:modelValue', false)"
               >
                 <LocaleDate :date="new Date(unixTime)" />

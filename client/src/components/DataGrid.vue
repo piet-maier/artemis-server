@@ -9,7 +9,8 @@ import type { Data } from "@/type";
 import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "@lucide/vue";
 import { storeToRefs } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const prop = defineProps<Data>();
 
@@ -29,8 +30,27 @@ const open = ref(false);
 
 const { data } = useGridStore();
 
+const route = useRoute();
+
 const computedHead = computed(() =>
   ordering.value.filter((id) => visibility.value.includes(id)),
+);
+
+const playersWithScore = computed(() =>
+  prop.head.filter((id) => prop.foot[id] !== null),
+);
+
+watch(
+  playersWithScore,
+  (players) => {
+    const isLatestGame =
+      route.name === "grid-latest" || route.name === "chart-latest";
+
+    if (!isLatestGame && players.length > 0) {
+      visibility.value = [...players];
+    }
+  },
+  { immediate: true },
 );
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
@@ -38,6 +58,10 @@ useWindowEvent("click", (mouseEvent: MouseEvent) => {
     open.value = false;
   }
 });
+
+function showScoredPlayers() {
+  visibility.value = [...playersWithScore.value];
+}
 
 function onDrag(dataTransfer: DataTransfer, id: number) {
   dataTransfer.setData("text/plain", id.toString());
@@ -79,6 +103,46 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
     target.dispatchEvent(new Event("change"));
   }
 }
+
+function moveVertical(
+  event: KeyboardEvent,
+  rowIndex: number,
+  columnIndex: number,
+) {
+  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+    return;
+  }
+
+  event.preventDefault();
+
+  const tbody = (event.target as HTMLElement).closest("tbody");
+
+  if (!tbody) {
+    return;
+  }
+
+  const inputs = [...tbody.querySelectorAll<HTMLInputElement>("input")];
+
+  const rowCount = prop.body.length;
+
+  if (rowCount === 0) {
+    return;
+  }
+
+  const nextRow =
+    event.key === "ArrowDown"
+      ? (rowIndex + 1) % rowCount
+      : (rowIndex - 1 + rowCount) % rowCount;
+
+  const targetIndex = nextRow * computedHead.value.length + columnIndex;
+
+  const target = inputs[targetIndex];
+
+  if (target) {
+    target.focus();
+    target.select();
+  }
+}
 </script>
 
 <template>
@@ -104,6 +168,16 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
             v-if="open"
             class="absolute top-full right-0 z-10 mt-2 w-56 rounded-md border bg-background-default p-1"
           >
+            <button
+              class="w-full rounded-xs p-2 text-left transition-colors hover:bg-background-default-hover"
+              type="button"
+              @click="showScoredPlayers"
+            >
+              select players with score
+            </button>
+
+            <div class="my-1 border-t" />
+
             <CheckBox
               v-for="id in head"
               :key="id"
@@ -153,7 +227,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
             class="transition-colors hover:bg-background-default-hover"
           >
             <td
-              v-for="name in computedHead"
+              v-for="(name, column) in computedHead"
               :key="name"
               :class="[{ 'border-t': number !== 0 }, 'p-0']"
             >
@@ -170,6 +244,7 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
                     ($event.target as HTMLInputElement).value,
                   )
                 "
+                @keydown="moveVertical($event, number, column)"
               />
             </td>
           </tr>
