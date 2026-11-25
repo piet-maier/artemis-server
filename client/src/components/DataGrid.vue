@@ -9,7 +9,8 @@ import type { Data } from "@/type";
 import { turnIndicator } from "@/util/turnIndicator";
 import { ChevronDown } from "@lucide/vue";
 import { storeToRefs } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const prop = defineProps<Data>();
 
@@ -29,15 +30,38 @@ const open = ref(false);
 
 const { data } = useGridStore();
 
+const route = useRoute();
+
 const computedHead = computed(() =>
   ordering.value.filter((id) => visibility.value.includes(id)),
 );
+
+const playersWithScore = computed(() =>
+  prop.head.filter((id) => prop.foot[id] !== null),
+);
+
+const isLatestGame =
+  route.name === "grid-latest" || route.name === "chart-latest";
+
+if (!isLatestGame) {
+  watch(
+    () => prop.head.length,
+    () => {
+      showScoredPlayers();
+    },
+    { immediate: true, once: true },
+  );
+}
 
 useWindowEvent("click", (mouseEvent: MouseEvent) => {
   if (!menu.value?.contains(mouseEvent.target as HTMLElement)) {
     open.value = false;
   }
 });
+
+function showScoredPlayers() {
+  visibility.value = [...playersWithScore.value];
+}
 
 function onDrag(dataTransfer: DataTransfer, id: number) {
   dataTransfer.setData("text/plain", id.toString());
@@ -104,6 +128,16 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
             v-if="open"
             class="absolute top-full right-0 z-10 mt-2 w-56 rounded-md border bg-background-default p-1"
           >
+            <button
+              class="w-full rounded-xs p-2 text-left transition-colors hover:bg-background-default-hover"
+              type="button"
+              @click="showScoredPlayers"
+            >
+              select players with score
+            </button>
+
+            <div class="my-1 border-t" />
+
             <CheckBox
               v-for="id in head"
               :key="id"
