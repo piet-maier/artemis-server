@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import { expect, test, vi } from "vitest";
 
 vi.mock("vue-router", () => ({
-  useRoute: vi.fn(() => ({ params: { type: "Type", grid: 0 }, query: {} })),
+  useRoute: vi.fn(() => ({ params: { type: "Type", grid: "1" }, query: {} })),
   useRouter: vi.fn(),
 }));
 
@@ -51,7 +51,7 @@ test("Emit grid:read WS Event", () => {
 
   expect(mockSocket.emit).toHaveBeenCalledWith(
     "grid:read",
-    0,
+    1,
     expect.any(Function),
   );
 });
@@ -66,7 +66,7 @@ test("Emit grid:update WS Event", async () => {
 
   expect(mockSocket.emit).toHaveBeenCalledWith(
     "grid:update",
-    0,
+    1,
     { player: 0, number: 0, cell: "0" },
     expect.any(Function),
   );

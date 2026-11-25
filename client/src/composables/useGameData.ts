@@ -43,7 +43,6 @@ export function useGameData() {
 
     const current = latestGame.value;
 
-    // Ignore outdated notifications.
     if (
       current &&
       (game.unixTime < current.unixTime ||
