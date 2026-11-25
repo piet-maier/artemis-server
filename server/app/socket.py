@@ -58,8 +58,11 @@ def create_grid(grid_type: str):
 
 
 @socketio.on("grid:read")
-def handle_request_last_game_of_type(grid: int) -> tuple[int, Grid]:
+def handle_request_last_game_of_type(grid: int) -> tuple[int | None, Grid | None]:
     result = query_db("SELECT creation_timestamp FROM game WHERE id = ?", (grid,), True)
+
+    if not result:
+        return None, None
 
     payload = build_grid_payload(grid)
     return result[0], payload

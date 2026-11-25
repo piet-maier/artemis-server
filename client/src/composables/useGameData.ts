@@ -1,5 +1,5 @@
 import { onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import type { Change } from "@/type";
@@ -52,7 +52,7 @@ export function useGameData() {
     }
 
     latestGame.value = game;
-    readGrid(game.id);
+    void readGrid(game.id);
   }
 
   function requestLatestGame() {
@@ -61,17 +61,26 @@ export function useGameData() {
     });
   }
 
-  function loadGame() {
+  async function loadGame() {
     if (isLatestRoute()) {
       latestGame.value = null;
       requestLatestGame();
       return;
     }
 
+    const router = useRouter();
+
     const id = getGridId();
 
-    if (id !== null) {
-      readGrid(id);
+    if (id === null) {
+      await router.replace({ name: "NotFound" });
+      return;
+    }
+
+    const found = await readGrid(id);
+
+    if (!found) {
+      await router.replace({ name: "NotFound" });
     }
   }
 
@@ -90,7 +99,7 @@ export function useGameData() {
       latestGame.value = null;
       requestLatestGame();
     } else {
-      loadGame();
+      void loadGame();
     }
   }
 
