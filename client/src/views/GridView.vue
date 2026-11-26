@@ -3,6 +3,7 @@ import DataGrid from "@/components/DataGrid.vue";
 import IconButton from "@/components/IconButton.vue";
 import LineRace from "@/components/LineRace.vue";
 import LocaleDate from "@/components/LocaleDate.vue";
+import { useEmoji } from "@/composables/useEmoji";
 import { socket } from "@/socket";
 import { useGridStore } from "@/stores/grid";
 import { usePlayerStore } from "@/stores/player";
@@ -21,6 +22,8 @@ const { playerNameByID } = playerStore;
 const grid = useGridStore();
 const { date } = storeToRefs(grid);
 const { data, readGrid, changeData } = grid;
+
+const emoji = useEmoji();
 
 const computedData = computed(() => {
   const filteredHead = data.head.filter((id) => data.foot[id] !== null);
@@ -53,75 +56,6 @@ const computedData = computed(() => {
 });
 
 const showGrid = computed(() => location.query.mode !== "chart");
-
-const emoji = (index: number, score: number, name: string) => {
-  switch (score) {
-    case 4:
-      return "4️⃣";
-    case 7:
-      return "🍀";
-    case 67:
-      return " ⁶🤷‍♂️⁷";
-    case 69:
-      return "😏";
-    case 420:
-      return "🥦";
-    case 666:
-      return "😈";
-    case 1337:
-      return "🤓";
-    case 10000:
-      return "🎲";
-  }
-  switch (index) {
-    case 0: {
-      switch (name) {
-        case "Fax":
-          return "✈️";
-        case "Tobienchen":
-          return "🌚";
-        case "Nikman":
-          return "🧜🏿‍♀️";
-        case "Pert":
-          return "🕴🏻";
-        case "Schmelzofen":
-          return "🗿";
-        case "Herni":
-          return "🪤";
-        case "Hoctor Dirsch":
-          return "🦌";
-        case "Rilo":
-          return "🐳";
-        case "Prophet":
-          return "👙";
-        case "Chirs":
-          return "🥵";
-        default:
-          return "👑";
-      }
-    }
-    case activePlayers.value.length - 1:
-      return "📉";
-    case activePlayers.value.length - 2:
-      return "🐟";
-    case 1:
-      return "🧙‍♀️";
-    case 2:
-      return "🫃";
-    case 3:
-      return "🤕";
-    case 4:
-      return "😤";
-    case 5:
-      return "😭";
-    default:
-      return "";
-  }
-};
-
-const activePlayers = computed(() =>
-  data.head.filter((name) => data.foot[name] !== null),
-);
 
 watch(
   () => location.params.grid,
@@ -180,13 +114,7 @@ onUnmounted(() => {
         Es ist gerade Runde: {{ data.body.length }},
         {{
           turnIndicatorId !== -1
-            ? playerNameByID(turnIndicatorId) +
-              " " +
-              emoji(
-                data.body.length,
-                data.foot[turnIndicatorId],
-                playerNameByID(turnIndicatorId)!,
-              )
+            ? playerNameByID(turnIndicatorId) + " " + emoji
             : "N̡͉̱̪̿̽̓i̴̵̷̵̗̣̟̲͎̞̱̞͖͓͕͓̘̓͆̂̓͊ͬ͑ͥͪ͛ͦ̌̓ͦ͘͜é̡̮͎̰̭̇̔͟m̵̯̲̗̠̦̪̺̪̣͍̯̺͔͍̺̝ͨ̒̎̔ͨ̽̂͆̀̐̓͡͞a͖̤̯̗̮̳͚̿̂̽ͭ͆̅̎̋͢͟ͅn̡̥̭͉̘͉̗ͪ͐͒ͬ͒̒̄̀̚̕d̷̵̴̵͍͕͍̘͕̠͎̜͍͍͕̺͉̝̅̈͌͗̈́̄ͭ̿͐̓̊̃ͯ̄͌͑͂̌͜͠͝͠͡ͅ"
         }}
         ist dran
@@ -208,7 +136,7 @@ onUnmounted(() => {
 
     <LineRace
       v-else-if="data.head.length > 0"
-      class="w-full border"
+      class="w-full"
       :data="computedData"
     />
   </main>
