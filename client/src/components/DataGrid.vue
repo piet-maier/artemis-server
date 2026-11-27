@@ -119,9 +119,15 @@ function onSpacePress({ target, repeat, shiftKey }: KeyboardEvent) {
 
     <div
       ref="containerRef"
-      class="max-h-90 scrollbar-thin scrollbar-thumb-background-neutral scrollbar-track-background-default overflow-auto focus-visible:outline-hidden"
+      class="flex max-h-90 scrollbar-thin scrollbar-thumb-background-neutral scrollbar-track-background-default justify-center overflow-auto focus-visible:outline-hidden"
     >
-      <table class="w-full border-separate border-spacing-0 text-left text-sm">
+      <span v-if="computedHead.length === 0" class="text-red-600">
+        ! No players selected !
+      </span>
+      <table
+        v-else
+        class="w-full border-separate border-spacing-0 text-left text-sm"
+      >
         <thead>
           <tr>
             <th
